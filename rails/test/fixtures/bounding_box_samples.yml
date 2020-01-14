@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  min_x: 1.5
+  max_x: 1.5
+  min_y: 1.5
+  max_y: 1.5
+
+two:
+  min_x: 1.5
+  max_x: 1.5
+  min_y: 1.5
+  max_y: 1.5

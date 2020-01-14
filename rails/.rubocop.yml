@@ -1,0 +1,12 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
+
+Metrics/LineLength:
+  Max: 119
+
+Style/ClassAndModuleChildren:
+  Enabled: false

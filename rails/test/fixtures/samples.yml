@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task: one
+  is_tag: false
+  is_active: false
+  actor: one
+
+two:
+  task: two
+  is_tag: false
+  is_active: false
+  actor: two

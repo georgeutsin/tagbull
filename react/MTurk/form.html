@@ -1,0 +1,33 @@
+<!-- This file is not a part of the react app. It is the interface used on MTurk. -->
+
+<!-- You must include this JavaScript file -->
+<head>
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+<script>
+
+    window.addEventListener('message', function(event) {
+          //if(~event.origin.indexOf('localhost:3000')) {
+            goodjob();
+          //}
+        }, false);
+    
+      function goodjob() {
+        console.log("received message");
+        document.querySelector("#tagbulliframe").style.height = "0px";
+        document.querySelector("#tagbulliframe").style.width = "0px";
+        document.querySelector("#tagbullform").removeAttribute("hidden");
+      }
+    </script>
+</head>
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<body>
+<iframe id="tagbulliframe" src="https://tagbull.netlify.com/activities/turk" style="height:99%; width:99%;">This task is not supported on your device.</iframe>
+<crowd-form id="tagbullform" hidden answer-format="flatten-objects">
+  <div>
+    <h1>Great Job!</h1>
+    <p>[Optional] Let us know if you had any issues or if you have suggestions on how to improve our interface.</p>
+    <crowd-input name="feedback" placeholder="Your feedback here."></crowd-input>
+  </div>
+</crowd-form>
+</body>

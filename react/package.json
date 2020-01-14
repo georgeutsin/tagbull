@@ -1,0 +1,45 @@
+{
+  "name": "tagbull",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/node": "^11.13.14",
+    "@types/react": "^16.8.21",
+    "@types/react-dom": "^16.8.3",
+    "@types/react-resize-detector": "^4.0.1",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "form-data": "^2.4.0",
+    "html-to-react": "^1.3.4",
+    "query-string": "^6.7.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-dropzone": "^10.1.4",
+    "react-resize-detector": "^4.2.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "tslint -p tsconfig.json",
+    "lint-fix": "tslint --fix -p tsconfig.json"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@types/react-router-dom": "^4.3.3",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2"
+  }
+}
