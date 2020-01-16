@@ -1,5 +1,7 @@
 ## Available Scripts
 
+Start by running `npm install`.
+
 In the project directory, you can run:
 
 ### `npm start`
