@@ -59,8 +59,17 @@ bundle exec rake appengine:exec -- bundle exec rake db:migrate
 * How to run the test suite
 Run rubocop (linting)
 ```
+gem install rubocop
 rubocop -a
 ```
+
+In the root directory of the tagbull project, run 
+
+```
+echo 'rubocop -a' >> .git/hooks/pre-commit
+```
+
+to setup automatic pre-commit hooks.
 
 * Deployment instructions
 ```
