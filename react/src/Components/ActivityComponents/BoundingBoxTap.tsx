@@ -10,7 +10,7 @@ import {
     touchToImageCoords,
     windowTouchToCanvasCoords,
 } from "../../Utils";
-import { ActivityAction, ActivityInstruction, DoneButtonComponent } from "../UIElements";
+import { ActivityAction, ActivityInstruction, DoneButtonComponent, HelpButtonComponent } from "../UIElements";
 
 interface IBoundingBoxTapState {
     windowWidth: number;
@@ -376,18 +376,27 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
 
     public render() {
         this.updateActivityBodyDims();
+        const category = <b>{this.props.activity.config.category.toLowerCase()}</b>
         const question = this.state.currentStage < this.numberOfStages ?
             <div className="question runSlideIn">
                 Please tap the
                 <div className={"bolded " + this.state.stepClassName}>
                 &nbsp;{INSTRUCTION[this.state.currentStage]}
                 </div> side
-                of the <b>{this.props.activity.config.category.toLowerCase()}</b>
-                <div className="help"><span style={{ verticalAlign: "sub" }}>?</span></div>
+                of the {category}
+                <HelpButtonComponent>
+                    Tap the sides of the {category} as accurately as possible.
+
+                    Once you have tapped all four sides of the {category}, you can modify your selection.
+                </HelpButtonComponent>
             </div> :
             <div className={"question " + this.state.stepClassName}>
                 Please verify that all 4 borders touch, and fix them if they don't
-                <div className="help"><span style={{ verticalAlign: "sub" }}>?</span></div>
+                <HelpButtonComponent>
+                    If you are unhappy with the sides you selected, you can tap and drag to readjust them.
+
+                    Try to form a tight box around the {category}.
+                </HelpButtonComponent>
             </div>;
 
         const doneButtonHeight = 70;
