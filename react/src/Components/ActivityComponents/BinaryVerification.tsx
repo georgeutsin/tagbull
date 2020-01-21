@@ -4,6 +4,7 @@ import {
     calculateImageDimensions,
 } from "../../Utils/CanvasCalcs";
 import { ActivityAction, ActivityInstruction, DoneButtonComponent, SoftCropCanvas } from "../UIElements";
+import HelpButtonComponent from "../UIElements/HelpButtonComponent";
 
 interface IBinaryVerificationState {
     rect1: IRect;
@@ -159,6 +160,7 @@ class BinaryVerification extends Component<IBinaryVerificationProps, IBinaryVeri
         }
 
         const doneButtonHeight = 70;
+        const category = <b>{this.props.activity.activity_config.category.toLowerCase()}</b>
         return <div
             style={{ height: "100%", width: "100%" }}
             ref={(divElement) => this.view = divElement}
@@ -167,9 +169,10 @@ class BinaryVerification extends Component<IBinaryVerificationProps, IBinaryVeri
                 ref={(divElement: any) => this.activityInstruction = divElement}
                 onResize={this.onInstructionResize}>
                 <div className="question runSlideIn">
-                    Please select the <b>better</b> box around the
-                        <b> {this.props.activity.activity_config.category.toLowerCase()}</b>
-                    <div className="help"><span style={{verticalAlign: "sub"}}>?</span></div>
+                    Please select the <b>better</b> box around the {category}
+                    <HelpButtonComponent>
+                        There are two boxes drawn around the {category}. Tap the box which more tightly contains the {category} without cutting it off.
+                    </HelpButtonComponent>/>
                 </div>
             </ActivityInstruction>
             <div style={{ height: this.activityBodyHeight, width: this.activityBodyWidth }}

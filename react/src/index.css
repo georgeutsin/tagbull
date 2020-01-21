@@ -614,9 +614,28 @@ a.landing {
   color: white;
 }
 
+.helpButton {
+    vertical-align: sub;
+    user-select: none;
+}
+
 .help:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+.helpWindow {
+    height: 80%;
+    width: 80%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.closeButton {
+    float: right;
+    right: 0;
+    padding-right: 10px;
+    user-select: none;
 }
 
 @keyframes goodjobzoom
