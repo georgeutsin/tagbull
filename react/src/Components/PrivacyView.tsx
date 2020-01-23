@@ -21,7 +21,7 @@ class PrivacyView extends Component<any, any> {
                         <h1 className="textShadow" style={{ fontSize: "5em" }}>Privacy Policy</h1>
                         <div style={{ height: "50px" }}></div>
                         <span style={{ color: "white", position: "relative", fontSize: "1.5em", padding: "10px" }}>
-                            Your privacy is imporant to us.
+                            Your privacy is important to us.
                         </span>
                     </div>
                 </header>
@@ -167,7 +167,7 @@ class PrivacyView extends Component<any, any> {
                     <h2>Subprocessors</h2>
                     <div style={{ height: "25px" }}></div>
                     <div style={{ fontSize: "1.2em", lineHeight: "1.2em" }}>
-                    TagBull uses third party sub processors, such as cloud computing providers and customer support
+                    TagBull uses third party subprocessors, such as cloud computing providers and customer support
                 software, to provide our services. We enter into GDPR-compliant data processing agreements with each
                 subprocessor:
                 <br/>
