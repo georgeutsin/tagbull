@@ -228,5 +228,5 @@ function getBackend(type: string): IBackend {
     }
 }
 
-const Backend = getBackend("local"); // CHANGE THIS LINE TO CHANGE THE BACKEND
+const Backend = getBackend("prod"); // CHANGE THIS LINE TO CHANGE THE BACKEND
 export { Backend };
