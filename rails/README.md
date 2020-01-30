@@ -50,6 +50,11 @@ Reset the db with
 rails db:migrate:reset
 ```
 
+load the local sample data into your postgres database
+```
+psql -d tagbull_rails_development -a -f sample_data.sql
+```
+
 CloudSQL migration (https://cloud.google.com/ruby/rails/using-cloudsql-postgres)
 ```
 bundle exec rake appengine:exec -- bundle exec rake db:migrate
