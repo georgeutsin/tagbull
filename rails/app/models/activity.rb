@@ -4,11 +4,13 @@ require 'active_record/validations'
 
 # Model for the activity
 class Activity
-  attr_accessor :task_id, :type, :config
+  attr_accessor :task_id, :type, :config, :new_actor
 
   def initialize(opts = {})
     task = nil
-    actor = Actor.find_or_create_by(actor_sig: opts[:actor_sig])
+    actor = Actor.find_or_initialize_by(actor_sig: opts[:actor_sig])
+    self.new_actor = actor.new_record?
+
     ActiveRecord::Base.transaction do
       task = next_task(actor.id)
       return unless task
