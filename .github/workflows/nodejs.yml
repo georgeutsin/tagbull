@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    working-directory: ./react
+
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
@@ -22,3 +22,4 @@ jobs:
     - run: npm test
       env:
         CI: true
+        working-directory: ./react
