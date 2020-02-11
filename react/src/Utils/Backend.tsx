@@ -228,5 +228,6 @@ function getBackend(type: string): IBackend {
     }
 }
 
-const Backend = getBackend("prod"); // CHANGE THIS LINE TO CHANGE THE BACKEND
-export { Backend };
+const BackendLocation = "prod"; // CHANGE THIS LINE TO CHANGE THE BACKEND
+const Backend = getBackend(BackendLocation);
+export { Backend, BackendLocation };

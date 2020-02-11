@@ -11,4 +11,4 @@ export {
     isTouchInBounds,
     rectToCanvasCoords,
 } from './CanvasCalcs';
-export { Backend } from './Backend';
+export { Backend, BackendLocation } from './Backend';
