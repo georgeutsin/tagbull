@@ -3,7 +3,7 @@ import { IBoundingBox, IRect } from "../../Interfaces";
 import {
     calculateImageDimensions,
 } from "../../Utils/CanvasCalcs";
-import { ActivityAction, ActivityInstruction, DoneButtonComponent, SoftCropCanvas } from "../UIElements";
+import { ActivityAction, ActivityInstruction, BigButtonComponent, SoftCropCanvas } from "../UIElements";
 import HelpButtonComponent from "../UIElements/HelpButtonComponent";
 
 interface IBinaryVerificationState {
@@ -198,11 +198,12 @@ class BinaryVerification extends Component<IBinaryVerificationProps, IBinaryVeri
             </div>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
-                <DoneButtonComponent
+                <BigButtonComponent
                     height={doneButtonHeight}
                     enabled={this.state.hasInput && !this.props.disabled}
-                    onClick={this.doneButtonClicked}>
-                </DoneButtonComponent>
+                    onClick={this.doneButtonClicked}
+                    label={"Done"}>
+                </BigButtonComponent>
             </ActivityAction>
             <div style={{ clear: "both" }}></div>
         </div>;

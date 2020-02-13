@@ -1,7 +1,7 @@
 import React from "react";
 import { Backend } from "../Utils";
 import ActivitiesComponent from "./ActivitiesComponent";
-import { DoneButtonComponent, InputTurkID, ProgressBarComponent } from "./UIElements";
+import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "./UIElements";
 
 enum TurkViewStage {
     INPUT_TURK_ID = 0,
@@ -133,10 +133,11 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
 
                     <div style={{ marginRight: "10px", marginLeft: "10px" }}>
                         {
-                            <DoneButtonComponent
+                            <BigButtonComponent
                                 enabled={this.state.hasInput}
-                                onClick={this.doneClicked}>
-                            </DoneButtonComponent>
+                                onClick={this.doneClicked}
+                                label={"Done"}>
+                            </BigButtonComponent>
                         }
                     </div>
                 </div>

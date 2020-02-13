@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-import { IBoundingBox, IRect } from "../../Interfaces";
+import { IPoint, IRect } from "../../Interfaces";
 import {
     calculateImageDimensions,
     calculateImageLocation,
     isTouchInBounds,
     MouseAdaptor,
-    rectToCanvasCoords,
     TouchAdaptor,
     touchToImageCoords,
     windowTouchToCanvasCoords,
 } from "../../Utils";
 import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../UIElements";
 
-interface IBoundingBoxTapState {
+interface ILocatorState {
     windowWidth: number;
     image?: HTMLImageElement;
     imageBounds: IRect;
+    markers: IPoint[];
 
     stepClassName: string;
 
@@ -23,15 +23,13 @@ interface IBoundingBoxTapState {
     hasInput: boolean;
 }
 
-interface IBoundingBoxTapProps {
+interface ILocatorProps {
     activity: any;
     notifyActivityComplete: any;
     disabled: boolean;
 }
 
-const INSTRUCTION = ["leftmost", "topmost", "rightmost", "bottommost"];
-
-class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapState> {
+class Locator extends Component<ILocatorProps, ILocatorState> {
     private ctx: CanvasRenderingContext2D | null;
     private mouseAdaptor?: MouseAdaptor;
     private touchAdaptor?: TouchAdaptor;
@@ -39,16 +37,14 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     private activityInstruction: HTMLDivElement | null;
     private activityAction: HTMLDivElement | null;
     private numberOfStages: number;
-    private objBounds: IBoundingBox;
-    private touchStage: number;
     private activityBodyWidth: number;
     private activityBodyHeight: number;
+    private currentMarker: IPoint;
 
     constructor(props: any) {
         super(props);
 
-        this.numberOfStages = 4;
-        this.touchStage = -1;
+        this.numberOfStages = 2;
         const image = new Image();
         image.src = this.props.activity.config.media_url;
         image.onload = () => {
@@ -56,13 +52,12 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 image,
             }, () => {
                 this.updateImageBounds();
-                this.objBounds.max_x = 1;
-                this.objBounds.max_y = 1;
             });
         };
         // Don't call this.setState() here!
         this.state = {
             imageBounds: { x: 0, y: 0, w: 0, h: 0 },
+            markers: [],
             windowWidth: window.innerWidth,
             hasInput: false,
             currentStage: 0,
@@ -77,15 +72,16 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         this.handleMove = this.handleMove.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
         this.onInstructionResize = this.onInstructionResize.bind(this);
-        this.objBounds = { max_x: 0, max_y: 0, min_x: 0, min_y: 0 };
         this.activityBodyHeight = 0;
         this.activityBodyWidth = 0;
+        this.currentMarker = { x: -1, y: -1 };
 
         window.addEventListener("resize", this.windowResizeListener.bind(this));
         window.addEventListener("orientationchange", this.windowResizeListener.bind(this));
 
         // Bindings.
         this.doneButtonClicked = this.doneButtonClicked.bind(this);
+        this.resetButtonClicked = this.resetButtonClicked.bind(this);
     }
 
     public windowResizeListener() {
@@ -94,13 +90,14 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         });
     }
 
+    public resetButtonClicked() {
+        this.setState({ markers: [], currentStage: 1, hasInput: false });
+    }
+
     public doneButtonClicked() {
         if (this.state.currentStage === this.numberOfStages) {
             this.props.notifyActivityComplete({
-                min_x: this.objBounds.min_x,
-                min_y: this.objBounds.min_y,
-                max_x: this.objBounds.max_x,
-                max_y: this.objBounds.max_y,
+                // TODO(Kevin): after backend implemented
             });
         }
     }
@@ -159,74 +156,28 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         }
     }
 
-    public rectFromObjBounds() {
-        if (this.state.image) {
-            return {
-                x: this.objBounds.min_x * this.state.image.width,
-                y: this.objBounds.min_y * this.state.image.height,
-                w: (this.objBounds.max_x - this.objBounds.min_x) * this.state.image.width,
-                h: (this.objBounds.max_y - this.objBounds.min_y) * this.state.image.height,
-            };
-        }
-
-        return { x: 0, y: 0, w: 0, h: 0 };
-    }
-
-    public withinDelta(line1: number, line2: number, delta: number) {
-        return Math.abs(line1 - line2) < delta;
-    }
-
-    public nextTouchStage(touch: any): number {
-        if (this.state.image && this.state.currentStage >= this.numberOfStages) {
-            const xPos = touch.x / this.state.image.width;
-            const yPos = touch.y / this.state.image.height;
-            const delta = 0.05;
-
-            if (this.withinDelta(this.objBounds.min_x, xPos, delta)) {
-                return 0;
-            } else if (this.withinDelta(this.objBounds.min_y, yPos, delta)) {
-                return 1;
-            } else if (this.withinDelta(this.objBounds.max_x, xPos, delta)) {
-                return 2;
-            } else if (this.withinDelta(this.objBounds.max_y, yPos, delta)) {
-                return 3;
-            }
-        } else {
-            return this.state.currentStage;
-        }
-        return -1;
-    }
-
-    public normalizeObjBounds() {
-        if (this.objBounds.min_x > this.objBounds.max_x) {
-            [this.objBounds.min_x, this.objBounds.max_x] = [this.objBounds.max_x, this.objBounds.min_x];
-        }
-
-        if (this.objBounds.min_y > this.objBounds.max_y) {
-            [this.objBounds.min_y, this.objBounds.max_y] = [this.objBounds.max_y, this.objBounds.min_y];
-        }
-    }
-
-    public moveObjBounds(touch: any, touchStage: number) {
+    public setInitialMarkerPosition(touch: any) {
         if (this.state.image) {
             const xPos = touch.x / this.state.image.width;
             const yPos = touch.y / this.state.image.height;
-
-            switch (touchStage) {
-                case 0: // Leftmost
-                    this.objBounds.min_x = xPos;
+            const delta = 0.04;
+            // if the touch is near an existing marker, remove it
+            // this effectively emulates the behaviour of moving a marker
+            for (const marker of this.state.markers) {
+                if (Math.abs(xPos - marker.x) < delta && Math.abs(yPos - marker.y) < delta) {
+                    this.setState((state) => {
+                        state.markers.splice( state.markers.indexOf(marker), 1 );
+                        return state;
+                    });
                     break;
-                case 1: // Topmost
-                    this.objBounds.min_y = yPos;
-                    break;
-                case 2: // Rightmost
-                    this.objBounds.max_x = xPos;
-                    break;
-                case 3: // Bottommost
-                    this.objBounds.max_y = yPos;
-                    break;
-                default:
+                }
             }
+        }
+
+        if (this.state.image) {
+            const xPos = touch.x / this.state.image.width;
+            const yPos = touch.y / this.state.image.height;
+            this.currentMarker = { x: xPos, y: yPos };
         }
     }
 
@@ -242,8 +193,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             touch = windowTouchToCanvasCoords(el, touch);
             if (isTouchInBounds(touch, this.state.imageBounds)) {
                 const imageCoords = touchToImageCoords(touch, this.state.imageBounds, this.state.image);
-                this.touchStage = this.nextTouchStage(imageCoords);
-                this.moveObjBounds(imageCoords, this.touchStage);
+                this.setInitialMarkerPosition(imageCoords);
             }
         }
         this.draw();
@@ -257,7 +207,11 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             touch = windowTouchToCanvasCoords(el, touch);
             if (touch.id >= 0 && isTouchInBounds(touch, this.state.imageBounds)) {
                 const imageCoords = touchToImageCoords(touch, this.state.imageBounds, this.state.image);
-                this.moveObjBounds(imageCoords, this.touchStage);
+                if (this.state.image) {
+                    const xPos = imageCoords.x / this.state.image.width;
+                    const yPos = imageCoords.y / this.state.image.height;
+                    this.currentMarker = { x: xPos, y: yPos };
+                }
             } else {
                 console.log("can't figure out which touch to continue " + touch.id);
             }
@@ -266,21 +220,19 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     }
 
     public handleEnd(evt: any) {
-        if (this.touchStage !== -1) {
-            this.touchStage = -1;
-            if (this.state.currentStage === this.numberOfStages - 1) {
-                this.normalizeObjBounds();
-                this.setState({ hasInput: true });
-            }
-            if (this.state.currentStage < this.numberOfStages) {
-                this.setState({
-                    currentStage: this.state.currentStage + 1,
-                    stepClassName: "",
-                }, () => {
-                    this.setState({ stepClassName: "runSlideIn"});
-                });
-            }
+        if (this.currentMarker.x >= 0 && this.currentMarker.x <= 1
+            && this.currentMarker.y >= 0 && this.currentMarker.y <= 1) {
+            this.setState((state) => {
+                state.markers.push(this.currentMarker);
+                return state;
+            });
+            this.setState({
+                hasInput: true,
+                currentStage: 2,
+                stepClassName: "runSlideIn",
+            });
         }
+        this.currentMarker = { x: -1, y: -1 };
 
         this.draw();
     }
@@ -291,68 +243,39 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         }
 
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        const objRect = this.rectFromObjBounds();
-        const rect = rectToCanvasCoords(objRect, this.state.imageBounds, this.state.image);
 
         if (this.state.image) {
             const bounds = this.state.imageBounds;
             this.ctx.drawImage(this.state.image, bounds.x, bounds.y, bounds.w, bounds.h);
+            this.drawMarkers();
+        }
+    }
 
-            this.ctx.globalAlpha = 0.6;
-            this.ctx.fillStyle = "black";
-            this.ctx.fillRect(bounds.x, bounds.y, bounds.w, bounds.h);
+    public drawMarkers() {
+        if (this.state.image && this.ctx) {
+            // aiming for ~20px on fullscreen, ~10px on mobile.
+            const radius = Math.max(this.state.imageBounds.w, this.state.imageBounds.h) / 60;
+            for (const marker of this.state.markers.concat([this.currentMarker])) {
+                // Draw black outer circle
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = "#000000";
+                this.ctx.ellipse(
+                    marker.x * this.state.imageBounds.w + this.state.imageBounds.x,
+                    marker.y * this.state.imageBounds.h + this.state.imageBounds.y,
+                    radius, radius, 0, 0, Math.PI * 2);
+                this.ctx.stroke();
 
-            this.ctx.globalAlpha = 1.0;
-            this.ctx.drawImage(this.state.image,
-                objRect.x, objRect.y,
-                Math.max(1, Math.floor(objRect.w)), Math.max(1, Math.floor(objRect.h)), // Support firefox
-                rect.x, rect.y,
-                Math.max(1, Math.floor(rect.w)), Math.max(1, Math.floor(rect.h))); // Support firefox
-
-            switch (this.state.currentStage) {
-                case 0: // Leftmost
-                    this.drawVerticalLine(rect.x);
-                    break;
-                case 1: // Topmost
-                    this.drawHorizontalLine(rect.y);
-                    break;
-                case 2: // Rightmost
-                    this.drawVerticalLine(rect.x + rect.w);
-                    break;
-                case 3: // Bottommost
-                    this.drawHorizontalLine(rect.y + rect.h);
-                    break;
-                case 4:
-                    this.drawVerticalLine(rect.x);
-                    this.drawHorizontalLine(rect.y);
-                    this.drawVerticalLine(rect.x + rect.w);
-                    this.drawHorizontalLine(rect.y + rect.h);
-                    break;
-                default:
-                    console.log("done");
+                // Draw white inner circle
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = "#FFFFFF";
+                this.ctx.ellipse(
+                    marker.x * this.state.imageBounds.w + this.state.imageBounds.x,
+                    marker.y * this.state.imageBounds.h + this.state.imageBounds.y,
+                    radius + 1, radius + 1, 0, 0, Math.PI * 2);
+                this.ctx.stroke();
             }
-        }
-    }
 
-    public drawVerticalLine(x: number) {
-        const bounds = this.state.imageBounds;
-        if (this.state.image && this.ctx && x !== bounds.x && x !== bounds.x + bounds.w) {
-            this.ctx.strokeStyle = "#DDDDDD";
-            this.ctx.beginPath();
-            this.ctx.moveTo(x, bounds.y);
-            this.ctx.lineTo(x, bounds.y + bounds.h);
-            this.ctx.stroke();
-        }
-    }
 
-    public drawHorizontalLine(y: number) {
-        const bounds = this.state.imageBounds;
-        if (this.state.image && this.ctx && y !== bounds.y && y !== bounds.y + bounds.h) {
-            this.ctx.strokeStyle = "#DDDDDD";
-            this.ctx.beginPath();
-            this.ctx.moveTo(bounds.x, y);
-            this.ctx.lineTo(bounds.x + bounds.w, y);
-            this.ctx.stroke();
         }
     }
 
@@ -376,26 +299,14 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
 
     public render() {
         this.updateActivityBodyDims();
-        const category = <b>{this.props.activity.config.category.toLowerCase()}</b>
-        const question = this.state.currentStage < this.numberOfStages ?
+        const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
+        const question =
             <div className="question runSlideIn">
-                Please tap the
-                <div className={"bolded " + this.state.stepClassName}>
-                &nbsp;{INSTRUCTION[this.state.currentStage]}
-                </div> side
-                of the {category}
+                Please tap all occurences of a {category}
                 <HelpButtonComponent>
-                    Tap the sides of the {category} as accurately as possible.
+                    Tap the center of a {category} as accurately as possible.
 
-                    Once you have tapped all four sides of the {category}, you can modify your selection.
-                </HelpButtonComponent>
-            </div> :
-            <div className={"question " + this.state.stepClassName}>
-                Please verify that all 4 borders touch, and fix them if they don't
-                <HelpButtonComponent>
-                    If you are unhappy with the sides you selected, you can tap and drag to readjust them.
-
-                    Try to form a tight box around the {category}.
+                    You may tap Reset to remove all markers.
                 </HelpButtonComponent>
             </div>;
 
@@ -408,6 +319,13 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             <ActivityInstruction
                 ref={(divElement: any) => this.activityInstruction = divElement}
                 onResize={this.onInstructionResize}>
+                <BigButtonComponent
+                    height={doneButtonHeight}
+                    enabled={true}
+                    onClick={this.resetButtonClicked}
+                    label={"Reset"}>
+                </BigButtonComponent>
+                <br></br>
                 {question}
             </ActivityInstruction>
             <canvas
@@ -431,4 +349,4 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     }
 }
 
-export default BoundingBoxTap;
+export default Locator;

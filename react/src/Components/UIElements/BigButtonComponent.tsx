@@ -4,9 +4,10 @@ interface IDoneButtonProps {
     height?: number;
     enabled: boolean;
     onClick: any;
+    label: string;
 }
 
-class DoneButtonComponent extends Component<IDoneButtonProps, any> {
+class BigButtonComponent extends Component<IDoneButtonProps, any> {
     constructor(props: IDoneButtonProps) {
         super(props);
         this.doneClicked = this.doneClicked.bind(this);
@@ -22,10 +23,10 @@ class DoneButtonComponent extends Component<IDoneButtonProps, any> {
                 className={"doneButton" + (!this.props.enabled ? " disabledButton" : "")}
                 disabled={!this.props.enabled}
                 onClick={this.doneClicked}>
-                <span style={{ fontSize: 50 }}>Done</span>
+                <span style={{ fontSize: 50 }}>{this.props.label}</span>
             </button>
         </div>;
     }
 }
 
-export default DoneButtonComponent;
+export default BigButtonComponent;
