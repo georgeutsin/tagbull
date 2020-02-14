@@ -12,7 +12,7 @@ import {
     touchToImageCoords,
     windowTouchToCanvasCoords,
 } from "../../Utils";
-import { ActivityAction, DoneButtonComponent } from "../UIElements";
+import { ActivityAction, BigButtonComponent } from "../UIElements";
 
 interface IBoundingBoxState {
     rect: IRect;
@@ -415,11 +415,12 @@ class BoundingBox extends Component<IBoundingBoxProps, IBoundingBoxState> {
                         <button className="resetButton" onClick={this.resetInput}> Reset </button>
                         <div style={{ height: "5em" }}></div>
                     </div>
-                    <DoneButtonComponent
+                    <BigButtonComponent
                         height={doneButtonHeight}
                         enabled={this.state.hasInput && !this.props.disabled}
-                        onClick={this.doneButtonClicked}>
-                    </DoneButtonComponent>
+                        onClick={this.doneButtonClicked}
+                        label={"Done"}>
+                    </BigButtonComponent>
                 </ActivityAction>
                 <div style={{ clear: "both" }}></div>
             </div>
