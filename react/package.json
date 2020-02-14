@@ -18,7 +18,7 @@
     "react-dropzone": "^10.1.4",
     "react-resize-detector": "^4.2.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.3.0"
+    "react-scripts": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,6 +40,6 @@
   "devDependencies": {
     "@types/react-router-dom": "^4.3.3",
     "tslint": "^5.17.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.5.2"
   }
 }
