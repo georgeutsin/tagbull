@@ -10,6 +10,18 @@ class V1::ActivitiesController < ApplicationController
 
   # GET /activities/available
   def available
-    json_response(false)
+    json_response(Rails.cache.read('available'))
+  end
+
+  # GET /activities/enable
+  def enable
+    Rails.cache.write('available', true)
+    json_response(Rails.cache.read('available'))
+  end
+
+  # GET /activities/disable
+  def disable
+    Rails.cache.write('available', false)
+    json_response(Rails.cache.read('available'))
   end
 end
