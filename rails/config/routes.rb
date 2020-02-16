@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   scope module: :v1, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1, default: true) do
     resource :activities, only: %i[show] do
-      get 'available', 'enable', 'disable'
+      get 'available'
     end
     resources :samples, only: %i[create]
     resources :projects, only: %i[index show update create delete] do
