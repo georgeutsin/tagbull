@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 import { FooterComponent, NavBar } from "./UIElements";
-import play from "../Images/play-button.svg";
-import { validate } from "@babel/types";
+// import play from "../Images/play-button.svg";
+// import { validate } from "@babel/types";
 
 const scrollToRef = (ref: any) => window.scrollTo({ top: ref.current.offsetTop - 76, behavior: "smooth" });
 
@@ -49,6 +49,7 @@ class HomeView extends Component<any, any> {
             activitiesComponent = <ActivitiesHomeView></ActivitiesHomeView>;
         }
         const validateForm = () => {
+            // eslint-disable-next-line
             const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
             return validEmailRegex.test(this.state.email);
         };
@@ -63,6 +64,7 @@ class HomeView extends Component<any, any> {
         return <div>
             <NavBar isLanding>
                 <li>
+                {/* eslint-disable-next-line  */}
                     <a onClick={this.executeScroll}>Product</a>
                 </li>
                 <li>

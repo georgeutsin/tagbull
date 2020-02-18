@@ -1,5 +1,5 @@
 import React from "react";
-import { BinaryVerification, BoundingBox, BoundingBoxTap } from "./ActivityComponents";
+import { BinaryVerification, BoundingBoxTap } from "./ActivityComponents";
 
 interface IActivitiesComponentState {
     taskId: number;

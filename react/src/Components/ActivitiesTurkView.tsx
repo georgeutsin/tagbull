@@ -120,6 +120,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
                     <p>Completing task as worker:&nbsp;
                     <b>{this.state.deviceId}</b>
                         <br></br>
+                        {/* eslint-disable-next-line  */}
                         <a className="link" onClick={this.changeTurkId}>Not You?</a></p>
                 </div>
             }
