@@ -91,6 +91,7 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
         </ActivitiesComponent>;
 
         const validateForm = () => {
+            // eslint-disable-next-line
             const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
             return validEmailRegex.test(this.state.email);
         };

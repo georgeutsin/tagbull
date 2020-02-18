@@ -2,14 +2,10 @@ import React, { Component } from "react";
 import { IBoundingBox, IRect } from "../Interfaces";
 import { Backend } from "../Utils";
 import { calculateImageDimensions, calculateImageLocation } from "../Utils/CanvasCalcs";
-import { NavBar, ProgressBarComponent } from "./UIElements";
+import { NavBar } from "./UIElements";
 
 const canvasWidth = 200;
 const canvasHeight = 200;
-
-const taskTypes: { [key: string]: string; } = {
-    "bounding box": "Bounding Box With Label",
-};
 
 class TagDetailView extends Component<any, any> {
     private params: any;
