@@ -3,4 +3,7 @@ export { default as BoundingBoxCreationCanvas } from "./BoundingBoxCreationCanva
 export { default as PointCreationCanvas } from "./PointCreationCanvas";
 export {
     drawMarker,
+    drawGreenRect,
+    drawBlackOverlay,
+    drawActiveImageOverlay,
 } from './CanvasDrawUtils';
