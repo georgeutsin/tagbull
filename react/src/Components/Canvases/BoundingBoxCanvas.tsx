@@ -47,7 +47,7 @@ class BoundingBoxCanvas extends Component<IBoundingBoxCanvasProps, {}> {
         const canvasRect = rectToCanvasCoords(rect, this.imageBounds, this.image);
 
         drawBlackOverlay(ctx, this.imageBounds);
-        drawActiveImageOverlay(ctx, rect, canvasRect);
+        drawActiveImageOverlay(ctx, rect, canvasRect, this.image);
         drawGreenRect(ctx, canvasRect);
 
         if (this.props.targetPoint && this.props.targetPoint !== null) {

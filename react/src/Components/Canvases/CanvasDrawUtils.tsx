@@ -53,7 +53,7 @@ function drawBlackOverlay(ctx: CanvasRenderingContext2D, bounds: IRect) {
     }
     ctx.save();
 
-    ctx.globalAlpha = 0.3;
+    ctx.globalAlpha = 0.4;
     ctx.fillStyle = "black";
     ctx.fillRect(bounds.x, bounds.y, bounds.w, bounds.h);
     ctx.globalAlpha = 1.0;
