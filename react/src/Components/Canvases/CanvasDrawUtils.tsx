@@ -4,7 +4,7 @@ function drawMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: 
     if (ctx === null) {
         return;
     }
-    
+
     // aiming for ~20px on fullscreen, ~10px on mobile.
     const radius = Math.max(imageBounds.w, imageBounds.h) / 60;
 
