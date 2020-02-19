@@ -10,11 +10,7 @@ import {
 import { BaseCanvas } from "../Canvases";
 
 interface IBoundingBoxCreationCanvasState {
-    windowWidth: number;
-
-
     currentStage: number;
-    hasInput: boolean;
 }
 
 interface IBoundingBoxCreationCanvasProps {
@@ -27,7 +23,7 @@ interface IBoundingBoxCreationCanvasProps {
 
 class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProps, IBoundingBoxCreationCanvasState> {
     private numberOfStages: number;
-    private objBounds: IBoundingBox;
+    private boundingBox: IBoundingBox;
     private touchStage: number;
     private image?: HTMLImageElement;
     private imageBounds: IRect;
@@ -36,22 +32,20 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         super(props);
 
         this.numberOfStages = 4;
-        this.touchStage = -1;
+        this.touchStage = -1; // touchStage may be less than or equal to the current stage (ex: editing old touches)
 
         // Don't call this.setState() here!
         this.state = {
-            windowWidth: window.innerWidth,
-            hasInput: false,
             currentStage: 0,
         };
 
-        this.imageBounds =  { x: 0, y: 0, w: 0, h: 0 };
+        this.imageBounds = { x: 0, y: 0, w: 0, h: 0 };
         this.handleStart = this.handleStart.bind(this);
         this.handleMove = this.handleMove.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
         this.setImage = this.setImage.bind(this);
         this.draw = this.draw.bind(this);
-        this.objBounds = { max_x: 1, max_y: 1, min_x: 0, min_y: 0 };
+        this.boundingBox = { max_x: 1, max_y: 1, min_x: 0, min_y: 0 };
     }
 
     public handleStart(evt: any) {
@@ -81,19 +75,20 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public handleEnd(evt: any) {
+        this.normalizeObjBounds();
         if (this.touchStage !== -1) {
             this.touchStage = -1;
-            if (this.state.currentStage === this.numberOfStages - 1) {
-                this.normalizeObjBounds();
-                this.setState({ hasInput: true });
-            }
+            let nextStage = this.state.currentStage;
             if (this.state.currentStage < this.numberOfStages) {
-                this.setState({
-                    currentStage: this.state.currentStage + 1,
-                });
+                nextStage += 1;
             }
+
+            this.setState({
+                currentStage: nextStage,
+            }, () => {
+                this.props.notifyTapComplete(this.boundingBox, this.state.currentStage);
+            });
         }
-        this.props.notifyTapComplete(this.touchStage);
     }
 
     public setImage(imageBounds: IRect, image?: HTMLImageElement) {
@@ -111,13 +106,13 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             const yPos = touch.y / this.image.height;
             const delta = 0.05;
 
-            if (this.withinDelta(this.objBounds.min_x, xPos, delta)) {
+            if (this.withinDelta(this.boundingBox.min_x, xPos, delta)) {
                 return 0;
-            } else if (this.withinDelta(this.objBounds.min_y, yPos, delta)) {
+            } else if (this.withinDelta(this.boundingBox.min_y, yPos, delta)) {
                 return 1;
-            } else if (this.withinDelta(this.objBounds.max_x, xPos, delta)) {
+            } else if (this.withinDelta(this.boundingBox.max_x, xPos, delta)) {
                 return 2;
-            } else if (this.withinDelta(this.objBounds.max_y, yPos, delta)) {
+            } else if (this.withinDelta(this.boundingBox.max_y, yPos, delta)) {
                 return 3;
             }
         } else {
@@ -127,12 +122,12 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public normalizeObjBounds() {
-        if (this.objBounds.min_x > this.objBounds.max_x) {
-            [this.objBounds.min_x, this.objBounds.max_x] = [this.objBounds.max_x, this.objBounds.min_x];
+        if (this.boundingBox.min_x > this.boundingBox.max_x) {
+            [this.boundingBox.min_x, this.boundingBox.max_x] = [this.boundingBox.max_x, this.boundingBox.min_x];
         }
 
-        if (this.objBounds.min_y > this.objBounds.max_y) {
-            [this.objBounds.min_y, this.objBounds.max_y] = [this.objBounds.max_y, this.objBounds.min_y];
+        if (this.boundingBox.min_y > this.boundingBox.max_y) {
+            [this.boundingBox.min_y, this.boundingBox.max_y] = [this.boundingBox.max_y, this.boundingBox.min_y];
         }
     }
 
@@ -143,16 +138,16 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
 
             switch (touchStage) {
                 case 0: // Leftmost
-                    this.objBounds.min_x = xPos;
+                    this.boundingBox.min_x = xPos;
                     break;
                 case 1: // Topmost
-                    this.objBounds.min_y = yPos;
+                    this.boundingBox.min_y = yPos;
                     break;
                 case 2: // Rightmost
-                    this.objBounds.max_x = xPos;
+                    this.boundingBox.max_x = xPos;
                     break;
                 case 3: // Bottommost
-                    this.objBounds.max_y = yPos;
+                    this.boundingBox.max_y = yPos;
                     break;
                 default:
             }
@@ -227,7 +222,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         if (ctx === null) {
             return;
         }
-        const rect = rectFromBoundingBoxAndImage(this.objBounds, this.image);
+        const rect = rectFromBoundingBoxAndImage(this.boundingBox, this.image);
         const canvasRect = rectToCanvasCoords(rect, this.imageBounds, this.image);
 
         this.drawBlackOverlay(this.imageBounds, ctx);

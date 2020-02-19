@@ -18,11 +18,11 @@ interface IBaseCanvasProps {
     instructionDims: DOMRect;
     actionDims: DOMRect;
     viewDims: DOMRect;
-    handleStartCB: any;
-    handleMoveCB: any;
-    handleEndCB: any;
+    handleStartCB(evt: any): any;
+    handleMoveCB(evt: any): any;
+    handleEndCB(evt: any): any;
+    drawCB(ctv: CanvasRenderingContext2D): any;
     setImageCB(imageBounds: IRect, image?: HTMLImageElement): any;
-    drawCB: any;
 }
 
 class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
@@ -112,11 +112,11 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             // Center the image on the canvas.
             const imageLocation = calculateImageLocation(maxDimensions, imageDimensions);
             this.imageBounds = {
-                    x: imageLocation.x,
-                    y: imageLocation.y,
-                    w: imageDimensions.width,
-                    h: imageDimensions.height,
-                };
+                x: imageLocation.x,
+                y: imageLocation.y,
+                w: imageDimensions.width,
+                h: imageDimensions.height,
+            };
             this.draw();
         }
     }
@@ -161,6 +161,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             const bounds = this.imageBounds;
             this.ctx.drawImage(this.state.image, bounds.x, bounds.y, bounds.w, bounds.h);
         }
+
         this.props.drawCB(this.ctx);
     }
 
