@@ -5,7 +5,6 @@ import { PointCreationCanvas } from "../Canvases";
 import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../UIElements";
 
 interface ILocatorState {
-    animationClass: string;
     currentStage: number;
     finishedInput: boolean;
 }
@@ -30,7 +29,6 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         this.state = {
             finishedInput: false,
             currentStage: 0,
-            animationClass: "",
         };
 
         this.markers = [];
@@ -63,10 +61,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         this.setState((state) => ({
             currentStage: tapStageFinished,
             finishedInput: state.currentStage >= this.numberOfStages - 1,
-            animationClass: "",
-        }), () => {
-            this.setState({ animationClass: "runSlideIn" });
-        });
+        }));
     }
 
     public render() {
