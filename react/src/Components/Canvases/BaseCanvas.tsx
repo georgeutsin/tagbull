@@ -10,7 +10,6 @@ import {
 interface IBaseCanvasState {
     windowWidth: number;
     image?: HTMLImageElement;
-    hasInput: boolean;
 }
 
 interface IBaseCanvasProps {
@@ -48,7 +47,6 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         // Don't call this.setState() here!
         this.state = {
             windowWidth: window.innerWidth,
-            hasInput: false,
         };
 
         this.ctx = null;
