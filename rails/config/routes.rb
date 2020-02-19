@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     end
     resources :samples, only: %i[create]
     resources :projects, only: %i[index show update create delete] do
+      resources :tasks, only: %i[create]
       resources :tags, only: %i[index show]
       resources :samples, only: %i[index]
     end
