@@ -7,7 +7,12 @@ import {
     touchToImageCoords,
     windowTouchToCanvasCoords,
 } from "../../Utils";
-import { BaseCanvas, drawMarker } from "../Canvases";
+import {
+    BaseCanvas,
+    drawActiveImageOverlay,
+    drawBlackOverlay,
+    drawMarker,
+} from "../Canvases";
 
 interface IBoundingBoxCreationCanvasState {
     currentStage: number;
@@ -156,23 +161,6 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         }
     }
 
-    public drawBlackOverlay(bounds: IRect, ctx: CanvasRenderingContext2D) {
-        ctx.globalAlpha = 0.6;
-        ctx.fillStyle = "black";
-        ctx.fillRect(bounds.x, bounds.y, bounds.w, bounds.h);
-        ctx.globalAlpha = 1.0;
-    }
-
-    public drawActiveImageOverlay(ctx: CanvasRenderingContext2D, rect: IRect, canvasRect: IRect) {
-        if (this.image) {
-            ctx.drawImage(this.image,
-                rect.x, rect.y,
-                Math.max(1, Math.floor(rect.w)), Math.max(1, Math.floor(rect.h)), // Support firefox
-                canvasRect.x, canvasRect.y,
-                Math.max(1, Math.floor(canvasRect.w)), Math.max(1, Math.floor(canvasRect.h))); // Support firefoxs
-        }
-    }
-
     public drawVerticalLine(x: number, ctx: CanvasRenderingContext2D) {
         const bounds = this.imageBounds;
         if (ctx && x !== bounds.x && x !== bounds.x + bounds.w) {
@@ -227,8 +215,8 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         const rect = rectFromBoundingBoxAndImage(this.boundingBox, this.image);
         const canvasRect = rectToCanvasCoords(rect, this.imageBounds, this.image);
 
-        this.drawBlackOverlay(this.imageBounds, ctx);
-        this.drawActiveImageOverlay(ctx, rect, canvasRect);
+        drawBlackOverlay(ctx, this.imageBounds);
+        drawActiveImageOverlay(ctx, rect, canvasRect);
         this.drawHelperLines(ctx, canvasRect);
 
         if (this.props.targetPoint && this.props.targetPoint !== null) {
