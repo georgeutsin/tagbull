@@ -83,7 +83,6 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
     }
 
     private reset() {
-        console.log("RESET LOOOOL");
         alert("That doesn't look quite right. Please try again :)");
         this.setState({ timerStart: +new Date() });
     }
