@@ -1,5 +1,5 @@
 import React from "react";
-import { BinaryVerification, BoundingBoxTap } from "./ActivityComponents";
+import { BoundingBoxTap } from "./ActivityComponents";
 
 interface IActivitiesComponentState {
     taskId: number;
@@ -54,25 +54,12 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
         let currentActivity = null;
         switch (this.state.activity.type) {
             case "BoundingBoxTask":
-                // currentActivity = <BoundingBox
-                //     activityConfig={this.state.activityConfig}
-                //     notifyActivityComplete={this.completeActivity}
-                //     disabled={this.props.disabled}>
-                // </BoundingBox>;
                 currentActivity = <BoundingBoxTap
-                    key={this.state.timerStart} // to re-render if time too short
+                    key={this.state.timerStart} // to re-render if time spent by user is too short
                     activity={this.state.activity}
                     notifyActivityComplete={this.completeActivity}
                     disabled={this.props.disabled}>
                 </BoundingBoxTap>;
-                break;
-            case "binary verification":
-                currentActivity = <BinaryVerification
-                    key={this.state.timerStart}
-                    activity={this.state.activity}
-                    notifyActivityComplete={this.completeActivity}
-                    disabled={this.props.disabled}>
-                </BinaryVerification>;
                 break;
             default: break;
         }
