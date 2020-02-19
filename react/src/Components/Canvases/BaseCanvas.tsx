@@ -97,7 +97,6 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         window.removeEventListener("resize", this.windowResizeListener);
     }
 
-
     public componentDidUpdate() {
         this.draw();
     }
@@ -124,21 +123,21 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     }
 
     public handleStart(evt: any) {
+        this.draw();
         this.props.handleStartCB(evt, this.ctx);
     }
 
     public handleMove(evt: any) {
+        this.draw();
         this.props.handleMoveCB(evt, this.ctx);
     }
 
     public handleEnd(evt: any) {
+        this.draw();
         this.props.handleEndCB(evt, this.ctx);
     }
 
     public updateCanvasDims() {
-        this.canvasHeight = 0;
-        this.canvasWidth = 0;
-
         const parentDims = this.props.viewDims;
         if (window.innerHeight < 600) {
             this.canvasHeight = parentDims.height;

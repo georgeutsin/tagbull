@@ -1,4 +1,4 @@
-import { IRect } from "../Interfaces";
+import { IRect, IBoundingBox } from "../Interfaces";
 
 function calculateImageDimensions(maxDims: any, imageDims: any): any {
     const canvasAspectRatio = maxDims.width / maxDims.height;
@@ -69,6 +69,19 @@ function rectToCanvasCoords(rect: IRect, imageBounds: IRect, image?: HTMLImageEl
     return { x: 0, y: 0, w: 0, h: 0 };
 }
 
+function rectFromBoundingBoxAndImage(objBounds: IBoundingBox, image?: HTMLImageElement) {
+    if (image) {
+        return {
+            x: objBounds.min_x * image.width,
+            y: objBounds.min_y * image.height,
+            w: (objBounds.max_x - objBounds.min_x) * image.width,
+            h: (objBounds.max_y - objBounds.min_y) * image.height,
+        };
+    }
+
+    return { x: 0, y: 0, w: 0, h: 0 };
+}
+
 export {
     calculateImageDimensions,
     calculateImageLocation,
@@ -76,4 +89,5 @@ export {
     touchToImageCoords,
     isTouchInBounds,
     rectToCanvasCoords,
+    rectFromBoundingBoxAndImage,
 };

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { IBoundingBox, IRect } from "../../Interfaces";
 import {
     isTouchInBounds,
+    rectFromBoundingBoxAndImage,
     rectToCanvasCoords,
     touchToImageCoords,
     windowTouchToCanvasCoords,
@@ -44,7 +45,6 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             currentStage: 0,
         };
 
-        // ctx = null;
         this.handleStart = this.handleStart.bind(this);
         this.handleMove = this.handleMove.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
@@ -99,24 +99,6 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
 
     public setImage(imageBounds: IRect, image?: HTMLImageElement) {
         this.setState({ image, imageBounds });
-        console.log(image);
-    }
-
-    public componentDidUpdate() {
-        // this.draw();
-    }
-
-    public rectFromObjBounds() {
-        if (this.state.image) {
-            return {
-                x: this.objBounds.min_x * this.state.image.width,
-                y: this.objBounds.min_y * this.state.image.height,
-                w: (this.objBounds.max_x - this.objBounds.min_x) * this.state.image.width,
-                h: (this.objBounds.max_y - this.objBounds.min_y) * this.state.image.height,
-            };
-        }
-
-        return { x: 0, y: 0, w: 0, h: 0 };
     }
 
     public withinDelta(line1: number, line2: number, delta: number) {
@@ -177,52 +159,20 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         }
     }
 
-    public draw(ctx: CanvasRenderingContext2D) {
-        if (ctx === null) {
-            return;
-        }
+    public drawBlackOverlay(bounds: IRect, ctx: CanvasRenderingContext2D) {
+        ctx.globalAlpha = 0.6;
+        ctx.fillStyle = "black";
+        ctx.fillRect(bounds.x, bounds.y, bounds.w, bounds.h);
+        ctx.globalAlpha = 1.0;
+    }
 
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        const objRect = this.rectFromObjBounds();
-        const rect = rectToCanvasCoords(objRect, this.state.imageBounds, this.state.image);
-
+    public drawActiveImageOverlay(ctx: CanvasRenderingContext2D, rect: IRect, canvasRect: IRect) {
         if (this.state.image) {
-            console.log("here1");
-            const bounds = this.state.imageBounds;
-            ctx.drawImage(this.state.image, bounds.x, bounds.y, bounds.w, bounds.h);
-            ctx.globalAlpha = 0.6;
-            ctx.fillStyle = "black";
-            ctx.fillRect(bounds.x, bounds.y, bounds.w, bounds.h);
-
-            ctx.globalAlpha = 1.0;
             ctx.drawImage(this.state.image,
-                objRect.x, objRect.y,
-                Math.max(1, Math.floor(objRect.w)), Math.max(1, Math.floor(objRect.h)), // Support firefox
                 rect.x, rect.y,
-                Math.max(1, Math.floor(rect.w)), Math.max(1, Math.floor(rect.h))); // Support firefox
-
-            switch (this.state.currentStage) {
-                case 0: // Leftmost
-                    this.drawVerticalLine(rect.x, ctx);
-                    break;
-                case 1: // Topmost
-                    this.drawHorizontalLine(rect.y, ctx);
-                    break;
-                case 2: // Rightmost
-                    this.drawVerticalLine(rect.x + rect.w, ctx);
-                    break;
-                case 3: // Bottommost
-                    this.drawHorizontalLine(rect.y + rect.h, ctx);
-                    break;
-                case 4:
-                    this.drawVerticalLine(rect.x, ctx);
-                    this.drawHorizontalLine(rect.y, ctx);
-                    this.drawVerticalLine(rect.x + rect.w, ctx);
-                    this.drawHorizontalLine(rect.y + rect.h, ctx);
-                    break;
-                default:
-                    console.log("done");
-            }
+                Math.max(1, Math.floor(rect.w)), Math.max(1, Math.floor(rect.h)), // Support firefox
+                canvasRect.x, canvasRect.y,
+                Math.max(1, Math.floor(canvasRect.w)), Math.max(1, Math.floor(canvasRect.h))); // Support firefoxs
         }
     }
 
@@ -246,6 +196,43 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             ctx.lineTo(bounds.x + bounds.w, y);
             ctx.stroke();
         }
+    }
+
+    public drawHelperLines(ctx: CanvasRenderingContext2D, rect: IRect) {
+        switch (this.state.currentStage) {
+            case 0: // Leftmost
+                this.drawVerticalLine(rect.x, ctx);
+                break;
+            case 1: // Topmost
+                this.drawHorizontalLine(rect.y, ctx);
+                break;
+            case 2: // Rightmost
+                this.drawVerticalLine(rect.x + rect.w, ctx);
+                break;
+            case 3: // Bottommost
+                this.drawHorizontalLine(rect.y + rect.h, ctx);
+                break;
+            case 4:
+                this.drawVerticalLine(rect.x, ctx);
+                this.drawHorizontalLine(rect.y, ctx);
+                this.drawVerticalLine(rect.x + rect.w, ctx);
+                this.drawHorizontalLine(rect.y + rect.h, ctx);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public draw(ctx: CanvasRenderingContext2D) {
+        if (ctx === null) {
+            return;
+        }
+        const rect = rectFromBoundingBoxAndImage(this.objBounds, this.state.image);
+        const canvasRect = rectToCanvasCoords(rect, this.state.imageBounds, this.state.image);
+
+        this.drawBlackOverlay(this.state.imageBounds, ctx);
+        this.drawActiveImageOverlay(ctx, rect, canvasRect);
+        this.drawHelperLines(ctx, canvasRect);
     }
 
     public render() {

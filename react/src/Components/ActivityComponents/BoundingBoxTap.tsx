@@ -27,24 +27,19 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     private activityAction: HTMLDivElement | null;
     private numberOfStages: number;
     private objBounds: IBoundingBox;
-    private touchStage: number;
 
     constructor(props: any) {
         super(props);
 
-        this.numberOfStages = 4;
-        this.touchStage = -1;
         const image = new Image();
         image.src = this.props.activity.config.media_url;
+        // WHY THE FUCK DONT THINGS WORK WITHOUT THIS ONLOAD
         image.onload = () => {
             this.setState({
                 image,
-            }, () => {
-
-                this.objBounds.max_x = 1;
-                this.objBounds.max_y = 1;
             });
         };
+
         // Don't call this.setState() here!
         this.state = {
             imageBounds: { x: 0, y: 0, w: 0, h: 0 },
@@ -53,10 +48,10 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             stepClassName: "",
         };
 
+        this.numberOfStages = 4;
         this.view = null;
         this.activityInstruction = null;
         this.activityAction = null;
-
         this.objBounds = { max_x: 0, max_y: 0, min_x: 0, min_y: 0 };
 
         // Bindings.
@@ -72,10 +67,6 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 max_y: this.objBounds.max_y,
             });
         }
-    }
-
-    public componentDidUpdate() {
-        // this.draw();
     }
 
     public render() {
@@ -117,10 +108,8 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 actionDims={this.actionDims()}
                 viewDims={this.viewDims()}
                 media_url={this.props.activity.config.media_url}
-                notifyTapComplete={() => { }}
-            >
-            </BoundingBoxCreationCanvas>
-
+                notifyTapComplete={() => {/* set objBounds in this callback */ }}
+            ></BoundingBoxCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
                 <BigButtonComponent
@@ -135,25 +124,18 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     }
 
     private instructionDims(): DOMRect {
-        if (this.activityInstruction !== null) {
-            return this.activityInstruction.getBoundingClientRect();
-
-        }
-        return new DOMRect();
+        return this.activityInstruction !== null ?
+            this.activityInstruction.getBoundingClientRect() : new DOMRect();
     }
+
     private actionDims(): DOMRect {
-        if (this.activityAction !== null) {
-            return this.activityAction.getBoundingClientRect();
-        }
-        return new DOMRect();
+        return this.activityAction !== null ?
+            this.activityAction.getBoundingClientRect() : new DOMRect();
     }
 
     private viewDims(): DOMRect {
-        if (this.view !== null) {
-            return this.view.getBoundingClientRect();
-
-        }
-        return new DOMRect();
+        return this.view !== null ?
+            this.view.getBoundingClientRect() : new DOMRect();
     }
 }
 
