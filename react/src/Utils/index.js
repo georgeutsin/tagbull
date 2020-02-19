@@ -10,5 +10,6 @@ export {
     touchToImageCoords,
     isTouchInBounds,
     rectToCanvasCoords,
+    rectFromBoundingBoxAndImage,
 } from './CanvasCalcs';
 export { Backend, BackendLocation } from './Backend';
