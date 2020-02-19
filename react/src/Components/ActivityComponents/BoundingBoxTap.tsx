@@ -109,6 +109,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 viewDims={this.viewDims()}
                 media_url={this.props.activity.config.media_url}
                 notifyTapComplete={this.handleTapFinished}
+                targetPoint={this.props.activity.config.target_point}
             ></BoundingBoxCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
