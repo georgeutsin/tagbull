@@ -70,43 +70,30 @@ class RemoteBackend implements IBackend {
 
 // tslint:disable-next-line: max-classes-per-file
 class MockBackend implements IBackend {
-    public getActivity(deviceId: string): any {
-        const localActivity = {
-            data: {
-                // task_id: 0,
-                // activity_config: {
-                //     category: "animal",
-                //     media_url: "https://storage.googleapis.com/tagbull-images-staging/3.jpg",
-                // },
-                // activity_type: "bounding box",
+    private bbActivityResp: any;
 
-                // task_id: 0,
-                // activity_config: {
-                //     category: "animal",
-                //     media_url: "https://storage.googleapis.com/tagbull-images-staging/3.jpg",
-                //     samples: [
-                //         {
-                //             id: 0,
-                //             minX: 0.1,
-                //             minY: 0.1,
-                //             maxX: 0.5,
-                //             maxY: 0.5,
-                //         },
-                //         {
-                //             id: 1,
-                //             minX: 0.1,
-                //             minY: 0.1,
-                //             maxX: 0.5,
-                //             maxY: 0.5,
-                //         },
-                //     ],
-                // },
-                // activity_type: "binary verification",
+    constructor() {
+        this.bbActivityResp = {
+            data: {
+                new_actor: false,
+                task_id: 52,
+                type: "BoundingBoxTask",
+                config: {
+                    media_url: "https://lh3.googleusercontent.com/q0wbpyLn6ycBkjElBjKsyC4mnjU_-RzK4n9cok4HC1fESjYMvph_rDwKoLM6V2vRG-40s92JNg=s0",
+                    category: "television",
+                    target_point: {
+                        x: 0.5,
+                        y: 0.5,
+                    },
+                },
             },
         };
+    }
 
+    public getActivity(deviceId: string): any {
+        const resp = { data: this.bbActivityResp };
         const promise = new Promise((resolve) => {
-            resolve(localActivity);
+            resolve(resp);
         });
 
         return promise;

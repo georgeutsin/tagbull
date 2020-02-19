@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { IBoundingBox, IRect } from "../../Interfaces";
+import { IBoundingBox, IPoint, IRect } from "../../Interfaces";
 import {
     isTouchInBounds,
     rectFromBoundingBoxAndImage,
@@ -7,7 +7,7 @@ import {
     touchToImageCoords,
     windowTouchToCanvasCoords,
 } from "../../Utils";
-import { BaseCanvas } from "../Canvases";
+import { BaseCanvas, drawMarker } from "../Canvases";
 
 interface IBoundingBoxCreationCanvasState {
     currentStage: number;
@@ -19,6 +19,8 @@ interface IBoundingBoxCreationCanvasProps {
     actionDims: DOMRect;
     viewDims: DOMRect;
     notifyTapComplete: any;
+
+    targetPoint?: IPoint;
 }
 
 class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProps, IBoundingBoxCreationCanvasState> {
@@ -228,6 +230,10 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         this.drawBlackOverlay(this.imageBounds, ctx);
         this.drawActiveImageOverlay(ctx, rect, canvasRect);
         this.drawHelperLines(ctx, canvasRect);
+
+        if (this.props.targetPoint && this.props.targetPoint !== null) {
+            drawMarker(ctx, this.props.targetPoint, this.imageBounds);
+        }
     }
 
     public render() {
