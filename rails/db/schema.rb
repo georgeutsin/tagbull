@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_16_204409) do
+ActiveRecord::Schema.define(version: 2020_02_19_003400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 2019_11_16_204409) do
     t.text "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "task_id", null: false
+    t.index ["task_id"], name: "index_media_on_task_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -86,6 +88,7 @@ ActiveRecord::Schema.define(version: 2019_11_16_204409) do
   end
 
   add_foreign_key "basic_task_events", "tasks"
+  add_foreign_key "media", "tasks"
   add_foreign_key "samples", "actors"
   add_foreign_key "samples", "tasks"
   add_foreign_key "tasks", "projects"
