@@ -5,7 +5,7 @@ import {
     touchToImageCoords,
     windowTouchToCanvasCoords,
 } from "../../Utils";
-import { BaseCanvas } from "../Canvases";
+import { BaseCanvas, drawMarker } from "../Canvases";
 
 interface IBoundingBoxCreationCanvasState {
     currentStage: number;
@@ -115,49 +115,17 @@ class PointCreationCanvas extends Component<IBoundingBoxCreationCanvasProps, IBo
             });
         }
         this.currentMarker = { x: -1, y: -1 };
-
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        if (ctx === null) {
-            return;
-        }
-
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-        if (this.image) {
-            const bounds = this.imageBounds;
-            ctx.drawImage(this.image, bounds.x, bounds.y, bounds.w, bounds.h);
-            this.drawMarkers(ctx);
-        }
+        this.drawMarkers(ctx);
     }
 
     public drawMarkers(ctx: CanvasRenderingContext2D) {
-        if (this.image && ctx) {
-            // aiming for ~20px on fullscreen, ~10px on mobile.
-            const radius = Math.max(this.imageBounds.w, this.imageBounds.h) / 60;
-            for (const marker of this.markers.concat([this.currentMarker])) {
-                // Draw black outer circle
-                ctx.beginPath();
-                ctx.strokeStyle = "#000000";
-                ctx.ellipse(
-                    marker.x * this.imageBounds.w + this.imageBounds.x,
-                    marker.y * this.imageBounds.h + this.imageBounds.y,
-                    radius, radius, 0, 0, Math.PI * 2);
-                ctx.stroke();
-
-                // Draw white inner circle
-                ctx.beginPath();
-                ctx.strokeStyle = "#FFFFFF";
-                ctx.ellipse(
-                    marker.x * this.imageBounds.w + this.imageBounds.x,
-                    marker.y * this.imageBounds.h + this.imageBounds.y,
-                    radius + 1, radius + 1, 0, 0, Math.PI * 2);
-                ctx.stroke();
-            }
+        for (const marker of this.markers.concat([this.currentMarker])) {
+            drawMarker(ctx, marker, this.imageBounds);
         }
     }
-
 
     public render() {
         return <BaseCanvas
