@@ -3,7 +3,7 @@ import { IBoundingBox, IRect } from "../../Interfaces";
 import {
     calculateImageDimensions,
 } from "../../Utils/CanvasCalcs";
-import { ActivityAction, ActivityInstruction, BigButtonComponent, SoftCropCanvas } from "../UIElements";
+import { ActivityAction, ActivityInstruction, BigButtonComponent } from "../UIElements";
 import HelpButtonComponent from "../UIElements/HelpButtonComponent";
 
 interface IBinaryVerificationState {
@@ -177,24 +177,6 @@ class BinaryVerification extends Component<IBinaryVerificationProps, IBinaryVeri
             </ActivityInstruction>
             <div style={{ height: this.activityBodyHeight, width: this.activityBodyWidth }}
                 className="tagbullCanvas">
-                <SoftCropCanvas
-                    rect={this.state.rect1}
-                    image={this.state.image}
-                    height={softCropDims.height}
-                    width={softCropDims.width}
-                    id={this.props.activity.activity_config.samples[0].id}
-                    selected={this.state.accepted_id === this.props.activity.activity_config.samples[0].id}
-                    clickedCallback={this.optionClicked}>
-                </SoftCropCanvas>
-                <SoftCropCanvas
-                    rect={this.state.rect2}
-                    image={this.state.image}
-                    height={softCropDims.height}
-                    width={softCropDims.width}
-                    id={this.props.activity.activity_config.samples[1].id}
-                    selected={this.state.accepted_id === this.props.activity.activity_config.samples[1].id}
-                    clickedCallback={this.optionClicked}>
-                </SoftCropCanvas>
             </div>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>

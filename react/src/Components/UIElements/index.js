@@ -7,7 +7,6 @@ export { default as FooterComponent } from "./FooterComponent";
 export { default as InputTurkID } from "./InputTurkID";
 export { default as BigButtonComponent } from "./BigButtonComponent";
 export { default as HelpButtonComponent } from "./HelpButtonComponent"
-export { default as SoftCropCanvas } from "./SoftCropCanvas";
 export { default as ActivityAction } from "./ActivityAction";
 export { default as ActivityInstruction } from "./ActivityInstruction";
 export { default as NavBar } from "./NavBar";
