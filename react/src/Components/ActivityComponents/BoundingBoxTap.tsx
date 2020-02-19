@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ResizeDetector from "react-resize-detector";
 import { IBoundingBox, IRect } from "../../Interfaces";
 import { BoundingBoxCreationCanvas } from "../Canvases";
 import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../UIElements";
@@ -31,15 +32,6 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     constructor(props: any) {
         super(props);
 
-        const image = new Image();
-        image.src = this.props.activity.config.media_url;
-        // WHY THE FUCK DONT THINGS WORK WITHOUT THIS ONLOAD
-        image.onload = () => {
-            this.setState({
-                image,
-            });
-        };
-
         // Don't call this.setState() here!
         this.state = {
             imageBounds: { x: 0, y: 0, w: 0, h: 0 },
@@ -70,7 +62,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     }
 
     public render() {
-        const category = <b>{this.props.activity.config.category.toLowerCase()}</b>
+        const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const question = this.state.currentStage < this.numberOfStages ?
             <div className="question runSlideIn">
                 Please tap the
@@ -120,6 +112,10 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 </BigButtonComponent>
             </ActivityAction>
             <div style={{ clear: "both" }}></div>
+            <ResizeDetector
+            handleWidth
+            handleHeight
+            onResize={(widht, height) => this.setState({})} />
         </div>;
     }
 

@@ -11,8 +11,7 @@ import { BaseCanvas } from "../Canvases";
 
 interface IBoundingBoxCreationCanvasState {
     windowWidth: number;
-    image?: HTMLImageElement;
-    imageBounds: IRect;
+
 
     currentStage: number;
     hasInput: boolean;
@@ -30,6 +29,8 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     private numberOfStages: number;
     private objBounds: IBoundingBox;
     private touchStage: number;
+    private image?: HTMLImageElement;
+    private imageBounds: IRect;
 
     constructor(props: any) {
         super(props);
@@ -39,48 +40,47 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
 
         // Don't call this.setState() here!
         this.state = {
-            imageBounds: { x: 0, y: 0, w: 0, h: 0 },
             windowWidth: window.innerWidth,
             hasInput: false,
             currentStage: 0,
         };
 
+        this.imageBounds =  { x: 0, y: 0, w: 0, h: 0 };
         this.handleStart = this.handleStart.bind(this);
         this.handleMove = this.handleMove.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
         this.setImage = this.setImage.bind(this);
+        this.draw = this.draw.bind(this);
         this.objBounds = { max_x: 1, max_y: 1, min_x: 0, min_y: 0 };
     }
 
-    public handleStart(evt: any, ctx: CanvasRenderingContext2D) {
+    public handleStart(evt: any) {
         const el = evt.target;
         const touches = evt.changedTouches;
         for (let touch of touches) {
             touch = windowTouchToCanvasCoords(el, touch);
-            if (isTouchInBounds(touch, this.state.imageBounds)) {
-                const imageCoords = touchToImageCoords(touch, this.state.imageBounds, this.state.image);
+            if (isTouchInBounds(touch, this.imageBounds)) {
+                const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
                 this.touchStage = this.nextTouchStage(imageCoords);
                 this.moveObjBounds(imageCoords, this.touchStage);
             }
         }
-        this.draw(ctx);
     }
 
-    public handleMove(evt: any, ctx: CanvasRenderingContext2D) {
+    public handleMove(evt: any) {
         const el = evt.target;
         const touches = evt.changedTouches;
 
         for (let touch of touches) {
             touch = windowTouchToCanvasCoords(el, touch);
-            if (touch.id >= 0 && isTouchInBounds(touch, this.state.imageBounds)) {
-                const imageCoords = touchToImageCoords(touch, this.state.imageBounds, this.state.image);
+            if (touch.id >= 0 && isTouchInBounds(touch, this.imageBounds)) {
+                const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
                 this.moveObjBounds(imageCoords, this.touchStage);
             }
         }
-        this.draw(ctx);
     }
 
-    public handleEnd(evt: any, ctx: CanvasRenderingContext2D) {
+    public handleEnd(evt: any) {
         if (this.touchStage !== -1) {
             this.touchStage = -1;
             if (this.state.currentStage === this.numberOfStages - 1) {
@@ -94,11 +94,11 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             }
         }
         this.props.notifyTapComplete(this.touchStage);
-        this.draw(ctx);
     }
 
     public setImage(imageBounds: IRect, image?: HTMLImageElement) {
-        this.setState({ image, imageBounds });
+        this.image = image;
+        this.imageBounds = imageBounds;
     }
 
     public withinDelta(line1: number, line2: number, delta: number) {
@@ -106,9 +106,9 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public nextTouchStage(touch: any): number {
-        if (this.state.image && this.state.currentStage >= this.numberOfStages) {
-            const xPos = touch.x / this.state.image.width;
-            const yPos = touch.y / this.state.image.height;
+        if (this.image && this.state.currentStage >= this.numberOfStages) {
+            const xPos = touch.x / this.image.width;
+            const yPos = touch.y / this.image.height;
             const delta = 0.05;
 
             if (this.withinDelta(this.objBounds.min_x, xPos, delta)) {
@@ -137,9 +137,9 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public moveObjBounds(touch: any, touchStage: number) {
-        if (this.state.image) {
-            const xPos = touch.x / this.state.image.width;
-            const yPos = touch.y / this.state.image.height;
+        if (this.image) {
+            const xPos = touch.x / this.image.width;
+            const yPos = touch.y / this.image.height;
 
             switch (touchStage) {
                 case 0: // Leftmost
@@ -167,8 +167,8 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public drawActiveImageOverlay(ctx: CanvasRenderingContext2D, rect: IRect, canvasRect: IRect) {
-        if (this.state.image) {
-            ctx.drawImage(this.state.image,
+        if (this.image) {
+            ctx.drawImage(this.image,
                 rect.x, rect.y,
                 Math.max(1, Math.floor(rect.w)), Math.max(1, Math.floor(rect.h)), // Support firefox
                 canvasRect.x, canvasRect.y,
@@ -177,7 +177,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public drawVerticalLine(x: number, ctx: CanvasRenderingContext2D) {
-        const bounds = this.state.imageBounds;
+        const bounds = this.imageBounds;
         if (ctx && x !== bounds.x && x !== bounds.x + bounds.w) {
             ctx.strokeStyle = "#DDDDDD";
             ctx.beginPath();
@@ -188,7 +188,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public drawHorizontalLine(y: number, ctx: CanvasRenderingContext2D) {
-        const bounds = this.state.imageBounds;
+        const bounds = this.imageBounds;
         if (ctx && y !== bounds.y && y !== bounds.y + bounds.h) {
             ctx.strokeStyle = "#DDDDDD";
             ctx.beginPath();
@@ -227,10 +227,10 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         if (ctx === null) {
             return;
         }
-        const rect = rectFromBoundingBoxAndImage(this.objBounds, this.state.image);
-        const canvasRect = rectToCanvasCoords(rect, this.state.imageBounds, this.state.image);
+        const rect = rectFromBoundingBoxAndImage(this.objBounds, this.image);
+        const canvasRect = rectToCanvasCoords(rect, this.imageBounds, this.image);
 
-        this.drawBlackOverlay(this.state.imageBounds, ctx);
+        this.drawBlackOverlay(this.imageBounds, ctx);
         this.drawActiveImageOverlay(ctx, rect, canvasRect);
         this.drawHelperLines(ctx, canvasRect);
     }
@@ -245,6 +245,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             handleMoveCB={this.handleMove}
             handleEndCB={this.handleEnd}
             setImageCB={this.setImage}
+            drawCB={this.draw}
         >
         </BaseCanvas>;
     }

@@ -10,7 +10,6 @@ import {
 interface IBaseCanvasState {
     windowWidth: number;
     image?: HTMLImageElement;
-    imageBounds: IRect;
     hasInput: boolean;
 }
 
@@ -23,6 +22,7 @@ interface IBaseCanvasProps {
     handleMoveCB: any;
     handleEndCB: any;
     setImageCB(imageBounds: IRect, image?: HTMLImageElement): any;
+    drawCB: any;
 }
 
 class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
@@ -31,6 +31,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     private touchAdaptor?: TouchAdaptor;
     private canvasWidth: number;
     private canvasHeight: number;
+    private imageBounds: IRect;
 
     constructor(props: any) {
         super(props);
@@ -46,7 +47,6 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         };
         // Don't call this.setState() here!
         this.state = {
-            imageBounds: { x: 0, y: 0, w: 0, h: 0 },
             windowWidth: window.innerWidth,
             hasInput: false,
         };
@@ -57,6 +57,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         this.handleEnd = this.handleEnd.bind(this);
         this.canvasHeight = 0;
         this.canvasWidth = 0;
+        this.imageBounds = { x: 0, y: 0, w: 0, h: 0 };
 
         window.addEventListener("resize", this.windowResizeListener.bind(this));
         window.addEventListener("orientationchange", this.windowResizeListener.bind(this));
@@ -98,6 +99,8 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     }
 
     public componentDidUpdate() {
+        this.updateImageBounds();
+        this.props.setImageCB(this.imageBounds, this.state.image);
         this.draw();
     }
 
@@ -108,33 +111,29 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             const imageDimensions = calculateImageDimensions(maxDimensions, originalImageDimensions);
             // Center the image on the canvas.
             const imageLocation = calculateImageLocation(maxDimensions, imageDimensions);
-            this.setState({
-                imageBounds: {
+            this.imageBounds = {
                     x: imageLocation.x,
                     y: imageLocation.y,
                     w: imageDimensions.width,
                     h: imageDimensions.height,
-                },
-            }, () => {
-                this.draw();
-                this.props.setImageCB(this.state.imageBounds, this.state.image);
-            });
+                };
+            this.draw();
         }
     }
 
     public handleStart(evt: any) {
         this.draw();
-        this.props.handleStartCB(evt, this.ctx);
+        this.props.handleStartCB(evt);
     }
 
     public handleMove(evt: any) {
         this.draw();
-        this.props.handleMoveCB(evt, this.ctx);
+        this.props.handleMoveCB(evt);
     }
 
     public handleEnd(evt: any) {
         this.draw();
-        this.props.handleEndCB(evt, this.ctx);
+        this.props.handleEndCB(evt);
     }
 
     public updateCanvasDims() {
@@ -159,9 +158,10 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
         if (this.state.image) {
-            const bounds = this.state.imageBounds;
+            const bounds = this.imageBounds;
             this.ctx.drawImage(this.state.image, bounds.x, bounds.y, bounds.w, bounds.h);
         }
+        this.props.drawCB(this.ctx);
     }
 
     public render() {
