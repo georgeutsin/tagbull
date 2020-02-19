@@ -77,7 +77,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 <div className={"bolded " + this.state.animationClass}>
                     &nbsp;{INSTRUCTION[this.state.currentStage]}
                 </div> side
-                of the {category}
+                of the {category} { this.props.activity.config.target_point ? " indicated by the target " : "" }
                 <HelpButtonComponent>
                     Tap the sides of the {category} as accurately as possible.
 
