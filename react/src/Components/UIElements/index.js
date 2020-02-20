@@ -10,3 +10,4 @@ export { default as HelpButtonComponent } from "./HelpButtonComponent"
 export { default as ActivityAction } from "./ActivityAction";
 export { default as ActivityInstruction } from "./ActivityInstruction";
 export { default as NavBar } from "./NavBar";
+export { default as MultipleOptionsComponent } from "./MultipleOptionsComponent";

@@ -1,0 +1,38 @@
+.optionButton {
+    display: inline-block;
+    margin: auto;
+}
+
+.optionButton button {
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #333;
+    color: white;
+    height: 3em;
+    width: calc(100% - 20px);
+    border: none;
+    border-radius: 5px;
+    line-height: 56px;
+    font-size: 1.2em;
+    font-family: "Heebo";
+    font-weight: 600;
+    margin: 10px 10px;
+}
+
+.selected button {
+    background-color: #9900FF;
+}
+
+.optionButton button:hover {
+    cursor: pointer;
+    background-color: #444;
+}
+
+.selected button:hover {
+    cursor: pointer;
+    background-color: rgb(174, 52, 255);
+}
+
+.multipleOptionsContainer {
+    text-align: center;
+}
