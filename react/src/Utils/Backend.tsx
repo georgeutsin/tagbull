@@ -110,113 +110,72 @@ class MockBackend implements IBackend {
         };
     }
 
-    public getActivity(deviceId: string): any {
-        const resp = { data: this.bbActivityResp };
-        // const resp = { data: this.discreteAttrActivityResp };
+    public promiseOf(resp: any) {
         const promise = new Promise((resolve) => {
             resolve(resp);
         });
 
         return promise;
+    }
+
+    public getActivity(deviceId: string): any {
+        const resp = { data: this.bbActivityResp };
+        // const resp = { data: this.discreteAttrActivityResp };
+        return this.promiseOf(resp);
     }
 
     public postSample(data: any): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public getTags(projectId: number): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public getSamples(projectId: number, taskId: number): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public getAllSamples(projectId: number): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public getProjects(): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public getProject(projectId: number): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public postProject(data: any): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public patchProject(projectId: number, data: any): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 
     public postMedia(projectId: number, data: any): any {
         // TODO
         const resp = {};
-
-        const promise = new Promise((resolve) => {
-            resolve(resp);
-        });
-
-        return promise;
+        return this.promiseOf(resp);
     }
 }
 
