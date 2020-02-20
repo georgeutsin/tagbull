@@ -1,3 +1,4 @@
+/* tslint:disable */
 import React, { Component } from "react";
 import { FooterComponent, NavBar } from "../UIElements";
 
@@ -116,3 +117,4 @@ You must be a human. Accounts registered by "bots" or other automated methods ar
 }
 
 export default TermsView;
+/* tslint:enable */

@@ -35,7 +35,6 @@ class ProjectsListComponent extends React.Component<IProjectListComponentProps, 
             this.setState({ projects: newprojects.concat(this.state.projects) });
         }).catch((error: any) => {
             // TODO handle error
-            console.log(error);
         });
     }
 

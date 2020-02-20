@@ -1,7 +1,7 @@
 import React from "react";
 import { Backend } from "../../Utils";
-import ActivitiesComponent from "./ActivitiesComponent";
 import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElements";
+import ActivitiesComponent from "./ActivitiesComponent";
 
 enum TurkViewStage {
     INPUT_TURK_ID = 0,
@@ -170,11 +170,9 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         data.actor_sig = this.state.deviceId;
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
-            console.log(response);
             callback();
         }).catch((error: any) => {
             // TODO handle error
-            console.log(error);
             callback();
         });
     }
