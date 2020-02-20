@@ -1,5 +1,5 @@
 import React from "react";
-import { BoundingBoxTap, DiscreteAttribute } from "./ActivityComponents";
+import { BoundingBoxTap, DiscreteAttribute } from "../ActivityComponents";
 
 interface IActivitiesComponentState {
     taskId: number;

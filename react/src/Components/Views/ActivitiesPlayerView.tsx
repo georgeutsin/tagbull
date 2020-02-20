@@ -1,8 +1,8 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend, UnityEvent } from "../Utils";
+import { Backend, UnityEvent } from "../../Utils";
 import ActivitiesComponent from "./ActivitiesComponent";
-import { CompletionComponent, ProgressBarComponent } from "./UIElements";
+import { CompletionComponent, ProgressBarComponent } from "../UIElements";
 
 enum PlayerViewStage {
     ACTIVITIES = 0,

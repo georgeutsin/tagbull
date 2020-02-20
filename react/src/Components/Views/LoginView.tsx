@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { LoginFormComponent } from "./UIElements";
+import { LoginFormComponent } from "../UIElements";
 
 class LoginView extends Component {
     public render() {

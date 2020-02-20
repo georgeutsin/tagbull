@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ActivitiesHomeView from "./ActivitiesHomeView";
-import { FooterComponent, NavBar } from "./UIElements";
+import { FooterComponent, NavBar } from "../UIElements";
 // import play from "../Images/play-button.svg";
 // import { validate } from "@babel/types";
 
