@@ -1,7 +1,7 @@
 import React from "react";
-import { Backend } from "../Utils";
+import { Backend } from "../../Utils";
 import ActivitiesComponent from "./ActivitiesComponent";
-import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "./UIElements";
+import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElements";
 
 enum TurkViewStage {
     INPUT_TURK_ID = 0,

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavBar, ProjectsListComponent } from "./UIElements";
+import { NavBar, ProjectsListComponent } from "../UIElements";
 
 class ProjectsView extends Component {
     public render() {

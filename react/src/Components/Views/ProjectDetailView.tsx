@@ -1,13 +1,17 @@
 import React, { Component } from "react";
-import { IBoundingBox, IRect } from "../Interfaces";
-import { Backend } from "../Utils";
-import { calculateImageDimensions, calculateImageLocation } from "../Utils/CanvasCalcs";
-import { NavBar } from "./UIElements";
+import { IBoundingBox, IRect } from "../../Interfaces";
+import { Backend } from "../../Utils";
+import { calculateImageDimensions, calculateImageLocation } from "../../Utils/CanvasCalcs";
+import { NavBar, ProgressBarComponent } from "../UIElements";
 
 const canvasWidth = 200;
 const canvasHeight = 200;
 
-class TagDetailView extends Component<any, any> {
+const taskTypes: { [key: string]: string; } = {
+    "bounding box": "Bounding Box With Label",
+};
+
+class ProjectDetailView extends Component<any, any> {
     private params: any;
 
     constructor(props: any) {
@@ -17,30 +21,36 @@ class TagDetailView extends Component<any, any> {
         this.state = {
             project: {
                 name: "",
+                created_at: "",
+                progress: 0,
+                task_type: "",
+                status: "In Progress",
             },
-            task: {
-                type: "",
-                task: {},
-                media: {},
-                samples: [],
-            },
+            tags: [],
         };
     }
 
     public componentDidMount() {
         Backend.getProject(this.params.projectId).then((resp: any) => {
             const project = resp.data.data;
+            console.log(project);
+            const d = new Date(project.created_at.replace(" ", "T"));
             this.setState({
                 project: {
                     name: project.name,
+                    id: project.id,
+                    progress: project.completed_tasks * 100 / project.num_tasks,
+                    task_type: taskTypes[project.task_type],
+                    created_at: d.toLocaleString("en-us", { month: "long" })
+                        + " " + d.getDate() + ", " + d.getFullYear(),
                 },
             });
         });
 
-        Backend.getSamples(this.params.projectId, this.params.taskId).then((resp: any) => {
-            const task = resp.data.data;
-            console.log(task);
-            this.setState({ task });
+        Backend.getTags(this.params.projectId).then((resp: any) => {
+            const samples = resp.data.data;
+            console.log(samples);
+            this.setState({ tags: samples });
         });
     }
 
@@ -65,12 +75,12 @@ class TagDetailView extends Component<any, any> {
     }
 
     public render() {
-        const samples = this.state.task.samples.map((sample: any) => {
+        const tags = this.state.tags.map((tag: any) => {
             const myRef = React.createRef<HTMLCanvasElement>();
             const canvas = <canvas height={canvasHeight} width={canvasWidth} ref={myRef}></canvas>;
 
             const img = new Image();
-            img.src = this.state.task.media.url;
+            img.src = tag.media.url;
             img.onload = () => {
                 if (myRef.current) {
                     const context = myRef.current.getContext("2d");
@@ -93,7 +103,7 @@ class TagDetailView extends Component<any, any> {
                         };
 
                         context.beginPath();
-                        const tagRect = this.rectFromBoundingBox(sample, originalImageDimensions);
+                        const tagRect = this.rectFromBoundingBox(tag.tag, originalImageDimensions);
                         const rect = this.rectToCanvas(tagRect, imageBounds, img.width);
                         context.rect(rect.x, rect.y, rect.w, rect.h);
                         context.strokeStyle = "#00FF00";
@@ -102,16 +112,18 @@ class TagDetailView extends Component<any, any> {
                     }
                 }
             };
-            return <div className="tagPreviewOuter" key={this.state.task.media.url}>
-                <div className="tagPreviewThumb" style={{ width: canvasWidth, height: canvasHeight }}>
-                    {canvas}
-                </div>
+            return <div className="tagPreviewOuter" key={tag.media.url}>
+                <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
+                    <div className="tagPreviewThumb" style={{ width: canvasWidth, height: canvasHeight }}>
+                        {canvas}
+                    </div>
+                </a>
                 <div className="tagPreviewDetails">
                     <div>
-                        <h5>Actor</h5>{sample.actor_id}
+                        <h5>Label</h5>{tag.task.category}
                     </div>
                     <div>
-                        <h5>Time Elapsed</h5> {sample.time_elapsed / 1000 + "s"}
+                        <h5>Confidence</h5> 99%
                     </div>
                     <div>
                         <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
@@ -132,7 +144,7 @@ class TagDetailView extends Component<any, any> {
                 <div className="actionBar">
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
                     <span className="actions">
-                        <a href={`/projects/${this.params.projectId}`}><button className="actionButton greyButton">
+                        <a href="/projects"><button className="actionButton greyButton">
                             Back
                         </button></a>
                     </span>
@@ -140,10 +152,31 @@ class TagDetailView extends Component<any, any> {
                 </div>
                 <div className="mainCard">
                     <div className="projectSection">
-                        <h2>Samples</h2>
+                        <h2> Details</h2>
+                        <div className="projectDetails">
+                            <div className="thirds">
+                                <h5>Created At</h5> {this.state.project.created_at}
+                            </div>
+                            <div className="thirds">
+                                <h5>Progress</h5>
+                                <ProgressBarComponent progress={this.state.project.progress}
+                                    height={40}></ProgressBarComponent>
+                            </div>
+                            <div className="thirds">
+                                <h5>Actions</h5>
+                                <a href={`/projects/${this.params.projectId}/samples`}>
+                                    <button>View Raw Samples</button>
+                                </a>
+                            </div>
+                            <div style={{ clear: "both" }}></div>
+                        </div>
+                    </div>
+                    <div style={{ height: "40px" }}></div>
+                    <div className="projectSection">
+                        <h2>Tags</h2>
                     </div>
                     <div className="tagPreviews">
-                        {samples}
+                        {tags}
                     </div>
                 </div>
             </div>
@@ -151,4 +184,4 @@ class TagDetailView extends Component<any, any> {
     }
 }
 
-export default TagDetailView;
+export default ProjectDetailView;

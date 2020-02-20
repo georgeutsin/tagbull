@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { IBoundingBox, IRect } from "../Interfaces";
-import { Backend } from "../Utils";
-import { calculateImageDimensions, calculateImageLocation } from "../Utils/CanvasCalcs";
-import { NavBar } from "./UIElements";
+import { IBoundingBox, IRect } from "../../Interfaces";
+import { Backend } from "../../Utils";
+import { calculateImageDimensions, calculateImageLocation } from "../../Utils/CanvasCalcs";
+import { NavBar } from "../UIElements";
 
 const canvasWidth = 200;
 const canvasHeight = 200;
 
-class SamplesView extends Component<any, any> {
+class TagDetailView extends Component<any, any> {
     private params: any;
 
     constructor(props: any) {
@@ -18,7 +18,12 @@ class SamplesView extends Component<any, any> {
             project: {
                 name: "",
             },
-            samples: [],
+            task: {
+                type: "",
+                task: {},
+                media: {},
+                samples: [],
+            },
         };
     }
 
@@ -32,10 +37,10 @@ class SamplesView extends Component<any, any> {
             });
         });
 
-        Backend.getAllSamples(this.params.projectId).then((resp: any) => {
-            const samples = resp.data.data;
-            console.log(samples);
-            this.setState({ samples });
+        Backend.getSamples(this.params.projectId, this.params.taskId).then((resp: any) => {
+            const task = resp.data.data;
+            console.log(task);
+            this.setState({ task });
         });
     }
 
@@ -60,12 +65,12 @@ class SamplesView extends Component<any, any> {
     }
 
     public render() {
-        const samples = this.state.samples.map((sample: any) => {
+        const samples = this.state.task.samples.map((sample: any) => {
             const myRef = React.createRef<HTMLCanvasElement>();
             const canvas = <canvas height={canvasHeight} width={canvasWidth} ref={myRef}></canvas>;
 
             const img = new Image();
-            img.src = sample.media.url;
+            img.src = this.state.task.media.url;
             img.onload = () => {
                 if (myRef.current) {
                     const context = myRef.current.getContext("2d");
@@ -88,8 +93,7 @@ class SamplesView extends Component<any, any> {
                         };
 
                         context.beginPath();
-                        console.log(sample.sample);
-                        const tagRect = this.rectFromBoundingBox(sample.sample, originalImageDimensions);
+                        const tagRect = this.rectFromBoundingBox(sample, originalImageDimensions);
                         const rect = this.rectToCanvas(tagRect, imageBounds, img.width);
                         context.rect(rect.x, rect.y, rect.w, rect.h);
                         context.strokeStyle = "#00FF00";
@@ -98,16 +102,16 @@ class SamplesView extends Component<any, any> {
                     }
                 }
             };
-            return <div className="tagPreviewOuter" key={sample.media.url}>
+            return <div className="tagPreviewOuter" key={this.state.task.media.url}>
                 <div className="tagPreviewThumb" style={{ width: canvasWidth, height: canvasHeight }}>
                     {canvas}
                 </div>
                 <div className="tagPreviewDetails">
                     <div>
-                        <h5>Actor</h5>{sample.sample.actor_id}
+                        <h5>Actor</h5>{sample.actor_id}
                     </div>
                     <div>
-                        <h5>Time Elapsed</h5> {sample.sample.time_elapsed / 1000 + "s"}
+                        <h5>Time Elapsed</h5> {sample.time_elapsed / 1000 + "s"}
                     </div>
                     <div>
                         <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
@@ -147,4 +151,4 @@ class SamplesView extends Component<any, any> {
     }
 }
 
-export default SamplesView;
+export default TagDetailView;

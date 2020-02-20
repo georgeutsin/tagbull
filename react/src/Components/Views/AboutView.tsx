@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import david from "../Images/david.jpg";
-import george from "../Images/george.jpg";
-import kevin from "../Images/kevin.jpg";
-import matt from "../Images/matt.jpg";
+import david from "../../Images/david.jpg";
+import george from "../../Images/george.jpg";
+import kevin from "../../Images/kevin.jpg";
+import matt from "../../Images/matt.jpg";
 import ActivitiesHomeView from "./ActivitiesHomeView";
-import { FooterComponent, NavBar } from "./UIElements";
+import { FooterComponent, NavBar } from "../UIElements";
 
 class AboutView extends Component<any, any> {
     constructor(props: any) {

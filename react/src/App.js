@@ -19,7 +19,7 @@ import {
   CareersView,
   PrivacyView,
   TermsView,
-} from "./Components";
+} from "./Components/Views";
 
 class App extends Component {
   render() {
