@@ -1,5 +1,5 @@
 import React from "react";
-import { BoundingBoxTap } from "./ActivityComponents";
+import { BoundingBoxTap, DiscreteAttribute } from "./ActivityComponents";
 
 interface IActivitiesComponentState {
     taskId: number;
@@ -38,7 +38,8 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
     public completeActivity(sample: any) {
         // End time elapsed timer
         const timeElapsed = +new Date() - this.state.timerStart;
-        if (timeElapsed < 3000) {
+        const timedTask = this.state.activity.type === "BoundingBoxTask";
+        if (timedTask && timeElapsed < 3000) {
             this.reset();
             return;
         }
@@ -60,6 +61,14 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
                     notifyActivityComplete={this.completeActivity}
                     disabled={this.props.disabled}>
                 </BoundingBoxTap>;
+                break;
+            case "DiscreteAttributeTask":
+                currentActivity = <DiscreteAttribute
+                    key={this.state.timerStart} // to re-render if time spent by user is too short
+                    activity={this.state.activity}
+                    notifyActivityComplete={this.completeActivity}
+                    disabled={this.props.disabled}>
+                </DiscreteAttribute>;
                 break;
             default: break;
         }

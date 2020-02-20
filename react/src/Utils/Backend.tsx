@@ -71,6 +71,7 @@ class RemoteBackend implements IBackend {
 // tslint:disable-next-line: max-classes-per-file
 class MockBackend implements IBackend {
     private bbActivityResp: any;
+    private discreteAttrActivityResp: any;
 
     constructor() {
         this.bbActivityResp = {
@@ -88,10 +89,30 @@ class MockBackend implements IBackend {
                 },
             },
         };
+        this.discreteAttrActivityResp = {
+            data: {
+                new_actor: false,
+                task_id: 52,
+                type: "DiscreteAttributeTask",
+                config: {
+                    media_url: "https://lh3.googleusercontent.com/q0wbpyLn6ycBkjElBjKsyC4mnjU_-RzK4n9cok4HC1fESjYMvph_rDwKoLM6V2vRG-40s92JNg=s0",
+                    classification: "LabelName",
+                    bounding_box: {
+                        min_x: 0.2,
+                        min_y: 0.2,
+                        max_x: 0.7,
+                        max_y: 0.7,
+                    },
+                    first_category: "donut",
+                    second_category: "bagel",
+                },
+            },
+        };
     }
 
     public getActivity(deviceId: string): any {
         const resp = { data: this.bbActivityResp };
+        // const resp = { data: this.discreteAttrActivityResp };
         const promise = new Promise((resolve) => {
             resolve(resp);
         });
