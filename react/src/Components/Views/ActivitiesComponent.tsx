@@ -86,7 +86,6 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
     private getActivity() {
         this.props.activityPromise().then((response: { data: any; }) => {
             const activity = response.data.data;
-            console.log(activity);
             this.setState({
                 taskId: activity.task_id,
                 activity,

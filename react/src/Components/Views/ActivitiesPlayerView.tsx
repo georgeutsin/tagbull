@@ -1,8 +1,8 @@
 import queryString from "query-string";
 import React from "react";
 import { Backend, UnityEvent } from "../../Utils";
-import ActivitiesComponent from "./ActivitiesComponent";
 import { CompletionComponent, ProgressBarComponent } from "../UIElements";
+import ActivitiesComponent from "./ActivitiesComponent";
 
 enum PlayerViewStage {
     ACTIVITIES = 0,
@@ -144,11 +144,9 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
         this.setState(({ waitingOnPost: true }));
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
-            console.log(response);
             callback();
         }).catch((error: any) => {
             // TODO handle error
-            console.log(error);
             callback();
         });
     }

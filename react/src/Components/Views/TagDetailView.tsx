@@ -39,7 +39,6 @@ class TagDetailView extends Component<any, any> {
 
         Backend.getSamples(this.params.projectId, this.params.taskId).then((resp: any) => {
             const task = resp.data.data;
-            console.log(task);
             this.setState({ task });
         });
     }
@@ -75,7 +74,6 @@ class TagDetailView extends Component<any, any> {
                 if (myRef.current) {
                     const context = myRef.current.getContext("2d");
                     if (context) {
-                        console.log("drawing");
                         const maxDimensions = { width: canvasWidth, height: canvasHeight };
                         const originalImageDimensions = { width: img.width, height: img.height };
                         const imageDimensions = calculateImageDimensions(maxDimensions, originalImageDimensions);

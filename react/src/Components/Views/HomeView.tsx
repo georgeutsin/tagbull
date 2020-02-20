@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ActivitiesHomeView from "./ActivitiesHomeView";
 import { FooterComponent, NavBar } from "../UIElements";
+import ActivitiesHomeView from "./ActivitiesHomeView";
 // import play from "../Images/play-button.svg";
 // import { validate } from "@babel/types";
 
@@ -64,7 +64,7 @@ class HomeView extends Component<any, any> {
         return <div>
             <NavBar isLanding>
                 <li>
-                {/* eslint-disable-next-line  */}
+                    {/* eslint-disable-next-line  */}
                     <a onClick={this.executeScroll}>Product</a>
                 </li>
                 <li>
@@ -94,8 +94,16 @@ class HomeView extends Component<any, any> {
 
                         <div style={{ display: "inline-block", width: "50%" }}>
                             <div style={{ paddingRight: "10px" }}>
-                                <div className="login" style={{ maxWidth: "350px", marginLeft: "auto", marginRight: 0 }}>
-                                    <form name="contact-top" method="POST" data-netlify="true" netlify-honeypot="bot-field" ref="form-top" onSubmit={handleSubmit}>
+                                <div
+                                    className="login"
+                                    style={{ maxWidth: "350px", marginLeft: "auto", marginRight: 0 }}>
+                                    <form
+                                        name="contact-top"
+                                        method="POST"
+                                        data-netlify="true"
+                                        netlify-honeypot="bot-field"
+                                        ref="form-top"
+                                        onSubmit={handleSubmit}>
                                         <input type="hidden" name="form-name" value="contact-top" />
                                         <input
                                             type="text"
@@ -115,13 +123,15 @@ class HomeView extends Component<any, any> {
                 {/* <div style={{ height: "150px" }}>
                     <div className="halfNoSpacing"
                         style={{ textAlign: "center" }}>
-                        <div className="vertical-center" style={{ padding: "10px", position: "relative", fontWeight: 100, fontSize: "1.5em" }}>
+                        <div className="vertical-center"
+                            style={{ padding: "10px", position: "relative", fontWeight: 100, fontSize: "1.5em" }}>
                             For Dataset Owners
                         </div>
                     </div>
                     <div className="halfNoSpacing"
                         style={{ textAlign: "center", backgroundColor: "#333", color: "white" }}>
-                        <div className="vertical-center" style={{ padding: "10px", position: "relative", fontWeight: 100, fontSize: "1.5em" }}>
+                        <div className="vertical-center"
+                            style={{ padding: "10px", position: "relative", fontWeight: 100, fontSize: "1.5em" }}>
                             For Game Developers<br />
                             Coming Soon
                         </div>
@@ -163,25 +173,37 @@ class HomeView extends Component<any, any> {
 
                             </div>
 
-                            <div style={{ color: "#666", backgroundColor: "white", padding: "40px", marginTop: "50px", borderBottom: "1px solid #eee" }}>
+                            <div style={{
+                                color: "#666", backgroundColor: "white",
+                                padding: "40px", marginTop: "50px", borderBottom: "1px solid #eee",
+                            }}>
                                 <div style={{ fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }}>
                                     Case Study: Open Images Extended
                             </div>
                                 <div style={{ display: "inline-block", width: "33%", minWidth: "160px" }}>
                                     Number of Samples per Label
-                                    <div style={{ fontSize: "2.5em", fontFamily: "Heebo", paddingTop: "20px", paddingBottom: "20px" }}>
+                                    <div style={{
+                                        fontSize: "2.5em", fontFamily: "Heebo",
+                                        paddingTop: "20px", paddingBottom: "20px",
+                                    }}>
                                         5.1
                                     </div>
                                 </div>
                                 <div style={{ display: "inline-block", width: "33%", minWidth: "160px" }}>
                                     Percentage of Accepted Labels
-                                    <div style={{ fontSize: "2.5em", fontFamily: "Heebo", paddingTop: "20px", paddingBottom: "20px" }}>
+                                    <div style={{
+                                        fontSize: "2.5em", fontFamily: "Heebo",
+                                        paddingTop: "20px", paddingBottom: "20px",
+                                    }}>
                                         99.6%
                                     </div>
                                 </div>
                                 <div style={{ display: "inline-block", width: "33%", minWidth: "160px" }}>
                                     Average Cost per Label
-                                    <div style={{ fontSize: "2.5em", fontFamily: "Heebo", paddingTop: "20px", paddingBottom: "20px" }}>
+                                    <div style={{
+                                        fontSize: "2.5em", fontFamily: "Heebo",
+                                        paddingTop: "20px", paddingBottom: "20px",
+                                    }}>
                                         $0.0413
                                     </div>
                                 </div>
@@ -195,12 +217,15 @@ class HomeView extends Component<any, any> {
                             </div>
                             <div className="promoBody responsiveHalf">
                                 <div className="promoTextHeader" style={{ fontSize: "1em" }}>
-                                    Putting the <span className="promoInverted">labeller first</span> means better data at the source.
+                                    Putting the <span className="promoInverted">labeller first</span>
+                                    means better data at the source.
                             </div>
 
                                 We design interfaces to minimize frustration by providing ergonomic tools
                                 that result in accurate labels at 5x the efficiency
-                                <a href="https://arxiv.org/pdf/1708.02750.pdf" style={{ color: "black" }}><sup>[1]</sup></a>.
+                                <a href="https://arxiv.org/pdf/1708.02750.pdf" style={{ color: "black" }}>
+                                    <sup>[1]</sup>
+                                </a>.
                                 <br /><br />
 
                                 <div className="promoTextHeader" style={{ fontSize: "1em" }}>
@@ -238,12 +263,22 @@ class HomeView extends Component<any, any> {
                             <div style={{ clear: "both" }}></div>
 
                         </div>
-                        <div style={{ backgroundColor: "#666", width: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)", color: "white", padding: "30px 0" }}>
+                        <div style={{
+                            backgroundColor: "#666", width: "100vw", position: "relative", left: "50%",
+                            transform: "translateX(-50%)", color: "white", padding: "30px 0",
+                        }}>
                             <div style={{ maxWidth: "1080px", margin: "0 auto", padding: "5px" }}>
-                                <div style={{ fontSize: "1.8em", fontWeight: 100, fontStyle: "italic", width: "70%", margin: "auto" }}>
-                                    "That is the best bounding box interface that I have seen ever. Way better than requesters such as MLDataLabeler and the like. Kudos."<br />
+                                <div style={{
+                                    fontSize: "1.8em", fontWeight: 100,
+                                    fontStyle: "italic", width: "70%", margin: "auto",
+                                }}>
+                                    "That is the best bounding box interface that I have seen ever. Way better than
+                                    requesters such as MLDataLabeler and the like. Kudos."<br />
                                 </div>
-                                <div style={{ textAlign: "right", paddingRight: "15%", fontSize: "1.3em", fontWeight: 100 }}>
+                                <div style={{
+                                    textAlign: "right", paddingRight: "15%",
+                                    fontSize: "1.3em", fontWeight: 100,
+                                }}>
                                     -A Real MTurk User
                                 </div>
                             </div>
@@ -262,12 +297,14 @@ class HomeView extends Component<any, any> {
                                 <form name="contact-bottom" method="POST" data-netlify="true" netlify-honeypot="bot-field" ref="form-top" onSubmit={handleSubmit}>
                                     <input type="hidden" name="form-name" value="contact-bottom" />
                                     <input
-                                            type="text"
-                                            placeholder="you@email.com"
-                                            name="email"
-                                            onChange={this.handleChange} />
+                                        type="text"
+                                        placeholder="you@email.com"
+                                        name="email"
+                                        onChange={this.handleChange} />
 
-                                    <button type="submit" style={{ marginTop: "20px", backgroundColor: "#6600ff" }}>Email Me</button>
+                                    <button type="submit" style={{ marginTop: "20px", backgroundColor: "#6600ff" }}>
+                                        Email Me
+                                    </button>
                                 </form>
                             </div>
                         </div>

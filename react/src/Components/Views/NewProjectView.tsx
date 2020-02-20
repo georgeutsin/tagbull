@@ -100,11 +100,9 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                 this.setState({ redirect: true });
             } else {
                 // TODO handle non 204 response
-                console.log(response);
             }
         }).catch((error: any) => {
             // TODO handle error
-            console.log(error);
         });
     }
 
@@ -393,10 +391,8 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
 
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
-            console.log(response);
         }).catch((error: any) => {
             // TODO handle error
-            console.log(error);
         });
     }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Backend, UnityEvent } from "../../Utils";
-import ActivitiesComponent from "./ActivitiesComponent";
 import { ProgressBarComponent } from "../UIElements";
+import ActivitiesComponent from "./ActivitiesComponent";
 
 interface IActivitiesHomeViewState {
     progressIndicator: number;
@@ -106,29 +106,37 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
         if (this.state.completedActivityCounter === this.state.numActivities) {
             activities = <div>
                 <div className="promoSection"
-                        style={{ textAlign: "center", backgroundColor: "white", margin: "10px" }}>
-                        <div
-                            style={{ fontWeight: 100, fontSize: "2.5em", paddingBottom: "40px" }}>
-                            Like what you see?
+                    style={{ textAlign: "center", backgroundColor: "white", margin: "10px" }}>
+                    <div
+                        style={{ fontWeight: 100, fontSize: "2.5em", paddingBottom: "40px" }}>
+                        Like what you see?
                     </div>
-                        <div>
-                            Put your dataset here instead. Let's get in touch:
+                    <div>
+                        Put your dataset here instead. Let's get in touch:
                         <div className="login" style={{ width: "100%", maxWidth: "400px", margin: "auto", paddingTop: "30px" }}>
-                                <form name="contact-demo" method="POST" data-netlify="true" netlify-honeypot="bot-field" ref="form-top" onSubmit={handleSubmit}>
-                                    <input type="hidden" name="form-name" value="contact-demo" />
-                                    <input
-                                            type="text"
-                                            placeholder="you@email.com"
-                                            name="email"
-                                            onChange={this.handleChange} />
+                            <form
+                                name="contact-demo"
+                                method="POST"
+                                data-netlify="true"
+                                netlify-honeypot="bot-field"
+                                ref="form-top"
+                                onSubmit={handleSubmit}>
+                                <input type="hidden" name="form-name" value="contact-demo" />
+                                <input
+                                    type="text"
+                                    placeholder="you@email.com"
+                                    name="email"
+                                    onChange={this.handleChange} />
 
-                                    <button type="submit" style={{ marginTop: "20px", backgroundColor: "#6600ff" }}>Email Me</button>
-                                </form>
-                            </div>
+                                <button type="submit" style={{ marginTop: "20px", backgroundColor: "#6600ff" }}>
+                                    Email Me
+                                    </button>
+                            </form>
                         </div>
-                        <div style={{ clear: "both" }}></div>
-                        <div className="spaceAfter"></div>
                     </div>
+                    <div style={{ clear: "both" }}></div>
+                    <div className="spaceAfter"></div>
+                </div>
             </div>;
         }
         const progressBarHeight = 50;
@@ -162,11 +170,9 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
         this.setState(({ waitingOnPost: true }));
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
-            console.log(response);
             callback();
         }).catch((error: any) => {
             // TODO handle error
-            console.log(error);
             callback();
         });
     }

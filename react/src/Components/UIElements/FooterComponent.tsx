@@ -12,15 +12,23 @@ class FooterComponent extends Component {
                         <br></br>
                         Copyright 2019
                 </div>
-                    <div style={{ width: "25%", minWidth: "175px", display: "inline-block", verticalAlign: "top", fontSize: "1.2em", lineHeight: "1.5em" }}>
+                    <div style={{
+                        width: "25%", minWidth: "175px", display: "inline-block",
+                        verticalAlign: "top", fontSize: "1.2em", lineHeight: "1.5em",
+                    }}>
                         <a href="/about" style={{ textDecoration: "none", color: "#888" }}>About Us</a>
                         <br />
                         <a href="/careers" style={{ textDecoration: "none", color: "#888" }}>Careers</a>
                         <br />
-                        <a href="mailto:hello@tagbull.com" style={{ textDecoration: "none", color: "#888" }}>Contact</a>: hello@tagbull.com
+                        <a href="mailto:hello@tagbull.com" style={{ textDecoration: "none", color: "#888" }}>
+                            Contact
+                        </a>: hello@tagbull.com
                         <br />
                     </div>
-                    <div style={{ width: "25%", minWidth: "175px", display: "inline-block", verticalAlign: "top", fontSize: "1.2em", lineHeight: "1.5em" }}>
+                    <div style={{
+                        width: "25%", minWidth: "175px", display: "inline-block",
+                        verticalAlign: "top", fontSize: "1.2em", lineHeight: "1.5em",
+                    }}>
                         <a href="/privacy" style={{ textDecoration: "none", color: "#888" }}>Privacy Policy</a>
                         <br />
                         <a href="/terms" style={{ textDecoration: "none", color: "#888" }}>Terms of Service</a>

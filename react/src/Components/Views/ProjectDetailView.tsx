@@ -33,7 +33,6 @@ class ProjectDetailView extends Component<any, any> {
     public componentDidMount() {
         Backend.getProject(this.params.projectId).then((resp: any) => {
             const project = resp.data.data;
-            console.log(project);
             const d = new Date(project.created_at.replace(" ", "T"));
             this.setState({
                 project: {
@@ -49,7 +48,6 @@ class ProjectDetailView extends Component<any, any> {
 
         Backend.getTags(this.params.projectId).then((resp: any) => {
             const samples = resp.data.data;
-            console.log(samples);
             this.setState({ tags: samples });
         });
     }
@@ -85,7 +83,6 @@ class ProjectDetailView extends Component<any, any> {
                 if (myRef.current) {
                     const context = myRef.current.getContext("2d");
                     if (context) {
-                        console.log("drawing");
                         const maxDimensions = { width: canvasWidth, height: canvasHeight };
                         const originalImageDimensions = { width: img.width, height: img.height };
                         const imageDimensions = calculateImageDimensions(maxDimensions, originalImageDimensions);

@@ -1,4 +1,4 @@
-import { IRect, IBoundingBox } from "../Interfaces";
+import { IBoundingBox, IRect } from "../Interfaces";
 
 function calculateImageDimensions(maxDims: any, imageDims: any): any {
     const canvasAspectRatio = maxDims.width / maxDims.height;

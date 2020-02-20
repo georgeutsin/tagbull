@@ -34,7 +34,6 @@ class SamplesView extends Component<any, any> {
 
         Backend.getAllSamples(this.params.projectId).then((resp: any) => {
             const samples = resp.data.data;
-            console.log(samples);
             this.setState({ samples });
         });
     }
@@ -70,7 +69,6 @@ class SamplesView extends Component<any, any> {
                 if (myRef.current) {
                     const context = myRef.current.getContext("2d");
                     if (context) {
-                        console.log("drawing");
                         const maxDimensions = { width: canvasWidth, height: canvasHeight };
                         const originalImageDimensions = { width: img.width, height: img.height };
                         const imageDimensions = calculateImageDimensions(maxDimensions, originalImageDimensions);
@@ -88,7 +86,6 @@ class SamplesView extends Component<any, any> {
                         };
 
                         context.beginPath();
-                        console.log(sample.sample);
                         const tagRect = this.rectFromBoundingBox(sample.sample, originalImageDimensions);
                         const rect = this.rectToCanvas(tagRect, imageBounds, img.width);
                         context.rect(rect.x, rect.y, rect.w, rect.h);

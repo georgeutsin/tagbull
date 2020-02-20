@@ -3,8 +3,8 @@ import david from "../../Images/david.jpg";
 import george from "../../Images/george.jpg";
 import kevin from "../../Images/kevin.jpg";
 import matt from "../../Images/matt.jpg";
-import ActivitiesHomeView from "./ActivitiesHomeView";
 import { FooterComponent, NavBar } from "../UIElements";
+import ActivitiesHomeView from "./ActivitiesHomeView";
 
 class AboutView extends Component<any, any> {
     constructor(props: any) {
@@ -132,7 +132,9 @@ class AboutView extends Component<any, any> {
                     <div style={{ color: "#666", backgroundColor: "white", padding: "40px", borderBottom: "1px solid #eee" }}>
                         <a href="http://velocity.uwaterloo.ca/2019/03/meet-the-winners-of-the-24th-velocity-fund-finals-5k-competition/"
                             style={{ textDecorationColor: "#6100ff" }}>
-                            <div style={{ color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }}>
+                            <div style={
+                                { color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }
+                                }>
                                 Meet the winners of the 24th Velocity Fund Finals
                             </div>
                         </a>

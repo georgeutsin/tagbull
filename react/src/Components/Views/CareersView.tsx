@@ -33,7 +33,9 @@ class CareersView extends Component<any, any> {
                     <div style={{ color: "#666", backgroundColor: "white", padding: "40px", borderBottom: "1px solid #eee" }}>
                         <a href="https://recruit.zohopublic.com/recruit/PortalDetail.na?iframe=true&digest=HucHsBzQ..bFKCiMfHPnB3GAUnkE7bVo.a85bxdBEmQ-&jobid=540607000000266884&widgetid=540607000000072311&embedsource="
                             style={{ textDecorationColor: "#6100ff" }}>
-                            <div style={{ color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }}>
+                            <div style={
+                                { color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }
+                                }>
                                 Sales Lead - USA
                             </div>
                         </a>
@@ -43,7 +45,9 @@ class CareersView extends Component<any, any> {
                     <div style={{ color: "#666", backgroundColor: "white", padding: "40px", borderBottom: "1px solid #eee" }}>
                         <a href="https://recruit.zohopublic.com/recruit/PortalDetail.na?iframe=true&digest=HucHsBzQ..bFKCiMfHPnB3GAUnkE7bVo.a85bxdBEmQ-&jobid=540607000000269166&widgetid=540607000000072311&embedsource=CareerSite"
                             style={{ textDecorationColor: "#6100ff" }}>
-                            <div style={{ color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }}>
+                            <div style={
+                                { color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }
+                                }>
                                 Full Stack Engineer
                             </div>
                         </a>

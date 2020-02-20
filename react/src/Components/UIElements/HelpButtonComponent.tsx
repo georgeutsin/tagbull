@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 
-interface IHelpButtonProps { }
-
 interface IHelpButtonState {
     visible: boolean;
 }
 
-class HelpButtonComponent extends Component<IHelpButtonProps, IHelpButtonState> {
-    constructor(props: IHelpButtonProps) {
+class HelpButtonComponent extends Component<{}, IHelpButtonState> {
+    constructor(props: any) {
         super(props);
         this.state = {
-            visible: false
-        }
+            visible: false,
+        };
 
         // Bindings
         this.helpButton = this.helpButton.bind(this);
@@ -20,18 +18,18 @@ class HelpButtonComponent extends Component<IHelpButtonProps, IHelpButtonState> 
 
     public helpButton() {
         this.setState((state, props) => ({
-            visible: !state.visible
-        }))
+            visible: !state.visible,
+        }));
     }
 
     public closeButton() {
         this.setState({
-            visible: false
-        })
+            visible: false,
+        });
     }
 
     public render() {
-        let helpWindow = null
+        let helpWindow = null;
         if (this.state.visible) {
             helpWindow = <div className="both-center helpWindow">
                 <div style={{overflow: "hidden"}}>
