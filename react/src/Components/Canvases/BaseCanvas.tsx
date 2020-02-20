@@ -31,6 +31,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     private canvasWidth: number;
     private canvasHeight: number;
     private imageBounds: IRect;
+    private canvasRef: React.RefObject<HTMLCanvasElement>;
 
     constructor(props: any) {
         super(props);
@@ -56,6 +57,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         this.canvasHeight = 0;
         this.canvasWidth = 0;
         this.imageBounds = { x: 0, y: 0, w: 0, h: 0 };
+        this.canvasRef = React.createRef<HTMLCanvasElement>();
 
         window.addEventListener("resize", this.windowResizeListener.bind(this));
         window.addEventListener("orientationchange", this.windowResizeListener.bind(this));
@@ -68,16 +70,19 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     }
 
     public componentDidMount() {
-        // Add touch listeners.
-        const el: any = document.getElementById("tbCanvas");
-        this.ctx = el.getContext("2d");
-        this.mouseAdaptor = new MouseAdaptor(el);
-        this.touchAdaptor = new TouchAdaptor(el);
-        el.addEventListener("ptrstart", this.handleStart, false);
-        el.addEventListener("ptrmove", this.handleMove, false);
-        el.addEventListener("ptrend", this.handleEnd, false);
+        if (this.canvasRef.current) { // Shouldn't be null, since its declared in the constructor.
+            this.ctx = this.canvasRef.current.getContext("2d");
+            const el: any = this.canvasRef.current;
 
-        this.updateImageBounds();
+            // Add touch listeners.
+            this.mouseAdaptor = new MouseAdaptor(el);
+            this.touchAdaptor = new TouchAdaptor(el);
+            el.addEventListener("ptrstart", this.handleStart, false);
+            el.addEventListener("ptrmove", this.handleMove, false);
+            el.addEventListener("ptrend", this.handleEnd, false);
+
+            this.updateImageBounds();
+        }
     }
 
     public componentWillUnmount() {
@@ -167,7 +172,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         this.updateCanvasDims();
         return <canvas
             className="tagbullCanvas"
-            id="tbCanvas"
+            ref={this.canvasRef}
             width={this.canvasWidth}
             height={this.canvasHeight}>
             Your browser does not support canvas element.
