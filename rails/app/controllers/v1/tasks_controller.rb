@@ -21,7 +21,6 @@ class V1::TasksController < ApplicationController
 
     results = []
     ActiveRecord::Base.transaction do
-
       params[:media].each do |m|
         medium = Medium.create!(name: m[:name], url: m[:url])
         task = DichotomyTask.create!(
@@ -33,8 +32,6 @@ class V1::TasksController < ApplicationController
         results.append(task.acting_as.id)
       end
     end
-
     json_response(results)
-
   end
 end
