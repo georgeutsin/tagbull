@@ -21,16 +21,15 @@ class V1::TasksController < ApplicationController
 
     results = []
     ActiveRecord::Base.transaction do
-      dichotomy = Dichotomy.find_or_create_by!(first: params[:first], second: params[:second])
 
       params[:media].each do |m|
-        task = DichotomyTask.create!(project_id: project.id, dichotomy_id: dichotomy.id)
-        # the media item belongs to task, so it needs to be created after the task
-        medium = task.acting_as.create_medium!(name: m[:name], url: m[:url])
-
-        task.acting_as.media_id = medium.id
-        task.acting_as.save!
-
+        medium = Medium.create!(name: m[:name], url: m[:url])
+        task = DichotomyTask.create!(
+          project_id: project.id,
+          first: params[:first],
+          second: params[:second],
+          media_id: medium.id
+        )
         results.append(task.acting_as.id)
       end
     end

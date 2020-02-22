@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_010343) do
+ActiveRecord::Schema.define(version: 2020_02_13_210151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,16 +44,11 @@ ActiveRecord::Schema.define(version: 2020_02_19_010343) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "dichotomies", force: :cascade do |t|
-    t.string "first"
-    t.string "second"
-  end
-
   create_table "dichotomy_tasks", force: :cascade do |t|
+    t.string "first", null: false
+    t.string "second", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "dichotomy_id", null: false
-    t.index ["dichotomy_id"], name: "index_dichotomy_tasks_on_dichotomy_id"
   end
 
   create_table "media", force: :cascade do |t|
@@ -61,8 +56,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_010343) do
     t.text "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "task_id", null: false
-    t.index ["task_id"], name: "index_media_on_task_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -100,8 +93,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_010343) do
   end
 
   add_foreign_key "basic_task_events", "tasks"
-  add_foreign_key "dichotomy_tasks", "dichotomies"
-  add_foreign_key "media", "tasks"
   add_foreign_key "samples", "actors"
   add_foreign_key "samples", "tasks"
   add_foreign_key "tasks", "projects"
