@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_02_22_185827) do
   end
 
   create_table "discrete_attribute_tasks", force: :cascade do |t|
+    t.string "attribute_type"
+    t.string "category"
     t.string "options", default: [], array: true
     t.float "min_x"
     t.float "max_x"
