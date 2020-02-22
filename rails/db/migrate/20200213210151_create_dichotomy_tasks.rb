@@ -3,6 +3,7 @@ class CreateDichotomyTasks < ActiveRecord::Migration[6.0]
     create_table :dichotomy_tasks do |t|
       t.string :first, null: false
       t.string :second, null: false
+      t.string :parent_category, null: false
       t.timestamps
     end
   end

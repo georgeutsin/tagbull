@@ -27,6 +27,7 @@ class V1::TasksController < ApplicationController
           project_id: project.id,
           first: params[:first],
           second: params[:second],
+          parent_category: params[:parent_category],
           media_id: medium.id
         )
         results.append(task.acting_as.id)
