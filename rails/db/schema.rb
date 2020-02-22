@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_16_204409) do
+ActiveRecord::Schema.define(version: 2020_02_13_210151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,14 @@ ActiveRecord::Schema.define(version: 2019_11_16_204409) do
 
   create_table "bounding_box_tasks", force: :cascade do |t|
     t.string "category"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "dichotomy_tasks", force: :cascade do |t|
+    t.string "first", null: false
+    t.string "second", null: false
+    t.string "parent_category", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
