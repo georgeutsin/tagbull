@@ -87,7 +87,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
 
     public componentWillUnmount() {
         // Make sure to remove the DOM listener when the component is unmounted.
-        const el: any = document.getElementById("tbCanvas");
+        const el: any = this.canvasRef.current;
         if (this.mouseAdaptor !== undefined) {
             this.mouseAdaptor.removeListeners(el);
         }
