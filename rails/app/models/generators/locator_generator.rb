@@ -6,9 +6,9 @@ class LocatorGenerator
     samples = LocatorSample.where(task_id: task.id).order(created_at: :DESC)
     delta = 0.03
     comparison_func = ->(s1, s2, d) { compare_points_lists(s1, s2, d) }
-    boxes = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
-    if boxes
-      generate_bounding_box(task, boxes)
+    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
+    if sample_pair
+      generate_points(task, sample_pair)
       BasicTaskEvent.create(task_id: task.id, event: 'similar')
       return
     end
