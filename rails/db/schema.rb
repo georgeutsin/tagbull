@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_210151) do
+ActiveRecord::Schema.define(version: 2020_02_22_183909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_210151) do
     t.string "actable_type"
     t.bigint "actable_id"
     t.bigint "media_id"
+    t.bigint "parent_id"
     t.index ["actable_type", "actable_id"], name: "index_tasks_on_actable_type_and_actable_id"
     t.index ["media_id"], name: "index_tasks_on_media_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
