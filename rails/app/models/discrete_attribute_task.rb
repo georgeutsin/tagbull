@@ -2,5 +2,5 @@
 
 # Concrete task for identifying discrete attributes
 class DiscreteAttributeTask < ApplicationRecord
-    acts_as :task
+  acts_as :task
 end

@@ -2,5 +2,5 @@
 
 # Concrete task for identifying locations of objects
 class LocatorTask < ApplicationRecord
-    acts_as :task
+  acts_as :task
 end
