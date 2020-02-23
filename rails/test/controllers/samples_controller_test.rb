@@ -43,4 +43,23 @@ class SamplesControllerTest < ActionDispatch::IntegrationTest
            }
     end
   end
+
+  test 'should create discrete attr sample' do
+    p = Project.create!
+    t = DiscreteAttributeTask.create!(project: p)
+    V1::SamplesController.any_instance.stubs(:maybe_generate_tag).returns(false)
+
+    assert_difference('DiscreteAttributeSample.count') do
+      post samples_url,
+           params: {
+             task_id: t.acting_as.id,
+             project_id: p.id,
+             actor_sig: '123',
+             time_elapsed: 2000,
+             data: {
+               option: 'donut'
+             }
+           }
+    end
+  end
 end

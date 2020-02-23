@@ -33,6 +33,8 @@ class V1::SamplesController < ApplicationController
     }
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def handle_specific_sample(task)
     case task.specific
     when BoundingBoxTask
@@ -41,8 +43,13 @@ class V1::SamplesController < ApplicationController
     when LocatorTask
       LocatorSample.create!(locator_sample_from_params(task.id))
       BasicTaskEvent.create(task_id: task.id, event: 'sample')
+    when DiscreteAttributeTask
+      DiscreteAttributeSample.create!(discrete_attr_sample_from_params(task.id))
+      BasicTaskEvent.create(task_id: task.id, event: 'sample')
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def handle_general_sample(task)
     task.update(pending_timestamp: nil)
@@ -56,6 +63,10 @@ class V1::SamplesController < ApplicationController
 
   def locator_sample_from_params(task_id)
     base_sample_params(task_id).merge(locator_params_data_to_hash)
+  end
+
+  def discrete_attr_sample_from_params(task_id)
+    base_sample_params(task_id).merge(discrete_attr_params_data_to_hash)
   end
 
   def bounding_box_params_data_to_hash
@@ -72,6 +83,13 @@ class V1::SamplesController < ApplicationController
     data = params[:data]
     {
       points: data[:points]
+    }
+  end
+
+  def discrete_attr_params_data_to_hash
+    data = params[:data]
+    {
+      option: data[:option]
     }
   end
 
