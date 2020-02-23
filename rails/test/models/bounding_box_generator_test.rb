@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class TagGeneratorTest < ActiveSupport::TestCase
+class BoundingBoxGeneratorTest < ActiveSupport::TestCase
   test 'compare bounding boxes' do
     delta = 0.03
     bb1 = BoundingBoxSample.new(min_x: 0.1, min_y: 0.2, max_x: 0.5, max_y: 0.6)
