@@ -36,6 +36,13 @@ class Activity
         media_url: Medium.find(task.media_id).url,
         category: bb.category
       }
+    when LocatorTask
+      locator = task.specific
+
+      self.config = {
+        media_url: Medium.find(task.media_id).url,
+        category: locator.category
+      }
     end
   end
 
