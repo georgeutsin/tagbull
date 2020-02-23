@@ -9,7 +9,7 @@ class TagGenerator
       generator = BoundingBoxGenerator
     end
 
-    generator.generate_tag(task) unless generator.nil?
+    generator&.generate_tag(task)
   end
 
   def self.generated_sample_params(task)
