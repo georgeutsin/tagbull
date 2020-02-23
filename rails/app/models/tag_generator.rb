@@ -9,6 +9,8 @@ class TagGenerator
       generator = BoundingBoxGenerator
     when LocatorTask
       generator = LocatorGenerator
+    when DiscreteAttributeTask
+      generator = DiscreteAttributeGenerator
     end
 
     generator&.generate_tag(task)
