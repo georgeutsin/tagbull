@@ -7,6 +7,8 @@ class TagGenerator
     case task.specific
     when BoundingBoxTask
       generator = BoundingBoxGenerator
+    when LocatorTask
+      generator = LocatorGenerator
     end
 
     generator&.generate_tag(task)
