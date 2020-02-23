@@ -96,15 +96,15 @@ class MockBackend implements IBackend {
                 type: "DiscreteAttributeTask",
                 config: {
                     media_url: "https://lh3.googleusercontent.com/q0wbpyLn6ycBkjElBjKsyC4mnjU_-RzK4n9cok4HC1fESjYMvph_rDwKoLM6V2vRG-40s92JNg=s0",
-                    classification: "LabelName",
+                    attribute_type: "LabelName",
                     bounding_box: {
                         min_x: 0.2,
                         min_y: 0.2,
                         max_x: 0.7,
                         max_y: 0.7,
                     },
-                    first_category: "donut",
-                    second_category: "bagel",
+                    options: ["donut", "bagel", "neither"],
+                    category: "baked good",
                 },
             },
         };

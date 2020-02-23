@@ -27,6 +27,8 @@ class Activity
     configure_task_specific_data(task)
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def configure_task_specific_data(task)
     case task.specific
     when BoundingBoxTask
@@ -43,8 +45,23 @@ class Activity
         media_url: Medium.find(task.media_id).url,
         category: locator.category
       }
+    when DiscreteAttributeTask
+      discrete_attr = task.specific
+
+      self.config = {
+        media_url: Medium.find(task.media_id).url,
+        attribute_type: discrete_attr.attribute_type,
+        category: discrete_attr.category,
+        options: discrete_attr.options,
+        min_x: discrete_attr.min_x,
+        max_x: discrete_attr.max_x,
+        min_y: discrete_attr.min_y,
+        max_y: discrete_attr.max_y
+      }
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def next_task(actor_id)
     Task.joins('INNER JOIN basic_task_states ON basic_task_states.id = tasks.id', :project)
