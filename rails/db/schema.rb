@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_183909) do
+ActiveRecord::Schema.define(version: 2020_02_22_185827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(version: 2020_02_22_183909) do
     t.string "first", null: false
     t.string "second", null: false
     t.string "parent_category", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "discrete_attribute_tasks", force: :cascade do |t|
+    t.string "attribute_type"
+    t.string "category"
+    t.string "options", default: [], array: true
+    t.float "min_x"
+    t.float "max_x"
+    t.float "min_y"
+    t.float "max_y"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
