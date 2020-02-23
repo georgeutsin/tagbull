@@ -38,13 +38,19 @@ class TagGeneratorTest < ActiveSupport::TestCase
     bb1 = BoundingBoxSample.new(min_x: 0.1, min_y: 0.2, max_x: 0.5, max_y: 0.6)
     bb2 = BoundingBoxSample.new(min_x: 0.12, min_y: 0.22, max_x: 0.52, max_y: 0.62)
 
-    assert BoundingBoxGenerator.bounding_box_pair_exists([bb1, bb2])
+    comparison_func = ->(s1, s2, d) { BoundingBoxGenerator.compare_bounding_boxes(s1, s2, d) }
+    delta = 0.03
+
+    assert ComparisonUtils.sample_pair_exists([bb1, bb2], comparison_func, delta)
   end
 
   test 'bounding box pair does not exist' do
     bb1 = BoundingBoxSample.new(min_x: 0.1, min_y: 0.2, max_x: 0.5, max_y: 0.6)
     bb2 = BoundingBoxSample.new(min_x: 0.2, min_y: 0.3, max_x: 0.6, max_y: 0.7)
 
-    assert_not BoundingBoxGenerator.bounding_box_pair_exists([bb1, bb2])
+    comparison_func = ->(s1, s2, d) { BoundingBoxGenerator.compare_bounding_boxes(s1, s2, d) }
+    delta = 0.03
+
+    assert_not ComparisonUtils.sample_pair_exists([bb1, bb2], comparison_func, delta)
   end
 end
