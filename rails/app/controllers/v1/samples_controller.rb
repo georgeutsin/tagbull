@@ -38,6 +38,9 @@ class V1::SamplesController < ApplicationController
     when BoundingBoxTask
       BoundingBoxSample.create!(bounding_box_sample_from_params(task.id))
       BasicTaskEvent.create(task_id: task.id, event: 'sample')
+    when LocatorTask
+      LocatorSample.create!(locator_sample_from_params(task.id))
+      BasicTaskEvent.create(task_id: task.id, event: 'sample')
     end
   end
 
@@ -51,6 +54,10 @@ class V1::SamplesController < ApplicationController
     base_sample_params(task_id).merge(bounding_box_params_data_to_hash)
   end
 
+  def locator_sample_from_params(task_id)
+    base_sample_params(task_id).merge(locator_params_data_to_hash)
+  end
+
   def bounding_box_params_data_to_hash
     data = params[:data]
     {
@@ -58,6 +65,13 @@ class V1::SamplesController < ApplicationController
       min_y: data[:min_y],
       max_x: data[:max_x],
       max_y: data[:max_y]
+    }
+  end
+
+  def locator_params_data_to_hash
+    data = params[:data]
+    {
+      points: data[:points]
     }
   end
 
