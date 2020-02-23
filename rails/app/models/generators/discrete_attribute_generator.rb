@@ -8,13 +8,20 @@ class DiscreteAttributeGenerator
     comparison_func = ->(s1, s2, _d) { compare_options(s1, s2) }
     # TODO: decide if pair is best approach for discrete attributes
     sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
-    if sample_pair
-      generate_discrete_attribute(task, sample_pair)
-      BasicTaskEvent.create(task_id: task.id, event: 'similar')
-      return
-    end
 
-    BasicTaskEvent.create(task_id: task.id, event: 'dissimilar')
+    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
+
+    complete(task)
+  end
+
+  def self.complete(task)
+    tag = generate_discrete_attribute(task, sample_pair)
+    BasicTaskEvent.create(task_id: task.id, event: 'similar')
+
+    return if task.parent_id.null?
+
+    parent_task = Task.find(task.parent_id).specific
+    parent_task.discrete_attribute_completed(tag)
   end
 
   def self.compare_options(sample1, sample2)
@@ -26,7 +33,5 @@ class DiscreteAttributeGenerator
     DiscreteAttributeSample.create!({
       option: option
     }.merge(TagGenerator.generated_sample_params(task)))
-
-    # TODO: insert next tasks here if task attribute_type is LabelName
   end
 end

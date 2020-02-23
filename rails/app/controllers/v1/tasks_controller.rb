@@ -21,7 +21,7 @@ class V1::TasksController < ApplicationController
     ActiveRecord::Base.transaction do
       params[:media].each do |m|
         medium = Medium.create!(name: m[:name], url: m[:url])
-        create_dichotomy_task(project, medium)
+        task = create_dichotomy_task(project, medium)
         results.append(task.acting_as.id)
       end
     end

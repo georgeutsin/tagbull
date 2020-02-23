@@ -6,14 +6,21 @@ class BoundingBoxGenerator
     samples = BoundingBoxSample.where(task_id: task.id).order(created_at: :DESC)
     delta = 0.03
     comparison_func = ->(s1, s2, d) { compare_bounding_boxes(s1, s2, d) }
-    boxes = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
-    if boxes
-      generate_bounding_box(task, boxes)
-      BasicTaskEvent.create(task_id: task.id, event: 'similar')
-      return
-    end
+    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
 
-    BasicTaskEvent.create(task_id: task.id, event: 'dissimilar')
+    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
+
+    complete(task)
+  end
+
+  def self.complete(task)
+    tag = generate_bounding_box(task, sample_pair)
+    BasicTaskEvent.create(task_id: task.id, event: 'similar')
+
+    return if task.parent_id.null?
+
+    parent_task = Task.find(task.parent_id).specific
+    parent_task.bounding_box_completed(tag)
   end
 
   def self.compare_bounding_boxes(box1, box2, threshold)
@@ -24,11 +31,15 @@ class BoundingBoxGenerator
   end
 
   def self.generate_bounding_box(task, boxes)
-    BoundingBoxSample.create!({
+    BoundingBoxSample.create!(average(boxes).merge(TagGenerator.generated_sample_params(task)))
+  end
+
+  def self.average(boxes)
+    {
       min_x: AttrUtils.average_attr(:min_x, boxes[0], boxes[1]),
       min_y: AttrUtils.average_attr(:min_y, boxes[0], boxes[1]),
       max_x: AttrUtils.average_attr(:max_x, boxes[0], boxes[1]),
       max_y: AttrUtils.average_attr(:max_y, boxes[0], boxes[1])
-    }.merge(TagGenerator.generated_sample_params(task)))
+    }
   end
 end
