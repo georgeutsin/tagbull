@@ -47,43 +47,40 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
         this.setState({ selectedLabel: label, finishedInput: true });
     }
 
-    public labelNameComponents(category1: string, category2: string) {
-        const instruction =
-            <div className="question runSlideIn">
-                Is this a <b>{category1}</b> or a <b>{category2}</b>?
-                <HelpButtonComponent>
-                    Determine if the object located inside the box is a
-                    <b>{category1}</b> or a <b>{category2}</b>
-                </HelpButtonComponent>
-            </div>;
-        const action =
-            <MultipleOptionsComponent
-                options={[category1, category2, "neither"]}
-                onLabelChange={this.onLabelChaged}
-            >
-            </MultipleOptionsComponent>;
-        return [instruction, action];
+    public actionsComponent(options: string[]) {
+        return <MultipleOptionsComponent
+            options={options}
+            onLabelChange={this.onLabelChaged}>
+        </MultipleOptionsComponent>;
     }
 
-    public isOccluded(category: string) {
+    public labelNameComponents(category: string, options: string[]) {
+        const instruction =
+            <div className="question runSlideIn">
+                Is this {category} a <b>{options[0]}</b> or a <b>{options[1]}</b>?
+                <HelpButtonComponent>
+                    Determine if the object located inside the box is a
+                    <b>{options[0]}</b> or a <b>{options[1]}</b>
+                </HelpButtonComponent>
+            </div>;
+
+        return [instruction, this.actionsComponent(options)];
+    }
+
+    public isOccluded(category: string, options: string[]) {
         const instruction =
             <div className="question runSlideIn">
                 Is any part of the {category} covered by another object?
                 <HelpButtonComponent>
-                    If any part of the object is covered by any other object, answer yes. <br/>
+                    If any part of the object is covered by any other object, answer yes. <br />
                     If the whole object is not visible in the image due to another object, answer no.
                 </HelpButtonComponent>
             </div>;
-        const action =
-            <MultipleOptionsComponent
-                options={["yes", "no"]}
-                onLabelChange={this.onLabelChaged}
-            >
-            </MultipleOptionsComponent>;
-        return [instruction, action];
+
+        return [instruction, this.actionsComponent(options)];
     }
 
-    public isTruncated(category: string) {
+    public isTruncated(category: string, options: string[]) {
         const instruction =
             <div className="question runSlideIn">
                 Is any part of the {category} outside the edges of the image?
@@ -91,16 +88,11 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                     If any part of the object goes outside the borders of the image, answer yes.
                 </HelpButtonComponent>
             </div>;
-        const action =
-            <MultipleOptionsComponent
-                options={["yes", "no"]}
-                onLabelChange={this.onLabelChaged}
-            >
-            </MultipleOptionsComponent>;
-        return [instruction, action];
+
+        return [instruction, this.actionsComponent(options)];
     }
 
-    public isDepiction(category: string) {
+    public isDepiction(category: string, options: string[]) {
         const instruction =
             <div className="question runSlideIn">
                 Is this a real {category} (i.e: not a drawing)?
@@ -109,16 +101,11 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                     Otherwise, if its a drawing, rendering, cartoon, or any other depiction, answer no.
                 </HelpButtonComponent>
             </div>;
-        const action =
-            <MultipleOptionsComponent
-                options={["yes", "no"]}
-                onLabelChange={this.onLabelChaged}
-            >
-            </MultipleOptionsComponent>;
-        return [instruction, action];
+
+        return [instruction, this.actionsComponent(options)];
     }
 
-    public isInside(category: string) {
+    public isInside(category: string, options: string[]) {
         const instruction =
             <div className="question runSlideIn">
                 Is this picture taken from within the {category}?
@@ -127,39 +114,30 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                     An example of this would be a picture from inside a train.
                 </HelpButtonComponent>
             </div>;
-        const action =
-            <MultipleOptionsComponent
-                options={["yes", "no"]}
-                onLabelChange={this.onLabelChaged}
-            >
-            </MultipleOptionsComponent>;
-        return [instruction, action];
+
+        return [instruction, this.actionsComponent(options)];
     }
 
     public render() {
         let currentInstruction = null;
         let currentAction = null;
-        switch (this.props.activity.config.classification) {
+        const category = this.props.activity.config.category.toLowerCase();
+        const options = this.props.activity.config.options;
+        switch (this.props.activity.config.attribute_type) {
             case "LabelName":
-                const category1 = this.props.activity.config.first_category.toLowerCase();
-                const category2 = this.props.activity.config.second_category.toLowerCase();
-                [currentInstruction, currentAction] = this.labelNameComponents(category1, category2);
+                [currentInstruction, currentAction] = this.labelNameComponents(category, options);
                 break;
             case "IsOccluded":
-                let category = this.props.activity.config.category.toLowerCase();
-                [currentInstruction, currentAction] = this.isOccluded(category);
+                [currentInstruction, currentAction] = this.isOccluded(category, options);
                 break;
             case "IsTruncated":
-                category = this.props.activity.config.category.toLowerCase();
-                [currentInstruction, currentAction] = this.isTruncated(category);
+                [currentInstruction, currentAction] = this.isTruncated(category, options);
                 break;
             case "IsDepiction":
-                category = this.props.activity.config.category.toLowerCase();
-                [currentInstruction, currentAction] = this.isDepiction(category);
+                [currentInstruction, currentAction] = this.isDepiction(category, options);
                 break;
             case "IsInside":
-                category = this.props.activity.config.category.toLowerCase();
-                [currentInstruction, currentAction] = this.isInside(category);
+                [currentInstruction, currentAction] = this.isInside(category, options);
                 break;
             default: break;
         }
