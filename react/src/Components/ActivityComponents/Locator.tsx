@@ -50,7 +50,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
     public doneButtonClicked() {
         if (this.state.currentStage === this.numberOfStages) {
             this.props.notifyActivityComplete({
-                // TODO(Kevin): after backend implemented
+                points: this.markers,
             });
         }
     }
