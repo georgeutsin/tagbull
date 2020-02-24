@@ -81,7 +81,7 @@ class DichotomyTask < ApplicationRecord
       actable_type: 'DichotomyTask',
       actable_id: id
     )
-    return if parent_id.null?
+    return if parent_id.nil?
 
     parent_task = Task.find(parent_id).specific
     parent_task.dichotomy_completed(tag)

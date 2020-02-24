@@ -108,7 +108,7 @@ class MetadataTask < ApplicationRecord
       actable_type: 'MetadataTask',
       actable_id: id
     )
-    return if parent_id.null?
+    return if parent_id.nil?
 
     parent_task = Task.find(parent_id).specific
     parent_task.metadata_completed(tag)

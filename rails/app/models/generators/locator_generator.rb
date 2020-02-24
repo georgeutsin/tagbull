@@ -17,7 +17,7 @@ class LocatorGenerator
     tag = generate_points(task, sample_pair)
     BasicTaskEvent.create(task_id: task.id, event: 'similar')
 
-    return if task.parent_id.null?
+    return if task.parent_id.nil?
 
     parent_task = Task.find(task.parent_id).specific
     parent_task.locator_completed(tag)
