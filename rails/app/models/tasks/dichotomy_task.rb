@@ -4,7 +4,7 @@
 class DichotomyTask < ApplicationRecord
   acts_as :task
 
-  after_create :initalize_task
+  after_create :initialize_task
   # STATE MACHINE DESCRIPTION
   # Dichotomy task
   # -> locator task (points)
@@ -17,7 +17,7 @@ class DichotomyTask < ApplicationRecord
   #       -> discrete attribute task/isDepiction
   #       -> discrete attribute task/isInside
 
-  def self.initalize_task
+  def self.initialize_task
     create_locator_task
   end
 
@@ -36,7 +36,7 @@ class DichotomyTask < ApplicationRecord
   def self.metadata_completed(metadata_tag)
     return unless all_subtasks_finished
 
-    create_dichotomy_tag(metadata_tag)
+    create_dichotomy_tag
   end
 
   def self.create_locator_task

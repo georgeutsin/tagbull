@@ -3,9 +3,9 @@
 # Top-level task for identifying metadata given a bounding box
 class MetadataTask < ApplicationRecord
   acts_as :task
-  after_create :initalize_task
+  after_create :initialize_task
 
-  def self.initalize_task
+  def self.initialize_task
     create_label_name_task
   end
 
@@ -15,12 +15,12 @@ class MetadataTask < ApplicationRecord
       return
     end
 
-    return unless all_discrete_attribute_task_complete
+    return unless all_discrete_attribute_tasks_complete
 
-    complete_metadata_tag
+    create_metadata_tag
   end
 
-  def self.all_discrete_attribute_task_complete
+  def self.all_discrete_attribute_tasks_complete
     d_a_tasks = Task.where(parent_id: acting_as.id, actable_type: 'DiscreteAttribute')
     tasks_complete = true
     d_a_tasks.each do |d_a_task|
