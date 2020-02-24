@@ -5,11 +5,11 @@ class MetadataTask < ApplicationRecord
   acts_as :task
   after_create :initialize_task
 
-  def self.initialize_task
+  def initialize_task
     create_label_name_task
   end
 
-  def self.discrete_attribute_completed(discrete_tag)
+  def discrete_attribute_completed(discrete_tag)
     if discrete_tag.attribute_type == 'LabelName'
       return if discrete_tag.specific.option == 'neither'
 
@@ -22,7 +22,7 @@ class MetadataTask < ApplicationRecord
     create_metadata_tag
   end
 
-  def self.all_discrete_attribute_tasks_complete
+  def all_discrete_attribute_tasks_complete
     d_a_tasks = Task.where(parent_id: acting_as.id, actable_type: 'DiscreteAttribute')
     tasks_complete = true
     d_a_tasks.each do |d_a_task|
@@ -32,14 +32,14 @@ class MetadataTask < ApplicationRecord
     tasks_complete
   end
 
-  def self.create_aux_discrete_attribute_tasks(discrete_tag)
+  def create_aux_discrete_attribute_tasks(discrete_tag)
     create_occluded_task(discrete_tag)
     create_truncated_task(discrete_tag)
     create_depiction_task(discrete_tag)
     create_inside_task(discrete_tag)
   end
 
-  def self.base_arguments
+  def base_arguments
     bounding_box_tag = Sample.find(bounding_box_tag_id).specific
     {
       parent_id: acting_as.id,
@@ -52,7 +52,7 @@ class MetadataTask < ApplicationRecord
     }
   end
 
-  def self.create_label_name_task
+  def create_label_name_task
     DiscreteAttributeTask.create!(
       base_arguments.merge({
                              category: parent_category,
@@ -62,7 +62,7 @@ class MetadataTask < ApplicationRecord
     )
   end
 
-  def self.create_occluded_task(discrete_tag)
+  def create_occluded_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge({
                              category: discrete_tag.option,
@@ -72,7 +72,7 @@ class MetadataTask < ApplicationRecord
     )
   end
 
-  def self.create_truncated_task(discrete_tag)
+  def create_truncated_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge({
                              category: discrete_tag.option,
@@ -82,7 +82,7 @@ class MetadataTask < ApplicationRecord
     )
   end
 
-  def self.create_depiction_task(discrete_tag)
+  def create_depiction_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge({
                              category: discrete_tag.option,
@@ -92,7 +92,7 @@ class MetadataTask < ApplicationRecord
     )
   end
 
-  def self.create_inside_task(discrete_tag)
+  def create_inside_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge({
                              category: discrete_tag.option,
@@ -102,7 +102,7 @@ class MetadataTask < ApplicationRecord
     )
   end
 
-  def self.create_metadata_tag
+  def create_metadata_tag
     tag = Sample.create!(
       task_id: acting_as.id,
       is_tag: true,

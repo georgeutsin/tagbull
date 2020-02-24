@@ -17,11 +17,11 @@ class DichotomyTask < ApplicationRecord
   #       -> discrete attribute task/isDepiction
   #       -> discrete attribute task/isInside
 
-  def self.initialize_task
+  def initialize_task
     create_locator_task
   end
 
-  def self.locator_completed(locator_tag)
+  def locator_completed(locator_tag)
     points = JSON.parse(locator_tag.points)
 
     return if points.length >= 5
@@ -29,17 +29,17 @@ class DichotomyTask < ApplicationRecord
     create_bounding_box_tasks(points)
   end
 
-  def self.bounding_box_completed(bounding_box_tag)
+  def bounding_box_completed(bounding_box_tag)
     create_metadata_task(bounding_box_tag)
   end
 
-  def self.metadata_completed(_metadata_tag)
+  def metadata_completed(_metadata_tag)
     return unless all_subtasks_finished
 
     create_dichotomy_tag
   end
 
-  def self.create_locator_task
+  def create_locator_task
     LocatorTask.create!(
       parent_id: acting_as.id,
       project_id: project_id,
@@ -48,7 +48,7 @@ class DichotomyTask < ApplicationRecord
     )
   end
 
-  def self.create_bounding_box_tasks(points)
+  def create_bounding_box_tasks(points)
     points.each do |point|
       BoundingBoxTask.create!(
         parent_id: acting_as.id,
@@ -61,7 +61,7 @@ class DichotomyTask < ApplicationRecord
     end
   end
 
-  def self.create_metadata_task(bounding_box_tag)
+  def create_metadata_task(bounding_box_tag)
     MetadataTask.create!(
       parent_id: acting_as.id,
       project_id: project_id,
@@ -73,7 +73,7 @@ class DichotomyTask < ApplicationRecord
     )
   end
 
-  def self.create_dichotomy_tag
+  def create_dichotomy_tag
     tag = Sample.create!(
       task_id: acting_as.id,
       is_tag: true,
@@ -87,7 +87,7 @@ class DichotomyTask < ApplicationRecord
     parent_task.dichotomy_completed(tag)
   end
 
-  def self.all_subtasks_finished
+  def all_subtasks_finished
     locator_tag = LocatorSample.find(parent_id: acting_as.id)
     return false unless locator_tag
 
@@ -95,7 +95,7 @@ class DichotomyTask < ApplicationRecord
     bounding_box_and_metadata_finished(points.length)
   end
 
-  def self.bounding_box_and_metadata_finished(target_count)
+  def bounding_box_and_metadata_finished(target_count)
     bounding_box_tags = BoundingBoxSample.where(parent_id: acting_as.id, is_tag: true)
     metadata_tags = Sample.where(parent_id: acting_as.id, actable_type: 'MetadataTask', is_tag: true)
 

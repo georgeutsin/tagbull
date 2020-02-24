@@ -122,6 +122,7 @@ VALUES
 -- Postgres's autoincrement values are not updated when we manually insert id's. This is bad, because
 --   when we try to insert a row with autoincrementing id, an error occurs since a row with the given
 --   id already exists.
+SELECT setval('projects_id_seq', (SELECT MAX(id) from projects));
 SELECT setval('tasks_id_seq', (SELECT MAX(id) from tasks));
 SELECT setval('bounding_box_tasks_id_seq', (SELECT MAX(id) from bounding_box_tasks));
 SELECT setval('media_id_seq', (SELECT MAX(id) from media));
