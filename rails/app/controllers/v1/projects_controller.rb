@@ -11,4 +11,8 @@ class V1::ProjectsController < ApplicationController
   def show
     json_response(Project.find(params[:id]))
   end
+
+  def create
+    json_response(Project.create!(name: params[:name]))
+  end
 end
