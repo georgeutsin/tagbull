@@ -99,8 +99,6 @@ class DichotomyTask < ApplicationRecord
     bounding_box_tags = BoundingBoxSample.where(parent_id: acting_as.id)
     metadata_tags = Sample.where(parent_id: acting_as.id, actable_type: 'MetadataTask')
 
-    return false unless bounding_box_tags.length == target_count && metadata_tags.length == target_count
-
-    true
+    return bounding_box_tags.length == target_count && metadata_tags.length == target_count
   end
 end
