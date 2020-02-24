@@ -54,51 +54,51 @@ class MetadataTask < ApplicationRecord
 
   def self.create_label_name_task
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: parent_category,
-                             options: [first, second, 'neither'],
-                             attribute_type: 'LabelName'
-                           })
+      base_arguments.merge(
+        category: parent_category,
+        options: [first, second, 'neither'],
+        attribute_type: 'LabelName'
+      )
     )
   end
 
   def self.create_occluded_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsOccluded'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsOccluded'
+      )
     )
   end
 
   def self.create_truncated_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsTruncated'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsTruncated'
+      )
     )
   end
 
   def self.create_depiction_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsDepiction'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsDepiction'
+      )
     )
   end
 
   def self.create_inside_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsInside'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsInside'
+      )
     )
   end
 
