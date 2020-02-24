@@ -81,9 +81,10 @@ class V1::TagsController < ApplicationController
     d = task.specific
     s = Sample.find_by(task_id: task.id, is_tag: true).specific
     {
-      'bounding_box' => { min_x: d.min_x, min_y: d.min_y, max_x: d.max_x, max_y: d.max_y },
-      'category' => d.category,
-      d.attribute_type => s.option
+      bounding_box: { min_x: d.min_x, min_y: d.min_y, max_x: d.max_x, max_y: d.max_y },
+      category: d.category,
+      attribute_type: d.attribute_type,
+      option: s.option
     }
   end
 end
