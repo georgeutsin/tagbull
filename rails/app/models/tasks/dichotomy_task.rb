@@ -84,7 +84,7 @@ class DichotomyTask < ApplicationRecord
     return if parent_id.null?
 
     parent_task = Task.find(parent_id).specific
-    parent_task.locator_completed(tag)
+    parent_task.dichotomy_completed(tag)
   end
 
   def self.all_subtasks_finished
