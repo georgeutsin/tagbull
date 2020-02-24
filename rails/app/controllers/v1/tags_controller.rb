@@ -24,13 +24,9 @@ class V1::TagsController < ApplicationController
   end
 
   def samples_for(_project_id, task_id)
-    task = Task.where(id: task_id).first.specific
-    type = task.acting_as.actable_type
-
-    samples = Sample.where(task_id: task_id)
-    samples = samples.map(&:specific)
-    media = Medium.find(task.media_id)
-    { type: type, task: task, samples: samples, media: media }
+    task = Task.find(id: task_id).specific
+    samples = Sample.where(task_id: task_id).map(&:specific)
+    base_tag_params(task).merge({ samples: samples })
   end
 
   def tags_filter
