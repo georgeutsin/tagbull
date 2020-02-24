@@ -7,13 +7,20 @@ class LocatorGenerator
     delta = 0.03
     comparison_func = ->(s1, s2, d) { compare_points_lists(s1, s2, d) }
     sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
-    if sample_pair
-      generate_points(task, sample_pair)
-      BasicTaskEvent.create(task_id: task.id, event: 'similar')
-      return
-    end
 
-    BasicTaskEvent.create(task_id: task.id, event: 'dissimilar')
+    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
+
+    complete(task)
+  end
+
+  def self.complete(task)
+    tag = generate_points(task, sample_pair)
+    BasicTaskEvent.create(task_id: task.id, event: 'similar')
+
+    return if task.parent_id.null?
+
+    parent_task = Task.find(task.parent_id).specific
+    parent_task.locator_completed(tag)
   end
 
   def self.compare_points_lists(sample1, sample2, _threshold)
@@ -26,8 +33,6 @@ class LocatorGenerator
     LocatorSample.create!({
       points: points.to_json
     }.merge(TagGenerator.generated_sample_params(task)))
-
-    # TODO: insert next task here if points.length < 5
   end
 
   def self.merge_points_lists(samples)
