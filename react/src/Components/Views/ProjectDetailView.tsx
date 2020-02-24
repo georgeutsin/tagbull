@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import { IBoundingBox, IRect } from "../../Interfaces";
+import { IBoundingBox } from "../../Interfaces";
 import { Backend } from "../../Utils";
-import { calculateImageDimensions, calculateImageLocation } from "../../Utils/CanvasCalcs";
+import { BoundingBoxCanvas } from "../Canvases";
 import { NavBar, ProgressBarComponent } from "../UIElements";
 
-const canvasWidth = 200;
-const canvasHeight = 200;
-
+const canvasDOMRect: DOMRect = new DOMRect(0, 0, 200, 200);
 const taskTypes: { [key: string]: string; } = {
-    "bounding box": "Bounding Box With Label",
+    BoundingBoxTask: "Bounding Box Given A Label",
+    DichotomyTask: "Bounding Box and Metadata Given a Choice of Two Labels",
+    MetadataTask: "Metadata Given a Bounding Box",
+    LocatorTask: "Points Given a Label",
+    DiscreteAttributeTask: "A Label Given a Bounding Box",
 };
 
 class ProjectDetailView extends Component<any, any> {
@@ -47,87 +49,77 @@ class ProjectDetailView extends Component<any, any> {
         });
 
         Backend.getTags(this.params.projectId).then((resp: any) => {
-            const samples = resp.data.data;
-            this.setState({ tags: samples });
+            this.setState({ tags: resp.data.data });
         });
     }
 
-    public rectToCanvas(rect: IRect, imageBounds: IRect, imageWidth: number) {
-        const scale = imageWidth / imageBounds.w;
-
-        return {
-            x: imageBounds.x + rect.x / scale,
-            y: imageBounds.y + rect.y / scale,
-            w: rect.w / scale,
-            h: rect.h / scale,
-        };
+    public boundingBoxPreview(tag: any) {
+        const bb: IBoundingBox = tag.tag;
+        return <div className="tagPreviewOuter" key={tag.media.name}>
+            <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
+                <div className="tagPreviewThumb" style={{ width: canvasDOMRect.width, height: canvasDOMRect.height }}>
+                    <BoundingBoxCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={canvasDOMRect}
+                        media_url={tag.media.url}
+                        boundingBox={bb}
+                    ></BoundingBoxCanvas>
+                </div>
+            </a>
+            <div className="tagPreviewDetails">
+                <div>
+                    <h5>Label</h5>{tag.tag.category}
+                </div>
+                <div>
+                    <h5>Confidence</h5> 99%
+                    </div>
+                <div>
+                    <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
+                </div>
+            </div>
+        </div>;
     }
 
-    public rectFromBoundingBox(bb: IBoundingBox, imageDims: any) {
-        return {
-            x: bb.min_x * imageDims.width,
-            y: bb.min_y * imageDims.height,
-            w: (bb.max_x - bb.min_x) * imageDims.width,
-            h: (bb.max_y - bb.min_y) * imageDims.height,
-        };
+    public dichotomyPreview(tag: any) {
+        const bb: IBoundingBox = tag.tag.metadata[0].bounding_box;
+        const attributes = tag.tag.metadata.map((t: any) => {
+            return <div> <h5>{t.attribute_type}</h5>{t.option} </div>;
+        });
+        return <div className="tagPreviewOuter" key={tag.media.name}>
+            <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
+                <div className="tagPreviewThumb" style={{ width: canvasDOMRect.width, height: canvasDOMRect.height }}>
+                    <BoundingBoxCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={canvasDOMRect}
+                        media_url={tag.media.url}
+                        boundingBox={bb}
+                    ></BoundingBoxCanvas>
+                </div>
+            </a>
+            <div className="tagPreviewDetails">
+                <div>
+                    <h5>Category</h5>{tag.tag.metadata[0].category}
+                </div>
+                {attributes}
+                <div>
+                    <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
+                </div>
+            </div>
+        </div>;
     }
 
     public render() {
         const tags = this.state.tags.map((tag: any) => {
-            const myRef = React.createRef<HTMLCanvasElement>();
-            const canvas = <canvas height={canvasHeight} width={canvasWidth} ref={myRef}></canvas>;
-
-            const img = new Image();
-            img.src = tag.media.url;
-            img.onload = () => {
-                if (myRef.current) {
-                    const context = myRef.current.getContext("2d");
-                    if (context) {
-                        const maxDimensions = { width: canvasWidth, height: canvasHeight };
-                        const originalImageDimensions = { width: img.width, height: img.height };
-                        const imageDimensions = calculateImageDimensions(maxDimensions, originalImageDimensions);
-                        // Center the image on the canvas.
-                        const imageLocation = calculateImageLocation(maxDimensions, imageDimensions);
-                        context.drawImage(
-                            img, imageLocation.x, imageLocation.y,
-                            imageDimensions.width, imageDimensions.height);
-
-                        const imageBounds = {
-                            x: imageLocation.x,
-                            y: imageLocation.y,
-                            w: imageDimensions.width,
-                            h: imageDimensions.height,
-                        };
-
-                        context.beginPath();
-                        const tagRect = this.rectFromBoundingBox(tag.tag, originalImageDimensions);
-                        const rect = this.rectToCanvas(tagRect, imageBounds, img.width);
-                        context.rect(rect.x, rect.y, rect.w, rect.h);
-                        context.strokeStyle = "#00FF00";
-                        context.stroke();
-                        context.closePath();
-                    }
-                }
-            };
-            return <div className="tagPreviewOuter" key={tag.media.url}>
-                <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
-                    <div className="tagPreviewThumb" style={{ width: canvasWidth, height: canvasHeight }}>
-                        {canvas}
-                    </div>
-                </a>
-                <div className="tagPreviewDetails">
-                    <div>
-                        <h5>Label</h5>{tag.task.category}
-                    </div>
-                    <div>
-                        <h5>Confidence</h5> 99%
-                    </div>
-                    <div>
-                        <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
-                    </div>
-                </div>
-
-            </div>;
+            switch (tag.type) {
+                case "BoundingBoxTask":
+                    return this.boundingBoxPreview(tag);
+                case "DiscreteAttributeTask":
+                    return this.dichotomyPreview(tag);
+                default:
+                    return null;
+            }
         });
 
         return <div>
