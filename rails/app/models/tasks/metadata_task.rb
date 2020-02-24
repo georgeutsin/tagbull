@@ -11,6 +11,8 @@ class MetadataTask < ApplicationRecord
 
   def self.discrete_attribute_completed(discrete_tag)
     if discrete_tag.attribute_type == 'LabelName'
+      return if discrete_tag.specific.option == 'neither'
+
       create_aux_discrete_attribute_tasks(discrete_tag)
       return
     end

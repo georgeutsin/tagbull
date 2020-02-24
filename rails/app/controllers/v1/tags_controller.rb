@@ -41,8 +41,10 @@ class V1::TagsController < ApplicationController
   def tag_for(task)
     tag = nil
     case task.actable_type
-    when 'BoundingBoxTask', 'LocatorTask', 'DiscreteAttributeTask'
+    when 'BoundingBoxTask', 'LocatorTask'
       tag = tag_for_basic(task)
+    when 'DiscreteAttributeTask'
+      tag = tag_for_discrete_attribute(task)
     when 'DichotomyTask'
       tag = tag_for_dichotomy(task)
     when 'MetadataTask'
@@ -66,13 +68,22 @@ class V1::TagsController < ApplicationController
   end
 
   def tag_for_dichotomy(task)
-    bb_task = Task.find(actable_type: 'BoundingBoxTask', parent_id: task.id)
     metadata_task = Task.find(actable_type: 'MetadataTask', parent_id: task.id)
-    { bounding_box: tag_for_basic(bb_task), metadata: tag_for_metadata(metadata_task) }
+    { metadata: tag_for_metadata(metadata_task) }
   end
 
   def tag_for_metadata(task)
     da_tasks = Task.where(actable_type: 'DiscreteAttributeTask', parent_id: task.id)
-    Sample.find_by(task_id: da_tasks.map(&:id), is_tag: true)
+    da_tasks.map { |da_task| tag_for_discrete_attribute(da_task) }
+  end
+
+  def tag_for_discrete_attribute(task)
+    d = task.specific
+    s = Sample.find_by(task_id: task.id, is_tag: true).specific
+    {
+      'bounding_box' => { min_x: d.min_x, min_y: d.min_y, max_x: d.max_x, max_y: d.max_y },
+      'category' => d.category,
+      d.attribute_type => s.option
+    }
   end
 end
