@@ -10,10 +10,10 @@ class LocatorGenerator
 
     return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
 
-    complete(task)
+    complete(task, sample_pair)
   end
 
-  def self.complete(task)
+  def self.complete(task, sample_pair)
     tag = generate_points(task, sample_pair)
     BasicTaskEvent.create(task_id: task.id, event: 'similar')
 
