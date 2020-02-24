@@ -26,7 +26,7 @@ class V1::TagsController < ApplicationController
   def samples_for(_project_id, task_id)
     task = Task.find(id: task_id).specific
     samples = Sample.where(task_id: task_id).map(&:specific)
-    base_tag_params(task).merge({ samples: samples })
+    base_tag_params(task).merge(samples: samples)
   end
 
   def tags_filter
@@ -52,7 +52,7 @@ class V1::TagsController < ApplicationController
     else
       return json_error(message: 'unknown task type')
     end
-    base_tag_params(task).merge({ tag: tag })
+    base_tag_params(task).merge(tag: tag)
   end
   # rubocop:enable Metrics/MethodLength
 

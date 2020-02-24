@@ -54,51 +54,51 @@ class MetadataTask < ApplicationRecord
 
   def create_label_name_task
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: parent_category,
-                             options: [first, second, 'neither'],
-                             attribute_type: 'LabelName'
-                           })
+      base_arguments.merge(
+        category: parent_category,
+        options: [first, second, 'neither'],
+        attribute_type: 'LabelName'
+      )
     )
   end
 
   def create_occluded_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsOccluded'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsOccluded'
+      )
     )
   end
 
   def create_truncated_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsTruncated'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsTruncated'
+      )
     )
   end
 
   def create_depiction_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsDepiction'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsDepiction'
+      )
     )
   end
 
   def create_inside_task(discrete_tag)
     DiscreteAttributeTask.create!(
-      base_arguments.merge({
-                             category: discrete_tag.option,
-                             options: %w[yes no],
-                             attribute_type: 'IsInside'
-                           })
+      base_arguments.merge(
+        category: discrete_tag.option,
+        options: %w[yes no],
+        attribute_type: 'IsInside'
+      )
     )
   end
 
