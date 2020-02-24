@@ -1,5 +1,5 @@
 import React from "react";
-import { BoundingBoxTap, DiscreteAttribute } from "../ActivityComponents";
+import { BoundingBoxTap, DiscreteAttribute, Locator } from "../ActivityComponents";
 
 interface IActivitiesComponentState {
     taskId: number;
@@ -69,6 +69,14 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
                     notifyActivityComplete={this.completeActivity}
                     disabled={this.props.disabled}>
                 </DiscreteAttribute>;
+                break;
+            case "LocatorTask":
+                currentActivity = <Locator
+                    key={this.state.timerStart} // to re-render if time spent by user is too short
+                    activity={this.state.activity}
+                    notifyActivityComplete={this.completeActivity}
+                    disabled={this.props.disabled}>
+                </Locator>;
                 break;
             default: break;
         }
