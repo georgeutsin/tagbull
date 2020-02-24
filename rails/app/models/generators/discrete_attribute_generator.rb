@@ -18,7 +18,7 @@ class DiscreteAttributeGenerator
     tag = generate_discrete_attribute(task, sample_pair)
     BasicTaskEvent.create(task_id: task.id, event: 'similar')
 
-    return if task.parent_id.null?
+    return if task.parent_id.nil?
 
     parent_task = Task.find(task.parent_id).specific
     parent_task.discrete_attribute_completed(tag)
