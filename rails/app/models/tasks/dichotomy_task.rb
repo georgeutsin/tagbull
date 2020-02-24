@@ -96,8 +96,8 @@ class DichotomyTask < ApplicationRecord
   end
 
   def self.bounding_box_and_metadata_finished(target_count)
-    bounding_box_tags = BoundingBoxSample.where(parent_id: acting_as.id)
-    metadata_tags = Sample.where(parent_id: acting_as.id, actable_type: 'MetadataTask')
+    bounding_box_tags = BoundingBoxSample.where(parent_id: acting_as.id, is_tag: true)
+    metadata_tags = Sample.where(parent_id: acting_as.id, actable_type: 'MetadataTask', is_tag: true)
 
     return bounding_box_tags.length == target_count && metadata_tags.length == target_count
   end
