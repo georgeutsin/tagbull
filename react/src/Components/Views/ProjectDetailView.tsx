@@ -4,7 +4,7 @@ import { Backend } from "../../Utils";
 import { BoundingBoxCanvas } from "../Canvases";
 import { NavBar, ProgressBarComponent } from "../UIElements";
 
-const canvasDOMRect: DOMRect = new DOMRect(0, 0, 200, 200);
+
 const taskTypes: { [key: string]: string; } = {
     BoundingBoxTask: "Bounding Box Given A Label",
     DichotomyTask: "Bounding Box and Metadata Given a Choice of Two Labels",
@@ -15,7 +15,8 @@ const taskTypes: { [key: string]: string; } = {
 
 class ProjectDetailView extends Component<any, any> {
     private params: any;
-
+    private canvasDOMRect: DOMRect;
+    private canvasStyle: any;
     constructor(props: any) {
         super(props);
         const { match: { params } } = this.props;
@@ -30,6 +31,8 @@ class ProjectDetailView extends Component<any, any> {
             },
             tags: [],
         };
+        this.canvasDOMRect = new DOMRect(0, 0, 200, 200);
+        this.canvasStyle = { width: this.canvasDOMRect.width, height: this.canvasDOMRect.height };
     }
 
     public componentDidMount() {
@@ -57,11 +60,11 @@ class ProjectDetailView extends Component<any, any> {
         const bb: IBoundingBox = tag.tag;
         return <div className="tagPreviewOuter" key={tag.media.name}>
             <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
-                <div className="tagPreviewThumb" style={{ width: canvasDOMRect.width, height: canvasDOMRect.height }}>
+                <div className="tagPreviewThumb" style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
                         actionDims={new DOMRect()}
-                        viewDims={canvasDOMRect}
+                        viewDims={this.canvasDOMRect}
                         media_url={tag.media.url}
                         boundingBox={bb}
                     ></BoundingBoxCanvas>
@@ -88,11 +91,11 @@ class ProjectDetailView extends Component<any, any> {
         });
         return <div className="tagPreviewOuter" key={tag.media.name}>
             <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
-                <div className="tagPreviewThumb" style={{ width: canvasDOMRect.width, height: canvasDOMRect.height }}>
+                <div className="tagPreviewThumb" style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
                         actionDims={new DOMRect()}
-                        viewDims={canvasDOMRect}
+                        viewDims={this.canvasDOMRect}
                         media_url={tag.media.url}
                         boundingBox={bb}
                     ></BoundingBoxCanvas>
