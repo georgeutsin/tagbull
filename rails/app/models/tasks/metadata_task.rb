@@ -21,7 +21,7 @@ class MetadataTask < ApplicationRecord
   end
 
   def self.all_discrete_attribute_task_complete
-    d_a_tasks = Task.where(parent_id: id, actable_type: 'DiscreteAttribute')
+    d_a_tasks = Task.where(parent_id: acting_as.id, actable_type: 'DiscreteAttribute')
     tasks_complete = true
     d_a_tasks.each do |d_a_task|
       tasks_complete ||= d_a_task.state == 'complete'
