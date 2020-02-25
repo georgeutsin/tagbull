@@ -685,6 +685,15 @@ a.landing {
   animation: goodjobzoom 1s;
 }
 
+.loadingWheel {
+  background-image: url("Images/loadingWheel.svg");
+  background-repeat: no-repeat;
+  background-size: 20% 20%;
+  background-position: center center;
+  height: 100%;
+  z-index: 100;
+}
+
 .alignToBottom {
   color: white;
   position: absolute;
