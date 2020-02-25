@@ -40,7 +40,15 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         // Bindings.
         this.doneButtonClicked = this.doneButtonClicked.bind(this);
         this.resetButtonClicked = this.resetButtonClicked.bind(this);
+        this.noObjectsButtonClicked = this.noObjectsButtonClicked.bind(this);
         this.handleTapFinished = this.handleTapFinished.bind(this);
+    }
+
+    public noObjectsButtonClicked() {
+        this.props.notifyActivityComplete({
+            points: this.markers,
+        });
+        // TODO serve new task
     }
 
     public resetButtonClicked() {
@@ -87,7 +95,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
                 ref={(divElement: any) => this.activityInstruction = divElement}>
                 <BigButtonComponent
                     height={doneButtonHeight}
-                    enabled={true}
+                    enabled={this.state.finishedInput}
                     onClick={this.resetButtonClicked}
                     label={"Reset"}>
                 </BigButtonComponent>
@@ -103,6 +111,12 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             ></PointCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
+                <BigButtonComponent
+                    height={doneButtonHeight}
+                    enabled={!this.state.finishedInput}
+                    onClick={this.noObjectsButtonClicked}
+                    label={"No " + this.props.activity.config.category.toLowerCase()}>
+                </BigButtonComponent>
                 <BigButtonComponent
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}
