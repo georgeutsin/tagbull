@@ -54,7 +54,8 @@ class DichotomyTask < ApplicationRecord
         media_id: media_id,
         category: parent_category,
         x: point['x'].to_f,
-        y: point['y'].to_f
+        y: point['y'].to_f,
+        level: level + 1
       )
     end
   end
@@ -67,7 +68,8 @@ class DichotomyTask < ApplicationRecord
       parent_category: parent_category,
       first: first,
       second: second,
-      bounding_box_tag_id: bounding_box_tag.acting_as.id
+      bounding_box_tag_id: bounding_box_tag.acting_as.id,
+      level: level + 2
     )
   end
 
