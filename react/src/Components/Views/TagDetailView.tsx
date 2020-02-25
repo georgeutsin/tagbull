@@ -122,7 +122,7 @@ class TagDetailView extends Component<any, any> {
         return <div>
             <NavBar isPortal>
                 <li>
-                    <a href="/about">Settings</a>
+                    <a href="/about">About Us</a>
                 </li>
             </NavBar>
             <div className="pageWrapper" style={{ minHeight: "100vh" }}>
