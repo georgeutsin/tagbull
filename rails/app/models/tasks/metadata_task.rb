@@ -12,7 +12,7 @@ class MetadataTask < ApplicationRecord
   def discrete_attribute_completed(discrete_tag)
     task = Task.find(discrete_tag.task_id)
     if task.specific.attribute_type == 'LabelName'
-      return if discrete_tag.specific.option == 'neither'
+      return create_metadata_tag if discrete_tag.specific.option == 'neither'
 
       create_aux_discrete_attribute_tasks(discrete_tag)
       return
