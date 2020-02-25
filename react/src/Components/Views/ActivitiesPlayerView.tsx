@@ -76,7 +76,7 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
                 waitingOnPost: false,
             });
         } else {
-            this.postSample(data, () => this.updateActivityCounter);
+            this.postSample(data, () => this.updateActivityCounter());
         }
     }
 
