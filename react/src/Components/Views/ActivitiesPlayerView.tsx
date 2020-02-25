@@ -7,6 +7,7 @@ import ActivitiesComponent from "./ActivitiesComponent";
 enum PlayerViewStage {
     ACTIVITIES = 0,
     COMPLETE = 1,
+    NOTASK = 2,
 }
 
 interface IActivitiesPlayerViewState {
@@ -67,27 +68,38 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
     }
 
     public doneActivity(data: any) {
-        this.postSample(data, () => {
-            let counter = this.state.completedActivityCounter;
-
-            // Increment the counter if we haven't finished the last planned activity yet.
-            // This has the side effect of unmounting and remounting the ActivitiesComponent
-            // since the component takes the counter as the key prop.
-            if (this.state.completedActivityCounter < this.state.numActivities) {
-                counter += 1;
-            }
-
-            let stage = this.state.currentStage;
-            if (counter === this.state.numActivities) {
-                stage = PlayerViewStage.COMPLETE;
-            }
-
+        if (data.no_task_found) {
             this.setState({
-                progressIndicator: this.state.progressIndicator + 1,
-                completedActivityCounter: counter,
-                currentStage: stage,
+                progressIndicator: this.state.numActivities + 1,
+                completedActivityCounter: this.state.numActivities,
+                currentStage: PlayerViewStage.NOTASK,
                 waitingOnPost: false,
             });
+        } else {
+            this.postSample(data, () => this.updateActivityCounter());
+        }
+    }
+
+    public updateActivityCounter() {
+        let counter = this.state.completedActivityCounter;
+
+        // Increment the counter if we haven't finished the last planned activity yet.
+        // This has the side effect of unmounting and remounting the ActivitiesComponent
+        // since the component takes the counter as the key prop.
+        if (this.state.completedActivityCounter < this.state.numActivities) {
+            counter += 1;
+        }
+
+        let stage = this.state.currentStage;
+        if (counter === this.state.numActivities) {
+            stage = PlayerViewStage.COMPLETE;
+        }
+
+        this.setState({
+            progressIndicator: this.state.progressIndicator + 1,
+            completedActivityCounter: counter,
+            currentStage: stage,
+            waitingOnPost: false,
         });
     }
 

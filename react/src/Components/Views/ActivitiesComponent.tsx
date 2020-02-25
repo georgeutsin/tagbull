@@ -94,6 +94,12 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
     private getActivity() {
         this.props.activityPromise().then((response: { data: any; }) => {
             const activity = response.data.data;
+            if (activity.task_id == null) {
+                this.props.doneActivityCallback({
+                    no_task_found: true,
+                });
+                return;
+            }
             this.setState({
                 taskId: activity.task_id,
                 activity,
