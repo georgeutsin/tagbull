@@ -25,28 +25,25 @@ class LocatorGenerator
 
   def self.compare_points_lists(sample1, sample2, _threshold)
     # TODO: add complexity to points list comparison
-    JSON.parse(sample1.points).length == JSON.parse(sample2.points).length
+    sample1.points.length == sample2.points.length
   end
 
   def self.generate_points(task, samples)
     points = merge_points_lists(samples)
     LocatorSample.create!({
-      points: points.to_json
+      points: points
     }.merge(TagGenerator.generated_sample_params(task)))
   end
 
   def self.merge_points_lists(samples)
-    points1 = JSON.parse(samples[0].points)
-    points1 = sort_by_x_then_y(points1)
-
-    points2 = JSON.parse(samples[1].points)
-    points2 = sort_by_x_then_y(points2)
+    points1 = sort_by_x_then_y(samples[0].points)
+    points2 = sort_by_x_then_y(samples[1].points)
 
     average_points_lists(points1, points2)
   end
 
   def self.sort_by_x_then_y(points)
-    points.sort_by { |e| [e['x'], e['y']] }
+    points.sort_by { |e| [e['x'].to_f, e['y'].to_f] }
   end
 
   def self.average_points_lists(points1, points2)

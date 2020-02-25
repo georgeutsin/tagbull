@@ -125,18 +125,18 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     }
 
     public handleStart(evt: any) {
-        this.draw();
         this.props.handleStartCB(evt);
+        this.draw();
     }
 
     public handleMove(evt: any) {
-        this.draw();
         this.props.handleMoveCB(evt);
+        this.draw();
     }
 
     public handleEnd(evt: any) {
-        this.draw();
         this.props.handleEndCB(evt);
+        this.draw();
     }
 
     public updateCanvasDims() {

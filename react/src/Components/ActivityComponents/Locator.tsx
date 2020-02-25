@@ -28,7 +28,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         // Don't call this.setState() here!
         this.state = {
             finishedInput: false,
-            currentStage: 0,
+            currentStage: 1,
         };
 
         this.markers = [];
@@ -43,7 +43,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
     }
 
     public resetButtonClicked() {
-        this.markers = [];
+        this.markers.length = 0;
         this.setState({ currentStage: 1, finishedInput: false });
     }
 

@@ -11,10 +11,10 @@ class AttrUtils
   end
 
   def self.average_hash(attr, item1, item2)
-    (item1[attr] + item2[attr]) / 2
+    (item1[attr].to_f + item2[attr].to_f) / 2
   end
 
   def self.abs_diff_hash(attr, item1, item2)
-    (item1[attr] - item2[attr]).abs
+    (item1[attr].to_f - item2[attr].to_f).abs
   end
 end

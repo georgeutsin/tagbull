@@ -219,7 +219,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         drawActiveImageOverlay(ctx, rect, canvasRect, this.image);
         this.drawHelperLines(ctx, canvasRect);
 
-        if (this.props.targetPoint && this.props.targetPoint !== null) {
+        if (this.props.targetPoint && this.props.targetPoint !== null && this.props.targetPoint.x !== null) {
             drawMarker(ctx, this.props.targetPoint, this.imageBounds);
         }
     }
