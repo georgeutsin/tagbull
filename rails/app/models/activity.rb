@@ -89,6 +89,7 @@ class Activity
 
   def tasks_ordering
     <<-SQL
+      tasks.level DESC,
       CASE
         WHEN basic_task_states.state = 'start' THEN 0
         WHEN basic_task_states.state = 'sampling' THEN 1

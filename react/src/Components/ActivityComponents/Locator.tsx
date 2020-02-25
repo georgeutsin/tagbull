@@ -84,7 +84,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const question =
             <div className="question runSlideIn">
-                Please tap all occurences of a {category}
+                Please tap all occurrences of a {category}
                 <HelpButtonComponent>
                     Tap the center of a {category} as accurately as possible.
 

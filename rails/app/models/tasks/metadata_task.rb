@@ -58,7 +58,8 @@ class MetadataTask < ApplicationRecord
       base_arguments.merge(
         category: parent_category,
         options: [first, second, 'neither'],
-        attribute_type: 'LabelName'
+        attribute_type: 'LabelName',
+        level: level + 1
       )
     )
   end
@@ -68,7 +69,8 @@ class MetadataTask < ApplicationRecord
       base_arguments.merge(
         category: discrete_tag.specific.option,
         options: %w[yes no],
-        attribute_type: 'IsOccluded'
+        attribute_type: 'IsOccluded',
+        level: level + 2
       )
     )
   end
@@ -78,7 +80,8 @@ class MetadataTask < ApplicationRecord
       base_arguments.merge(
         category: discrete_tag.specific.option,
         options: %w[yes no],
-        attribute_type: 'IsTruncated'
+        attribute_type: 'IsTruncated',
+        level: level + 2
       )
     )
   end
@@ -88,7 +91,8 @@ class MetadataTask < ApplicationRecord
       base_arguments.merge(
         category: discrete_tag.specific.option,
         options: %w[yes no],
-        attribute_type: 'IsDepiction'
+        attribute_type: 'IsDepiction',
+        level: level + 2
       )
     )
   end
@@ -98,7 +102,8 @@ class MetadataTask < ApplicationRecord
       base_arguments.merge(
         category: discrete_tag.specific.option,
         options: %w[yes no],
-        attribute_type: 'IsInside'
+        attribute_type: 'IsInside',
+        level: level + 2
       )
     )
   end

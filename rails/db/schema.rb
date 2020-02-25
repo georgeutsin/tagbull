@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_24_221159) do
+ActiveRecord::Schema.define(version: 2020_02_25_202931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2020_02_24_221159) do
     t.bigint "actable_id"
     t.bigint "media_id"
     t.bigint "parent_id"
+    t.integer "level", default: 1
     t.index ["actable_type", "actable_id"], name: "index_tasks_on_actable_type_and_actable_id"
     t.index ["media_id"], name: "index_tasks_on_media_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
