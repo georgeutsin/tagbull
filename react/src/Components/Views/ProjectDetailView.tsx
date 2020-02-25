@@ -85,7 +85,6 @@ class ProjectDetailView extends Component<any, any> {
     }
 
     public dichotomyPreview(tag: any) {
-        console.log(tag);
         const bb: IBoundingBox = tag.tag.metadata[0].bounding_box;
         const attributes = tag.tag.metadata.map((t: any) => {
             return <div> <h5>{t.attribute_type}</h5>{t.option} </div>;

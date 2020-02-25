@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { IBoundingBox, IRect } from "../../Interfaces";
+import { IBoundingBox } from "../../Interfaces";
 import { Backend } from "../../Utils";
-import { calculateImageDimensions, calculateImageLocation } from "../../Utils/CanvasCalcs";
+import { BoundingBoxCanvas } from "../Canvases";
 import { NavBar } from "../UIElements";
-
-const canvasWidth = 200;
-const canvasHeight = 200;
 
 class TagDetailView extends Component<any, any> {
     private params: any;
+    private canvasDOMRect: DOMRect;
+    private canvasStyle: any;
 
     constructor(props: any) {
         super(props);
@@ -25,6 +24,8 @@ class TagDetailView extends Component<any, any> {
                 samples: [],
             },
         };
+        this.canvasDOMRect = new DOMRect(0, 0, 200, 200);
+        this.canvasStyle = { width: this.canvasDOMRect.width, height: this.canvasDOMRect.height };
     }
 
     public componentDidMount() {
@@ -43,80 +44,42 @@ class TagDetailView extends Component<any, any> {
         });
     }
 
-    public rectToCanvas(rect: IRect, imageBounds: IRect, imageWidth: number) {
-        const scale = imageWidth / imageBounds.w;
+    public boundingBoxPreview(sample: any) {
+        const bb: IBoundingBox = sample.sample;
+        return <div className="tagPreviewOuter" key={sample.media.name}>
 
-        return {
-            x: imageBounds.x + rect.x / scale,
-            y: imageBounds.y + rect.y / scale,
-            w: rect.w / scale,
-            h: rect.h / scale,
-        };
-    }
+            <div className="tagPreviewThumb" style={this.canvasStyle}>
+                <BoundingBoxCanvas
+                    instructionDims={new DOMRect()}
+                    actionDims={new DOMRect()}
+                    viewDims={this.canvasDOMRect}
+                    media_url={sample.media.url}
+                    boundingBox={bb}
+                ></BoundingBoxCanvas>
+            </div>
 
-    public rectFromBoundingBox(bb: IBoundingBox, imageDims: any) {
-        return {
-            x: bb.min_x * imageDims.width,
-            y: bb.min_y * imageDims.height,
-            w: (bb.max_x - bb.min_x) * imageDims.width,
-            h: (bb.max_y - bb.min_y) * imageDims.height,
-        };
+            <div className="tagPreviewDetails">
+                <div>
+                    <h5>Label</h5>{sample.task.category}
+                </div>
+                <div>
+                    <h5>Confidence</h5> 99%
+                    </div>
+                <div>
+                    <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
+                </div>
+            </div>
+        </div>;
     }
 
     public render() {
         const samples = this.state.task.samples.map((sample: any) => {
-            const myRef = React.createRef<HTMLCanvasElement>();
-            const canvas = <canvas height={canvasHeight} width={canvasWidth} ref={myRef}></canvas>;
-
-            const img = new Image();
-            img.src = this.state.task.media.url;
-            img.onload = () => {
-                if (myRef.current) {
-                    const context = myRef.current.getContext("2d");
-                    if (context) {
-                        const maxDimensions = { width: canvasWidth, height: canvasHeight };
-                        const originalImageDimensions = { width: img.width, height: img.height };
-                        const imageDimensions = calculateImageDimensions(maxDimensions, originalImageDimensions);
-                        // Center the image on the canvas.
-                        const imageLocation = calculateImageLocation(maxDimensions, imageDimensions);
-                        context.drawImage(
-                            img, imageLocation.x, imageLocation.y,
-                            imageDimensions.width, imageDimensions.height);
-
-                        const imageBounds = {
-                            x: imageLocation.x,
-                            y: imageLocation.y,
-                            w: imageDimensions.width,
-                            h: imageDimensions.height,
-                        };
-
-                        context.beginPath();
-                        const tagRect = this.rectFromBoundingBox(sample, originalImageDimensions);
-                        const rect = this.rectToCanvas(tagRect, imageBounds, img.width);
-                        context.rect(rect.x, rect.y, rect.w, rect.h);
-                        context.strokeStyle = "#00FF00";
-                        context.stroke();
-                        context.closePath();
-                    }
-                }
-            };
-            return <div className="tagPreviewOuter" key={this.state.task.media.url}>
-                <div className="tagPreviewThumb" style={{ width: canvasWidth, height: canvasHeight }}>
-                    {canvas}
-                </div>
-                <div className="tagPreviewDetails">
-                    <div>
-                        <h5>Actor</h5>{sample.actor_id}
-                    </div>
-                    <div>
-                        <h5>Time Elapsed</h5> {sample.time_elapsed / 1000 + "s"}
-                    </div>
-                    <div>
-                        <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
-                    </div>
-                </div>
-
-            </div>;
+            switch (sample.type) {
+                case "BoundingBoxTask":
+                    return this.boundingBoxPreview(sample);
+                default:
+                    return null;
+            }
         });
 
         return <div>
