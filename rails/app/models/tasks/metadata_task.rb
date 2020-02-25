@@ -10,7 +10,8 @@ class MetadataTask < ApplicationRecord
   end
 
   def discrete_attribute_completed(discrete_tag)
-    if discrete_tag.attribute_type == 'LabelName'
+    task = Task.find(discrete_tag.task_id)
+    if task.specific.attribute_type == 'LabelName'
       return if discrete_tag.specific.option == 'neither'
 
       create_aux_discrete_attribute_tasks(discrete_tag)
@@ -23,10 +24,10 @@ class MetadataTask < ApplicationRecord
   end
 
   def all_discrete_attribute_tasks_complete
-    d_a_tasks = Task.where(parent_id: acting_as.id, actable_type: 'DiscreteAttribute')
+    d_a_tasks = Task.where(parent_id: acting_as.id, actable_type: 'DiscreteAttributeTask')
     tasks_complete = true
     d_a_tasks.each do |d_a_task|
-      tasks_complete ||= d_a_task.state == 'complete'
+      tasks_complete &&= d_a_task.state == 'complete'
     end
 
     tasks_complete
@@ -65,7 +66,7 @@ class MetadataTask < ApplicationRecord
   def create_occluded_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge(
-        category: discrete_tag.option,
+        category: discrete_tag.specific.option,
         options: %w[yes no],
         attribute_type: 'IsOccluded'
       )
@@ -75,7 +76,7 @@ class MetadataTask < ApplicationRecord
   def create_truncated_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge(
-        category: discrete_tag.option,
+        category: discrete_tag.specific.option,
         options: %w[yes no],
         attribute_type: 'IsTruncated'
       )
@@ -85,7 +86,7 @@ class MetadataTask < ApplicationRecord
   def create_depiction_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge(
-        category: discrete_tag.option,
+        category: discrete_tag.specific.option,
         options: %w[yes no],
         attribute_type: 'IsDepiction'
       )
@@ -95,7 +96,7 @@ class MetadataTask < ApplicationRecord
   def create_inside_task(discrete_tag)
     DiscreteAttributeTask.create!(
       base_arguments.merge(
-        category: discrete_tag.option,
+        category: discrete_tag.specific.option,
         options: %w[yes no],
         attribute_type: 'IsInside'
       )

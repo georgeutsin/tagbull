@@ -7,7 +7,7 @@ class DiscreteAttributeGenerator
 
     comparison_func = ->(s1, s2, _d) { compare_options(s1, s2) }
     # TODO: decide if pair is best approach for discrete attributes
-    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
+    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, 0)
 
     return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
 

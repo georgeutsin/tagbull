@@ -10,6 +10,6 @@ class Project < ApplicationRecord
   end
 
   def completed_tasks
-    Task.joins(:sample).where('project_id = ? AND samples.is_tag', id).count
+    Task.left_joins(:sample).where('project_id = ? AND samples.is_tag', id).count
   end
 end
