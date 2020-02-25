@@ -39,7 +39,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
 
     public doneButtonClicked() {
         this.props.notifyActivityComplete({
-            // TODO georgeutsin: update this after backend is figured out
+            option: this.state.selectedLabel,
         });
     }
 

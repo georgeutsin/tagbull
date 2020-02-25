@@ -86,15 +86,18 @@ class DichotomyTask < ApplicationRecord
   end
 
   def all_subtasks_finished
-    locator_tag = LocatorSample.find(parent_id: acting_as.id)
+    locator_task = Task.where(parent_id: acting_as.id, actable_type: 'LocatorTask').first
+    locator_tag = LocatorSample.where(task_id: locator_task.id, is_tag: true).first
     return false unless locator_tag
 
     bounding_box_and_metadata_finished(locator_tag.points.length)
   end
 
   def bounding_box_and_metadata_finished(target_count)
-    bounding_box_tags = BoundingBoxSample.where(parent_id: acting_as.id, is_tag: true)
-    metadata_tags = Sample.where(parent_id: acting_as.id, actable_type: 'MetadataTask', is_tag: true)
+    bounding_box_tasks = Task.where(parent_id: acting_as.id, actable_type: 'BoundingBoxTask')
+    bounding_box_tags = BoundingBoxSample.where(task_id: bounding_box_tasks.map(&:id), is_tag: true)
+    metadata_tasks = Task.where(parent_id: acting_as.id, actable_type: 'MetadataTask')
+    metadata_tags = Sample.where(task_id: metadata_tasks.map(&:id), is_tag: true, actable_type: 'MetadataTask')
 
     bounding_box_tags.length == target_count && metadata_tags.length == target_count
   end

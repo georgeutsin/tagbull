@@ -68,7 +68,7 @@ class V1::TagsController < ApplicationController
   end
 
   def tag_for_dichotomy(task)
-    metadata_task = Task.find(actable_type: 'MetadataTask', parent_id: task.id)
+    metadata_task = Task.where(actable_type: 'MetadataTask', parent_id: task.id).first
     { metadata: tag_for_metadata(metadata_task) }
   end
 

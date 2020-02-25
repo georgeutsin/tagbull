@@ -39,6 +39,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
 
         // Bindings.
         this.doneButtonClicked = this.doneButtonClicked.bind(this);
+        this.resetButtonClicked = this.resetButtonClicked.bind(this);
         this.handleTapFinished = this.handleTapFinished.bind(this);
     }
 

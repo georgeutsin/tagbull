@@ -57,10 +57,12 @@ class Activity
         attribute_type: discrete_attr.attribute_type,
         category: discrete_attr.category,
         options: discrete_attr.options,
-        min_x: discrete_attr.min_x,
-        max_x: discrete_attr.max_x,
-        min_y: discrete_attr.min_y,
-        max_y: discrete_attr.max_y
+        bounding_box: {
+          min_x: discrete_attr.min_x,
+          max_x: discrete_attr.max_x,
+          min_y: discrete_attr.min_y,
+          max_y: discrete_attr.max_y
+        }
       }
     end
   end
