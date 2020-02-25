@@ -23,10 +23,19 @@ class V1::TagsController < ApplicationController
         end
   end
 
-  def samples_for(_project_id, task_id)
-    task = Task.find(id: task_id).specific
-    samples = Sample.where(task_id: task_id).map(&:specific)
+  def samples_for(project_id, task_id)
+    task = Task.find(task_id)
+    children = recursive_child_samples(task).flatten
+    samples = Sample.joins(:task)
+                    .where(tasks: { project_id: project_id, id: children })
+                    .order('samples.created_at ASC')
+                    .map(&:additional_info)
     base_tag_params(task).merge(samples: samples)
+  end
+
+  def recursive_child_samples(task)
+    child_ids = Task.where(parent_id: task.id).map { |t| recursive_child_samples(t) }
+    [task.id] + child_ids
   end
 
   def tags_filter

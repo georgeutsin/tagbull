@@ -11,3 +11,4 @@ export { default as ActivityAction } from "./ActivityAction";
 export { default as ActivityInstruction } from "./ActivityInstruction";
 export { default as NavBar } from "./NavBar";
 export { default as MultipleOptionsComponent } from "./MultipleOptionsComponent";
+export { default as SamplePreview } from "./SamplePreview";
