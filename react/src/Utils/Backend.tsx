@@ -71,9 +71,21 @@ class RemoteBackend implements IBackend {
 // tslint:disable-next-line: max-classes-per-file
 class MockBackend implements IBackend {
     private bbActivityResp: any;
+    private locatorActivityResp: any;
     private discreteAttrActivityResp: any;
 
     constructor() {
+        this.locatorActivityResp = {
+            data: {
+                new_actor: false,
+                task_id: 52,
+                type: "LocatorTask",
+                config: {
+                    media_url: "https://lh3.googleusercontent.com/q0wbpyLn6ycBkjElBjKsyC4mnjU_-RzK4n9cok4HC1fESjYMvph_rDwKoLM6V2vRG-40s92JNg=s0",
+                    category: "television",
+                },
+            },
+        };
         this.bbActivityResp = {
             data: {
                 new_actor: false,
@@ -119,7 +131,7 @@ class MockBackend implements IBackend {
     }
 
     public getActivity(deviceId: string): any {
-        const resp = { data: this.bbActivityResp };
+        const resp = { data: this.locatorActivityResp };
         // const resp = { data: this.discreteAttrActivityResp };
         return this.promiseOf(resp);
     }
