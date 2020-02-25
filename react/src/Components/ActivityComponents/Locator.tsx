@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
 import { IPoint } from "../../Interfaces";
 import { PointCreationCanvas } from "../Canvases";
-import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../UIElements";
+import {
+    ActivityAction,
+    ActivityActionButtonComponent,
+    ActivityInstruction,
+    BigButtonComponent,
+    HelpButtonComponent,
+} from "../UIElements";
+import "./Locator.css";
 
 interface ILocatorState {
     currentStage: number;
@@ -86,20 +93,14 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             </div>;
 
         const doneButtonHeight = 70;
-
+        const actionButtonLabel = this.state.finishedInput ?
+            "Reset" : "No " + this.props.activity.config.category.toLowerCase()
         return <div
             style={{ height: "100%", width: "100%" }}
             ref={(divElement) => this.view = divElement}
             id="view">
             <ActivityInstruction
                 ref={(divElement: any) => this.activityInstruction = divElement}>
-                <BigButtonComponent
-                    height={doneButtonHeight}
-                    enabled={this.state.finishedInput}
-                    onClick={this.resetButtonClicked}
-                    label={"Reset"}>
-                </BigButtonComponent>
-                <br></br>
                 {question}
             </ActivityInstruction>
             <PointCreationCanvas
@@ -111,12 +112,14 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             ></PointCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
-                <BigButtonComponent
-                    height={doneButtonHeight}
-                    enabled={!this.state.finishedInput}
-                    onClick={this.noObjectsButtonClicked}
-                    label={"No " + this.props.activity.config.category.toLowerCase()}>
-                </BigButtonComponent>
+                <div className="multipleActionsContainer">
+                    <ActivityActionButtonComponent
+                        width={"49%"}
+                        enabled={true}
+                        onClick={this.state.finishedInput ? this.resetButtonClicked : this.noObjectsButtonClicked}
+                        label={actionButtonLabel}>
+                    </ActivityActionButtonComponent>
+                </div>
                 <BigButtonComponent
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}

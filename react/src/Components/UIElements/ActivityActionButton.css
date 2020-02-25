@@ -1,0 +1,36 @@
+.activityActionButton {
+    display: inline-block;
+    margin: auto;
+}
+
+.activityActionButton button {
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #333;
+    color: white;
+    height: 3em;
+    width: calc(100% - 20px);
+    border: none;
+    border-radius: 5px;
+    line-height: 56px;
+    font-size: 1.2em;
+    font-family: "Heebo";
+    font-weight: 600;
+    margin: 10px 10px;
+}
+
+.activityActionButton button:hover {
+    cursor: pointer;
+    background-color: #444;
+}
+
+.disabled button {
+    color: rgb(200, 200, 200);
+    background-color: rgba(215, 215, 215, 0.8);
+    border: none;
+}
+
+.disabled button:hover {
+    background-color: rgba(215, 215, 215, 0.8);
+    cursor: not-allowed;
+}
