@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
 import { IPoint } from "../../Interfaces";
 import { PointCreationCanvas } from "../Canvases";
-import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent, ActivityActionButtonComponent } from "../UIElements";
+import {
+    ActivityAction,
+    ActivityActionButtonComponent,
+    ActivityInstruction,
+    BigButtonComponent,
+    HelpButtonComponent,
+} from "../UIElements";
 import "./Locator.css";
 
 interface ILocatorState {
