@@ -10,7 +10,6 @@ import {
 interface IBaseCanvasState {
     windowWidth: number;
     image?: HTMLImageElement;
-    loading: boolean;
 }
 
 interface IBaseCanvasProps {
@@ -40,7 +39,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         // Don't call this.setState() here!
         this.state = {
             windowWidth: window.innerWidth,
-            loading : true,
+            image: undefined,
         };
 
         const image = new Image();
@@ -48,7 +47,6 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         image.onload = () => {
             this.setState({
                 image,
-                loading : false,
             }, () => {
                 this.updateImageBounds();
             });
@@ -175,16 +173,16 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     public render() {
         this.updateCanvasDims();
 
-        return <div style={{width: `${this.canvasWidth}px`, height: `${this.canvasHeight}px`}}>
-            {this.state.loading && <div className="loadingWheel"/>}
+        return <div style={{ width: this.canvasWidth, height: this.canvasHeight }}>
+            {this.state.image === undefined && <div className="loadingWheel"></div>}
             <canvas
                 className="tagbullCanvas"
                 ref={this.canvasRef}
                 width={this.canvasWidth}
                 height={this.canvasHeight}>
-                    Your browser does not support canvas element.
+                Your browser does not support canvas element.
             </canvas>
-            </div>;
+        </div>;
     }
 }
 

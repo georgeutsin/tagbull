@@ -122,12 +122,18 @@ class MockBackend implements IBackend {
         };
     }
 
-    public promiseOf(resp: any) {
-        const promise = new Promise((resolve) => {
+    public promiseOf(resp: any, delay?: number) {
+        if (delay) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(resp);
+                }, delay);
+            });
+        }
+
+        return new Promise((resolve) => {
             resolve(resp);
         });
-
-        return promise;
     }
 
     public getActivity(deviceId: string): any {

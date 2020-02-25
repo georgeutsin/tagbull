@@ -82,6 +82,7 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
         }
 
         return <div style={{ height: "100%" }}>
+            {currentActivity === null && <div className="loadingWheel"></div>}
             {currentActivity}
         </div>;
     }
