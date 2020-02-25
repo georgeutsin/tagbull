@@ -4,7 +4,7 @@ require 'test_helper'
 
 class SamplesControllerTest < ActionDispatch::IntegrationTest
   test 'should create bounding box sample' do
-    p = Project.create!
+    p = Project.create!(name: 'test')
     t = BoundingBoxTask.create!(project: p)
     V1::SamplesController.any_instance.stubs(:maybe_generate_tag).returns(false)
 
@@ -26,7 +26,7 @@ class SamplesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create locator sample' do
-    p = Project.create!
+    p = Project.create!(name: 'test')
     t = LocatorTask.create!(project: p)
     V1::SamplesController.any_instance.stubs(:maybe_generate_tag).returns(false)
 
@@ -38,14 +38,14 @@ class SamplesControllerTest < ActionDispatch::IntegrationTest
              actor_sig: '123',
              time_elapsed: 2000,
              data: {
-               points: [{ x: 0.1, y: 0.2 }].to_json
+               points: [{ x: 0.1, y: 0.2 }]
              }
            }
     end
   end
 
   test 'should create discrete attr sample' do
-    p = Project.create!
+    p = Project.create!(name: 'test')
     t = DiscreteAttributeTask.create!(project: p)
     V1::SamplesController.any_instance.stubs(:maybe_generate_tag).returns(false)
 

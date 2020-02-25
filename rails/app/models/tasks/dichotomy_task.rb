@@ -22,11 +22,9 @@ class DichotomyTask < ApplicationRecord
   end
 
   def locator_completed(locator_tag)
-    points = JSON.parse(locator_tag.points)
+    return if locator_tag.points.length >= 5
 
-    return if points.length >= 5
-
-    create_bounding_box_tasks(points)
+    create_bounding_box_tasks(locator_tag.points)
   end
 
   def bounding_box_completed(bounding_box_tag)
@@ -55,8 +53,8 @@ class DichotomyTask < ApplicationRecord
         project_id: project_id,
         media_id: media_id,
         category: parent_category,
-        x: point['x'],
-        y: point['y']
+        x: point['x'].to_f,
+        y: point['y'].to_f
       )
     end
   end
@@ -91,8 +89,7 @@ class DichotomyTask < ApplicationRecord
     locator_tag = LocatorSample.find(parent_id: acting_as.id)
     return false unless locator_tag
 
-    points = JSON.parse(locator_tag.points)
-    bounding_box_and_metadata_finished(points.length)
+    bounding_box_and_metadata_finished(locator_tag.points.length)
   end
 
   def bounding_box_and_metadata_finished(target_count)

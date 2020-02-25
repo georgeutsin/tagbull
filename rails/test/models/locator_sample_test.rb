@@ -11,14 +11,14 @@ class LocatorSampleTest < ActiveSupport::TestCase
 
   test 'should not save locator sample with bad points' do
     sample = LocatorSample.new
-    sample.points = [{ x: 1.5, y: 0.2 }].to_json
+    sample.points = [{ x: 1.5, y: 0.2 }]
     assert_not sample.save
     assert_not sample.errors[:points].empty?
   end
 
   test 'should save locator sample with good points' do
     sample = LocatorSample.new
-    sample.points = [{ x: 0.5, y: 0.2 }, { x: 0.3, y: 0.1 }].to_json
+    sample.points = [{ x: 0.5, y: 0.2 }, { x: 0.3, y: 0.1 }]
     sample.save
     assert sample.errors[:points].empty?
   end

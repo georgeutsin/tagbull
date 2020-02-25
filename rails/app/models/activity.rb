@@ -36,7 +36,11 @@ class Activity
 
       self.config = {
         media_url: Medium.find(task.media_id).url,
-        category: bb.category
+        category: bb.category,
+        target_point: {
+          x: bb.x,
+          y: bb.y
+        }
       }
     when LocatorTask
       locator = task.specific
@@ -72,7 +76,10 @@ class Activity
 
   def tasks_filter
     <<-SQL
-      (basic_task_states.state = 'start' OR basic_task_states.state = 'sampling')
+      (tasks.actable_type = 'BoundingBoxTask'
+        OR tasks.actable_type = 'LocatorTask'
+        OR tasks.actable_type = 'DiscreteAttributeTask')
+      AND (basic_task_states.state = 'start' OR basic_task_states.state = 'sampling')
       AND (tasks.pending_timestamp IS NULL OR NOW() > tasks.pending_timestamp + (1 * INTERVAL '1 minute') )
       AND NOT EXISTS(SELECT 1 FROM samples WHERE samples.actor_id = ? AND samples.task_id = tasks.id)
     SQL
