@@ -72,7 +72,7 @@ class ProjectDetailView extends Component<any, any> {
             </a>
             <div className="tagPreviewDetails">
                 <div>
-                    <h5>Label</h5>{tag.tag.category}
+                    <h5>Category</h5>{tag.task.category}
                 </div>
             </div>
         </div>;
