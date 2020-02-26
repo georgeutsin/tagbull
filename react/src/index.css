@@ -644,6 +644,7 @@ a.landing {
     width: 80%;
     background-color: white;
     border-radius: 10px;
+    padding: 10px;
 }
 
 .closeButton {

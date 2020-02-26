@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import BigButtonComponent from "./BigButtonComponent";
 
 interface IHelpButtonState {
     visible: boolean;
@@ -31,11 +32,15 @@ class HelpButtonComponent extends Component<{}, IHelpButtonState> {
     public render() {
         let helpWindow = null;
         if (this.state.visible) {
-            helpWindow = <div className="both-center helpWindow">
-                <div style={{overflow: "hidden"}}>
-                    <span className="closeButton" onClick={this.closeButton}>x</span>
+            helpWindow = <div className="goodJobBackground">
+                <div className="both-center helpWindow">
+                    <div style={{ overflow: "hidden" }}>
+                        <span className="closeButton" onClick={this.closeButton}>
+                            <b>x</b>
+                        </span>
+                    </div>
+                    {this.props.children}
                 </div>
-                {this.props.children}
             </div>;
         }
 
