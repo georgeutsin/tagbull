@@ -30,7 +30,7 @@ class CompletionComponent extends Component<any, any> {
         const rand = Math.floor(Math.random() * Math.floor(completionTexts.length - 1)); ;
         return <div className="fullscreenOverlay">
             <div className="vertical-center">
-                <div style={{ padding: 10 }}>
+                <div style={{ padding: 10 }} className="runSlideIn">
                     <h1 className="completion">
                         {completionTexts[rand]}
                     </h1>
