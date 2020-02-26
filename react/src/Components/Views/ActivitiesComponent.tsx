@@ -13,6 +13,12 @@ interface IActivitiesComponentProps {
     disabled: boolean;
 }
 
+const activityDelay: { [key: string]: number; } = {
+    BoundingBoxTask: 3000,
+    LocatorTask: 1700,
+    DiscreteAttributeTask: 1700,
+};
+
 class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IActivitiesComponentState> {
     constructor(props: any) {
         super(props);
@@ -38,8 +44,7 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
     public completeActivity(sample: any) {
         // End time elapsed timer
         const timeElapsed = +new Date() - this.state.timerStart;
-        const timedTask = this.state.activity.type === "BoundingBoxTask";
-        if (timedTask && timeElapsed < 3000) {
+        if (timeElapsed < activityDelay[this.state.activity.type]) {
             this.reset();
             return;
         }
@@ -56,7 +61,6 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
         switch (this.state.activity.type) {
             case "BoundingBoxTask":
                 currentActivity = <BoundingBoxTap
-                    key={this.state.timerStart} // to re-render if time spent by user is too short
                     activity={this.state.activity}
                     notifyActivityComplete={this.completeActivity}
                     disabled={this.props.disabled}>
@@ -64,7 +68,6 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
                 break;
             case "DiscreteAttributeTask":
                 currentActivity = <DiscreteAttribute
-                    key={this.state.timerStart} // to re-render if time spent by user is too short
                     activity={this.state.activity}
                     notifyActivityComplete={this.completeActivity}
                     disabled={this.props.disabled}>
@@ -72,7 +75,6 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
                 break;
             case "LocatorTask":
                 currentActivity = <Locator
-                    key={this.state.timerStart} // to re-render if time spent by user is too short
                     activity={this.state.activity}
                     notifyActivityComplete={this.completeActivity}
                     disabled={this.props.disabled}>
@@ -87,7 +89,8 @@ class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IAc
     }
 
     private reset() {
-        alert("That doesn't look quite right. Please try again :)");
+        alert("Wow that was fast! Take a moment to review your submission to be extra sure :)");
+        // alert is blocking
         this.setState({ timerStart: +new Date() });
     }
 
