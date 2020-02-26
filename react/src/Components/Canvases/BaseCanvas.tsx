@@ -36,6 +36,12 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     constructor(props: any) {
         super(props);
 
+        // Don't call this.setState() here!
+        this.state = {
+            windowWidth: window.innerWidth,
+            image: undefined,
+        };
+
         const image = new Image();
         image.src = this.props.media_url;
         image.onload = () => {
@@ -44,10 +50,6 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             }, () => {
                 this.updateImageBounds();
             });
-        };
-        // Don't call this.setState() here!
-        this.state = {
-            windowWidth: window.innerWidth,
         };
 
         this.ctx = null;
@@ -170,13 +172,17 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
 
     public render() {
         this.updateCanvasDims();
-        return <canvas
-            className="tagbullCanvas"
-            ref={this.canvasRef}
-            width={this.canvasWidth}
-            height={this.canvasHeight}>
-            Your browser does not support canvas element.
-            </canvas>;
+
+        return <div style={{ width: this.canvasWidth, height: this.canvasHeight }}>
+            {this.state.image === undefined && <div className="loadingWheel"></div>}
+            <canvas
+                className="tagbullCanvas"
+                ref={this.canvasRef}
+                width={this.canvasWidth}
+                height={this.canvasHeight}>
+                Your browser does not support canvas element.
+            </canvas>
+        </div>;
     }
 }
 
