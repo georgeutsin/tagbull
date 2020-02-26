@@ -74,43 +74,37 @@ class ProjectDetailView extends Component<any, any> {
                 <div>
                     <h5>Label</h5>{tag.tag.category}
                 </div>
-                <div>
-                    <h5>Confidence</h5> 99%
-                    </div>
-                <div>
-                    <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
-                </div>
             </div>
         </div>;
     }
 
     public dichotomyPreview(tag: any) {
-        const bb: IBoundingBox = tag.tag.metadata[0].bounding_box;
-        const attributes = tag.tag.metadata.map((t: any) => {
-            return <div> <h5>{t.attribute_type}</h5>{t.option} </div>;
+        return tag.tag.metadata.map((m: any) => {
+            const bb: IBoundingBox = m.bounding_box;
+            const attributes = m.attributes.map((t: any) => {
+                return <div> {t.attribute_type}-{t.option} </div>;
+            });
+            return <div className="tagPreviewOuter" key={tag.media.name}>
+                <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
+                    <div className="tagPreviewThumb" style={this.canvasStyle}>
+                        <BoundingBoxCanvas
+                            instructionDims={new DOMRect()}
+                            actionDims={new DOMRect()}
+                            viewDims={this.canvasDOMRect}
+                            media_url={tag.media.url}
+                            boundingBox={bb}
+                        ></BoundingBoxCanvas>
+                    </div>
+                </a>
+                <div className="tagPreviewDetails">
+                    <div>
+                        <h5>Category</h5>{m.category}
+                    </div>
+                    <div> <h5>METADATA</h5>{attributes} </div>
+                </div>
+            </div>;
         });
-        return <div className="tagPreviewOuter" key={tag.media.name}>
-            <a href={`/projects/${this.state.project.id}/tags/${tag.task.id}`}>
-                <div className="tagPreviewThumb" style={this.canvasStyle}>
-                    <BoundingBoxCanvas
-                        instructionDims={new DOMRect()}
-                        actionDims={new DOMRect()}
-                        viewDims={this.canvasDOMRect}
-                        media_url={tag.media.url}
-                        boundingBox={bb}
-                    ></BoundingBoxCanvas>
-                </div>
-            </a>
-            <div className="tagPreviewDetails">
-                <div>
-                    <h5>Category</h5>{tag.tag.metadata[0].category}
-                </div>
-                {attributes}
-                <div>
-                    <button>✓</button><button style={{ color: "#a81414" }}>✗</button>
-                </div>
-            </div>
-        </div>;
+
     }
 
     public render() {

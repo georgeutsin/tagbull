@@ -23,7 +23,8 @@ class DichotomyTask < ApplicationRecord
 
   def locator_completed(locator_tag)
     return if locator_tag.points.length >= 5
-    return create_dichotomy_tag if locator_tag.points.length == 0
+    return create_dichotomy_tag if locator_tag.points.empty?
+
     create_bounding_box_tasks(locator_tag.points)
   end
 

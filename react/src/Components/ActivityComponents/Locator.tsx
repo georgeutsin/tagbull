@@ -94,7 +94,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
 
         const doneButtonHeight = 70;
         const actionButtonLabel = this.state.finishedInput ?
-            "Reset" : "No " + this.props.activity.config.category.toLowerCase()
+            "Reset" : "No " + this.props.activity.config.category.toLowerCase();
         return <div
             style={{ height: "100%", width: "100%" }}
             ref={(divElement) => this.view = divElement}

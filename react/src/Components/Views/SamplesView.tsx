@@ -60,7 +60,7 @@ class SamplesView extends Component<any, any> {
                     <div className="projectSection">
                         <h2>Samples</h2>
                     </div>
-                    <div className="tagPreviews">
+                    <div className="tagPreviews" style={{display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
                         {samples}
                     </div>
                 </div>
