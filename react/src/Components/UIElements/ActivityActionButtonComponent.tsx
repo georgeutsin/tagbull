@@ -5,7 +5,7 @@ interface IActionButtonProps {
     enabled: boolean;
     onClick: any;
     label: string;
-    width: any;
+    width?: any;
 }
 
 class ActivityActionButtonComponent extends Component<IActionButtonProps, any> {
@@ -23,7 +23,8 @@ class ActivityActionButtonComponent extends Component<IActionButtonProps, any> {
         if (!this.props.enabled) {
             className += " disabled";
         }
-        return <div className={className} style={{ width: this.props.width || "99%" }}>
+        const style = this.props.width ? { width: this.props.width } : undefined;
+        return <div className={className} style={style}>
             <button
                 disabled={!this.props.enabled}
                 onClick={this.handleClick}>

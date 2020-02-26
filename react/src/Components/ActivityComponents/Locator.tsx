@@ -94,7 +94,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
 
         const doneButtonHeight = 70;
         const actionButtonLabel = this.state.finishedInput ?
-            "Reset" : "No " + this.props.activity.config.category.toLowerCase();
+            "Reset" : "No " + this.props.activity.config.category.toLowerCase().replace(" and ", " or ");
         return <div
             style={{ height: "100%", width: "100%" }}
             ref={(divElement) => this.view = divElement}
@@ -114,7 +114,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
                 ref={(divElement: any) => this.activityAction = divElement}>
                 <div className="multipleActionsContainer">
                     <ActivityActionButtonComponent
-                        width={"49%"}
+                        width={undefined}
                         enabled={true}
                         onClick={this.state.finishedInput ? this.resetButtonClicked : this.noObjectsButtonClicked}
                         label={actionButtonLabel}>

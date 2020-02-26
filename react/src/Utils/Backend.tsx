@@ -99,7 +99,7 @@ class MockBackend implements IBackend {
                 type: "LocatorTask",
                 config: {
                     media_url: "https://lh3.googleusercontent.com/q0wbpyLn6ycBkjElBjKsyC4mnjU_-RzK4n9cok4HC1fESjYMvph_rDwKoLM6V2vRG-40s92JNg=s0",
-                    category: "television",
+                    category: "donuts and bagels",
                 },
             },
         };
@@ -155,8 +155,8 @@ class MockBackend implements IBackend {
 
     public getActivity(deviceId: string): any {
         // const resp = { data: this.locatorActivityResp };
+        const resp = { data: this.locatorActivityResp };
         // const resp = { data: this.bbActivityResp };
-        const resp = { data: this.noActivityResp };
         // const resp = { data: this.discreteAttrActivityResp };
         return this.promiseOf(resp);
     }
@@ -242,6 +242,6 @@ function getBackend(type: string): IBackend {
     }
 }
 
-const BackendLocation = "prod"; // CHANGE THIS LINE TO CHANGE THE BACKEND
+const BackendLocation = "mock"; // CHANGE THIS LINE TO CHANGE THE BACKEND
 const Backend = getBackend(BackendLocation);
 export { Backend, BackendLocation };
