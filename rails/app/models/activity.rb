@@ -12,7 +12,7 @@ class Activity
     self.new_actor = actor.new_record?
 
     ActiveRecord::Base.transaction do
-      task = next_task(actor.id)
+      task = Activity.next_task(actor.id)
       return unless task
 
       task.update!(pending_timestamp: DateTime.now)
@@ -69,15 +69,16 @@ class Activity
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
-  def next_task(actor_id)
+  def self.next_task(actor_id)
     Task.joins('INNER JOIN basic_task_states ON basic_task_states.id = tasks.id', :project)
         .where(tasks_filter, actor_id)
         .order(tasks_ordering)
         .first
   end
 
-  def tasks_filter
+  def self.tasks_filter
     <<-SQL
+      projects.paused = FALSE AND
       (tasks.actable_type = 'BoundingBoxTask'
         OR tasks.actable_type = 'LocatorTask'
         OR tasks.actable_type = 'DiscreteAttributeTask')
@@ -87,7 +88,7 @@ class Activity
     SQL
   end
 
-  def tasks_ordering
+  def self.tasks_ordering
     <<-SQL
       tasks.level DESC,
       CASE

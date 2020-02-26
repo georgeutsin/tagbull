@@ -15,4 +15,18 @@ class V1::ProjectsController < ApplicationController
   def create
     json_response(Project.create!(name: params[:name]))
   end
+
+  def pause
+    project = Project.find(params[:project_id])
+    project.paused = true
+    project.save
+    json_response(project)
+  end
+
+  def resume
+    project = Project.find(params[:project_id])
+    project.paused = false
+    project.save
+    json_response(project)
+  end
 end
