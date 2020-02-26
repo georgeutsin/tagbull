@@ -28,31 +28,51 @@ class ProjectDetailView extends Component<any, any> {
                 progress: 0,
                 task_type: "",
                 status: "In Progress",
+                paused: false,
             },
             tags: [],
         };
         this.canvasDOMRect = new DOMRect(0, 0, 200, 200);
         this.canvasStyle = { width: this.canvasDOMRect.width, height: this.canvasDOMRect.height };
+        this.pauseButtonClicked = this.pauseButtonClicked.bind(this);
     }
 
     public componentDidMount() {
         Backend.getProject(this.params.projectId).then((resp: any) => {
-            const project = resp.data.data;
-            const d = new Date(project.created_at.replace(" ", "T"));
-            this.setState({
-                project: {
-                    name: project.name,
-                    id: project.id,
-                    progress: project.completed_tasks * 100 / project.num_tasks,
-                    task_type: taskTypes[project.task_type],
-                    created_at: d.toLocaleString("en-us", { month: "long" })
-                        + " " + d.getDate() + ", " + d.getFullYear(),
-                },
-            });
+            this.setProjectState(resp);
         });
 
         Backend.getTags(this.params.projectId).then((resp: any) => {
             this.setState({ tags: resp.data.data });
+        });
+    }
+
+    public pauseButtonClicked() {
+        if (this.state.project.paused) {
+            Backend.postResumeProject(this.params.projectId).then((resp: any) => {
+                this.setProjectState(resp);
+            });
+        } else {
+            Backend.postPauseProject(this.params.projectId).then((resp: any) => {
+                this.setProjectState(resp);
+            });
+        }
+    }
+
+    public setProjectState(resp: any) {
+        const project = resp.data.data;
+        const d = new Date(project.created_at.replace(" ", "T"));
+        this.setState({
+            project: {
+                name: project.name,
+                id: project.id,
+                paused: project.paused,
+                status: project.paused ? "Paused" : "In Progress",
+                progress: project.completed_tasks * 100 / project.num_tasks,
+                task_type: taskTypes[project.task_type],
+                created_at: d.toLocaleString("en-us", { month: "long" })
+                    + " " + d.getDate() + ", " + d.getFullYear(),
+            },
         });
     }
 
@@ -119,6 +139,7 @@ class ProjectDetailView extends Component<any, any> {
             }
         });
 
+        const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
         return <div>
             <NavBar isPortal>
                 <li>
@@ -142,6 +163,7 @@ class ProjectDetailView extends Component<any, any> {
                         <div className="projectDetails">
                             <div className="thirds">
                                 <h5>Created At</h5> {this.state.project.created_at}
+                                <h5>Status</h5> {this.state.project.status}
                             </div>
                             <div className="thirds">
                                 <h5>Progress</h5>
@@ -153,6 +175,7 @@ class ProjectDetailView extends Component<any, any> {
                                 <a href={`/projects/${this.params.projectId}/samples`}>
                                     <button>View Raw Samples</button>
                                 </a>
+                                <button onClick={this.pauseButtonClicked}>{pauseButtonLabel}</button>
                             </div>
                             <div style={{ clear: "both" }}></div>
                         </div>

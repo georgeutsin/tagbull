@@ -12,6 +12,8 @@ interface IBackend {
     postProject(data: any): any;
     patchProject(projectId: number, data: any): any;
     postMedia(projectId: number, data: any): any;
+    postPauseProject(projectId: number): any;
+    postResumeProject(projectId: number): any;
 }
 
 class RemoteBackend implements IBackend {
@@ -65,6 +67,14 @@ class RemoteBackend implements IBackend {
                 "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
             },
         });
+    }
+
+    public postPauseProject(projectId: number): any {
+        return axios.post(this.base + `/projects/${projectId}/pause`);
+    }
+
+    public postResumeProject(projectId: number): any {
+        return axios.post(this.base + `/projects/${projectId}/resume`);
     }
 }
 
@@ -193,6 +203,16 @@ class MockBackend implements IBackend {
 
     public postMedia(projectId: number, data: any): any {
         // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public postPauseProject(projectId: number): any {
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public postResumeProject(projectId: number): any {
         const resp = {};
         return this.promiseOf(resp);
     }
