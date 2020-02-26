@@ -77,13 +77,29 @@ class V1::TagsController < ApplicationController
   end
 
   def tag_for_dichotomy(task)
-    metadata_task = Task.where(actable_type: 'MetadataTask', parent_id: task.id).first
-    { metadata: tag_for_metadata(metadata_task) }
+    metadata_tasks = Task.where(actable_type: 'MetadataTask', parent_id: task.id)
+    { metadata: metadata_tasks.map { |t| tag_for_metadata(t) } }
   end
 
   def tag_for_metadata(task)
     da_tasks = Task.where(actable_type: 'DiscreteAttributeTask', parent_id: task.id)
-    da_tasks.map { |da_task| tag_for_discrete_attribute(da_task) }
+    d = da_tasks.first.specific
+    attributes = da_tasks.map { |t| lightweight_tag_for_discrete_attribute(t) }
+
+    {
+      bounding_box: { min_x: d.min_x, min_y: d.min_y, max_x: d.max_x, max_y: d.max_y },
+      category: d.category,
+      attributes: attributes
+    }
+  end
+
+  def lightweight_tag_for_discrete_attribute(task)
+    d = task.specific
+    s = Sample.find_by(task_id: task.id, is_tag: true).specific
+    {
+      attribute_type: d.attribute_type,
+      option: s.option
+    }
   end
 
   def tag_for_discrete_attribute(task)

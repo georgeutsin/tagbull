@@ -84,9 +84,9 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const question =
             <div className="question runSlideIn">
-                Please tap all occurrences of a {category}
+                Please tap on all the {category}
                 <HelpButtonComponent>
-                    Tap the center of a {category} as accurately as possible.
+                    Tap the center of the {category} as accurately as possible.
 
                     You may tap Reset to remove all markers.
                 </HelpButtonComponent>
@@ -94,7 +94,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
 
         const doneButtonHeight = 70;
         const actionButtonLabel = this.state.finishedInput ?
-            "Reset" : "No " + this.props.activity.config.category.toLowerCase()
+            "Reset" : "No " + this.props.activity.config.category.toLowerCase();
         return <div
             style={{ height: "100%", width: "100%" }}
             ref={(divElement) => this.view = divElement}

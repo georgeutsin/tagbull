@@ -11,7 +11,9 @@ import {
     BaseCanvas,
     drawActiveImageOverlay,
     drawBlackOverlay,
+    drawHorizontalLine,
     drawMarker,
+    drawVerticalLine,
 } from "../Canvases";
 
 interface IBoundingBoxCreationCanvasState {
@@ -161,47 +163,25 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         }
     }
 
-    public drawVerticalLine(x: number, ctx: CanvasRenderingContext2D) {
-        const bounds = this.imageBounds;
-        if (ctx && x !== bounds.x && x !== bounds.x + bounds.w) {
-            ctx.strokeStyle = "#DDDDDD";
-            ctx.beginPath();
-            ctx.moveTo(x, bounds.y);
-            ctx.lineTo(x, bounds.y + bounds.h);
-            ctx.stroke();
-        }
-    }
-
-    public drawHorizontalLine(y: number, ctx: CanvasRenderingContext2D) {
-        const bounds = this.imageBounds;
-        if (ctx && y !== bounds.y && y !== bounds.y + bounds.h) {
-            ctx.strokeStyle = "#DDDDDD";
-            ctx.beginPath();
-            ctx.moveTo(bounds.x, y);
-            ctx.lineTo(bounds.x + bounds.w, y);
-            ctx.stroke();
-        }
-    }
-
     public drawHelperLines(ctx: CanvasRenderingContext2D, rect: IRect) {
         switch (this.state.currentStage) {
             case 0: // Leftmost
-                this.drawVerticalLine(rect.x, ctx);
+                drawVerticalLine(ctx, rect.x, this.imageBounds);
                 break;
             case 1: // Topmost
-                this.drawHorizontalLine(rect.y, ctx);
+                drawHorizontalLine(ctx, rect.y, this.imageBounds);
                 break;
             case 2: // Rightmost
-                this.drawVerticalLine(rect.x + rect.w, ctx);
+                drawVerticalLine(ctx, rect.x + rect.w, this.imageBounds);
                 break;
             case 3: // Bottommost
-                this.drawHorizontalLine(rect.y + rect.h, ctx);
+                drawHorizontalLine(ctx, rect.y + rect.h, this.imageBounds);
                 break;
             case 4:
-                this.drawVerticalLine(rect.x, ctx);
-                this.drawHorizontalLine(rect.y, ctx);
-                this.drawVerticalLine(rect.x + rect.w, ctx);
-                this.drawHorizontalLine(rect.y + rect.h, ctx);
+                drawVerticalLine(ctx, rect.x, this.imageBounds);
+                drawHorizontalLine(ctx, rect.y, this.imageBounds);
+                drawVerticalLine(ctx, rect.x + rect.w, this.imageBounds);
+                drawHorizontalLine(ctx, rect.y + rect.h, this.imageBounds);
                 break;
             default:
                 break;
