@@ -38,8 +38,12 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
     }
 
     public doneButtonClicked() {
+        let label = this.state.selectedLabel;
+        if (this.props.activity.config.attribute_type === "IsDepiction") {
+            label = label === "yes" ? "no" : "yes";
+        }
         this.props.notifyActivityComplete({
-            option: this.state.selectedLabel,
+            option: label,
         });
     }
 
