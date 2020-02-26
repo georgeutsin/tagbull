@@ -18,5 +18,5 @@ entrypoint: bundle exec rails server -u Puma -e production -p $PORT
 instance_class: F2
 
 beta_settings:
-  cloud_sql_instances: "tagbull-prod:us-central1:tagbull-rails-production"
+  cloud_sql_instances: "tagbull-prod:us-central1:tagbull-rails-prod"
 # [END gae_standard_quickstart_yaml]

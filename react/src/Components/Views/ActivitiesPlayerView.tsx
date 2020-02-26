@@ -114,9 +114,7 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
         return <div style={{ height: "100%" }}>
             <ProgressBarComponent
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
-                <div className="cancelActivities" onClick={this.cancel}>
-                    Cancel
-                </div>
+                {completeComponent === null && <div className="cancelActivities" onClick={this.cancel}>Cancel</div>}
             </ProgressBarComponent>
             <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                 {!completeComponent && <ActivitiesComponent
@@ -125,7 +123,7 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
                     activityPromise={this.activitySource}
                     disabled={this.state.completedActivityCounter >= this.state.numActivities
                         || this.state.waitingOnPost}>
-                </ActivitiesComponent> }
+                </ActivitiesComponent>}
             </div>
             {completeComponent}
 

@@ -83,8 +83,15 @@ class MockBackend implements IBackend {
     private bbActivityResp: any;
     private locatorActivityResp: any;
     private discreteAttrActivityResp: any;
+    private noActivityResp: any;
 
     constructor() {
+        this.noActivityResp = {
+            data: {
+                new_actor: false,
+                task_id: null,
+            },
+        };
         this.locatorActivityResp = {
             data: {
                 new_actor: false,
@@ -148,7 +155,8 @@ class MockBackend implements IBackend {
 
     public getActivity(deviceId: string): any {
         // const resp = { data: this.locatorActivityResp };
-        const resp = { data: this.bbActivityResp };
+        // const resp = { data: this.bbActivityResp };
+        const resp = { data: this.noActivityResp };
         // const resp = { data: this.discreteAttrActivityResp };
         return this.promiseOf(resp);
     }
