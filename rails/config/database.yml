@@ -81,6 +81,6 @@ test:
 production:
   <<: *default
   database: tagbull_rails_production
-  username: tagbull_rails
+  username: tagbull_rails_production
   password: password
-  host: "/cloudsql/tagbull-prod:us-central1:tagbull-rails-production"
+  host: "/cloudsql/tagbull-prod:us-central1:tagbull-rails-prod"

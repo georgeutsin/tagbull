@@ -676,6 +676,15 @@ a.landing {
   z-index: 100;
 }
 
+.fullscreenOverlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
 .goodJob {
   background-image: url("Images/goodjob.svg");
   background-repeat: no-repeat;
