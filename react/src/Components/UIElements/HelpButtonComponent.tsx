@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import BigButtonComponent from "./BigButtonComponent";
 
 interface IHelpButtonState {
     visible: boolean;
@@ -47,9 +46,9 @@ class HelpButtonComponent extends Component<{}, IHelpButtonState> {
         return (
             <span>
                 <div className="help">
-                    <span className="helpButton" onClick={this.helpButton}>
+                    <button className="helpButton" onClick={this.helpButton}>
                         ?
-                    </span>
+                    </button>
                 </div>
                 {helpWindow}
             </span>

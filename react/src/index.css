@@ -1,49 +1,47 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400,900');
 @import url('https://fonts.googleapis.com/css?family=Heebo:900&display=swap');
 /* Universal reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
 }
-sup {font-size:xx-small; vertical-align:super;}
+
+sup {
+  font-size: xx-small;
+  vertical-align: super;
+}
+
 body {
-	line-height: 1;
+  line-height: 1;
 }
+
 ol, ul {
-	list-style: none;
+  list-style: none;
 }
+
 blockquote, q {
-	quotes: none;
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none;
 }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /* BEGIN STYLES */
@@ -60,7 +58,8 @@ body, html {
 }
 
 #root, .fs {
-  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+  height: 100vh;
+  /* Fallback for browsers that do not support Custom Properties */
   min-height: calc(var(--vh, 1vh) * 100);
   height: 100%;
 }
@@ -84,7 +83,6 @@ button {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -274,27 +272,30 @@ button:focus {
 }
 
 /* Rotate first bar */
+
 .menuOpen .bar1 {
-  -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
-  transform: rotate(-45deg) translate(-9px, 6px) ;
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
 }
 
 /* Fade out the second bar */
+
 .menuOpen .bar2 {
   opacity: 0;
 }
 
 /* Rotate last bar */
+
 .menuOpen .bar3 {
-  -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
-  transform: rotate(45deg) translate(-8px, -8px) ;
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
 }
 
 /* Hide the link that should open and close the topnav on small screens */
+
 .menuBar .burgerContainer {
   display: none;
 }
-
 
 .menuBar {
   position: fixed;
@@ -304,7 +305,7 @@ button:focus {
   background-color: white;
   z-index: 10;
   width: 100%;
-  overflow: auto;  
+  overflow: auto;
 }
 
 .menuBar.landing {
@@ -346,7 +347,7 @@ a.landing {
   display: inline-block;
 }
 
-.menuBar li:nth-last-child(2){
+.menuBar li:nth-last-child(2) {
   padding-right: 0px;
 }
 
@@ -466,6 +467,7 @@ a.landing {
 }
 
 /* DROPDOWN INPUT */
+
 .dropdownInputContainer {
   position: relative;
   width: 100%;
@@ -498,7 +500,7 @@ a.landing {
   padding: 8px 16px;
   font-size: 1.5em;
   border: 1px solid transparent;
-  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent; 
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
   user-select: none;
 }
 
@@ -617,6 +619,10 @@ a.landing {
 }
 
 .help {
+  display: inline-block;
+}
+
+.help button {
   width: 1.5em;
   height: 1.5em;
   font-size: 0.5em;
@@ -624,14 +630,14 @@ a.landing {
   margin-left: 10px;
   text-align: center;
   border-radius: 50%;
-  vertical-align:top;
+  vertical-align: top;
   background-color: #ddd;
   color: white;
 }
 
 .helpButton {
-    vertical-align: sub;
-    user-select: none;
+  vertical-align: sub;
+  user-select: none;
 }
 
 .help:hover {
@@ -640,36 +646,33 @@ a.landing {
 }
 
 .helpWindow {
-    height: 80%;
-    width: 80%;
-    background-color: white;
-    border-radius: 10px;
-    padding: 10px;
+  height: 80%;
+  width: 80%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .closeButton {
-    float: right;
-    right: 0;
-    padding-right: 10px;
-    user-select: none;
+  float: right;
+  right: 0;
+  padding-right: 10px;
+  user-select: none;
 }
 
-@keyframes goodjobzoom
-{
-  0%
-  {
-    transform: scale( .01 );
+@keyframes goodjobzoom {
+  0% {
+    transform: scale( .01);
   }
-  100%
-  {
-    transform: scale( 1 );
+  100% {
+    transform: scale( 1);
   }
 }
 
 .goodJobBackground {
   background-color: #00000073;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -943,13 +946,15 @@ textarea:focus {
 }
 
 .tagPreviewThumb {
- display: inline-block;
- margin: auto; /* vertically center */
- padding-right: 20px;
+  display: inline-block;
+  margin: auto;
+  /* vertically center */
+  padding-right: 20px;
 }
 
 .tagPreviewDetails {
-  margin: auto; /* vertically center */
+  margin: auto;
+  /* vertically center */
   font-size: 1.2em;
   line-height: 1.2em;
   color: #444;
@@ -980,6 +985,7 @@ textarea:focus {
   font-size: 1em;
   line-height: 0.5em;
 }
+
 .tagPreviewDetails button:hover {
   cursor: pointer;
   background-color: #efefef;
@@ -1018,7 +1024,6 @@ textarea:focus {
   cursor: pointer;
   background-color: #efefef;
 }
-
 
 .disabledButton {
   color: rgb(200, 200, 200);
@@ -1129,7 +1134,6 @@ header h1 {
   color: white;
 }
 
-
 .greenGradient {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#32ff5f+0,00ffc3+100 */
   background: #32ff5f;
@@ -1161,8 +1165,6 @@ header h1 {
 .blueGradientDarker {
   background: #00f8be;
   /* Old browsers */
-
-
 }
 
 .blueGradientText {
@@ -1374,12 +1376,12 @@ header h1 {
 }
 
 /* slideIn Animations */
+
 @keyframes slidein {
   from {
     opacity: 0;
     transform: translateY(-50px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0px);
@@ -1391,7 +1393,6 @@ header h1 {
     opacity: 0;
     -moz-transform: translateY(-50px);
   }
-
   to {
     opacity: 1;
     -moz-transform: translateY(0px);
@@ -1403,7 +1404,6 @@ header h1 {
     opacity: 0;
     -webkit-transform: translateY(-50px);
   }
-
   to {
     opacity: 1;
     -webkit-transform: translateY(0px);
@@ -1415,7 +1415,6 @@ header h1 {
     opacity: 0;
     -ms-transform: translateY(-50px);
   }
-
   to {
     opacity: 1;
     -ms-transform: translateY(0px);
@@ -1459,14 +1458,18 @@ header h1 {
 }
 
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+
 @media screen and (max-width: 600px) {
-  .menuBar li {display: none;}
+  .menuBar li {
+    display: none;
+  }
   .menuBar .burgerContainer {
     display: block;
   }
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+
 @media screen and (max-width: 600px) {
   .menuBar .burgerContainer {
     position: absolute;
@@ -1480,7 +1483,6 @@ header h1 {
     float: none;
     display: block;
   }
-
   .menuBar.menuOpen li {
     float: none;
     display: block;
