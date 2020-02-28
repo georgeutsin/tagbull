@@ -43,7 +43,7 @@ class DichotomyTask < ApplicationRecord
       parent_id: acting_as.id,
       project_id: project_id,
       media_id: media_id,
-      category: first.pluralize + " and " + second.pluralize
+      category: first.pluralize + ' and ' + second.pluralize
     )
   end
 
