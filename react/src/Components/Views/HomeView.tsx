@@ -1,8 +1,7 @@
 import React, { Component } from "react";
+import play from "../../Images/play-button.svg";
 import { FooterComponent, NavBar } from "../UIElements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
-// import play from "../Images/play-button.svg";
-// import { validate } from "@babel/types";
 
 const scrollToRef = (ref: any) => window.scrollTo({ top: ref.current.offsetTop - 76, behavior: "smooth" });
 
@@ -70,10 +69,10 @@ class HomeView extends Component<any, any> {
                 <li>
                     <a href="/about">About Us</a>
                 </li>
-                {/* <li>
+                <li>
                     <span style={{ borderRadius: "2px", backgroundColor: "#6600ff", padding: "10px", color: "white" }}
                         onClick={this.openDemo}>Try Our Demo</span>
-                </li> */}
+                </li>
             </NavBar>
 
             <div style={{ height: "100vh", width: "100%", background: "white" }}>
@@ -237,7 +236,7 @@ class HomeView extends Component<any, any> {
                                 the amount of interaction necessary in generating a label.<br /><br />
 
                             </div>
-                            {/* <div
+                            <div
                                 className="responsiveHalf"
                                 style={{ height: "400px", textAlign: "center" }}>
                                 <div className="vertical-center purpleGradient" style={
@@ -258,7 +257,7 @@ class HomeView extends Component<any, any> {
                                     <span style={{ fontSize: "1.9em", lineHeight: "1.2em" }}>Try Our Demo
                                     <br /><img src={play} alt="Play" style={{ width: "80px" }} /></span>
                                 </div>
-                            </div> */}
+                            </div>
 
                             <div style={{ clear: "both" }}></div>
 
