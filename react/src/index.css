@@ -622,7 +622,7 @@ a.landing {
   display: inline-block;
 }
 
-.help button {
+.help div {
   width: 1.5em;
   height: 1.5em;
   font-size: 0.5em;
@@ -630,14 +630,15 @@ a.landing {
   margin-left: 10px;
   text-align: center;
   border-radius: 50%;
-  vertical-align: top;
-  background-color: #ddd;
+  vertical-align: super;
+  background-color: rgb(185, 185, 185);
   color: white;
+  font-weight: bolder;
 }
 
 .helpButton {
-  vertical-align: sub;
   user-select: none;
+  bottom: 0;
 }
 
 .help:hover {
@@ -1517,6 +1518,5 @@ header h1 {
   }
   .tagbullCanvas {
     float: right;
-    width: 50%;
   }
 }

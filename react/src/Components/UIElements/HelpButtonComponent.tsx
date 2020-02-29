@@ -46,9 +46,9 @@ class HelpButtonComponent extends Component<{}, IHelpButtonState> {
         return (
             <span>
                 <div className="help">
-                    <button className="helpButton" onClick={this.helpButton}>
-                        ?
-                    </button>
+                    <div className="helpButton" onClick={this.helpButton}>
+                        <span style={{verticalAlign: "sub"}}>?</span>
+                    </div>
                 </div>
                 {helpWindow}
             </span>
