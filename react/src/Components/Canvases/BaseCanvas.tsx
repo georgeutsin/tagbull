@@ -173,7 +173,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     public render() {
         this.updateCanvasDims();
 
-        return <div style={{ width: this.canvasWidth, height: this.canvasHeight }}>
+        return <div className="tagbullCanvas" style={{ width: this.canvasWidth, height: this.canvasHeight }}>
             {this.state.image === undefined && <div className="loadingWheel"></div>}
             <canvas
                 className="tagbullCanvas"
