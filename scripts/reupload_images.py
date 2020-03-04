@@ -53,7 +53,7 @@ def main(args):
     outfile_name = "{}_{}".format(prefix, os.path.basename(csv_file))
 
     with open(outfile_name, "w") as outfile:
-        writer = csv.DictWriter(outfile, fieldnames=["name", "url"])
+        writer = csv.DictWriter(outfile, fieldnames=["ImageID", "OriginalURL"])
         writer.writeheader()
         
         total_entries = len(entries)
@@ -67,10 +67,11 @@ def main(args):
                     img.save(compressed, format="JPEG", quality=65, optimize=True)
                     compressed_size = compressed.getbuffer().nbytes
                     new_name = make_name(prefix, filename)
-                    entry["url"] = upload_file(bucket, new_name, compressed)
+                    new_url = upload_file(bucket, new_name, compressed)
                     print("Uploaded image {}/{}: {} ({}B original, {}B compressed, {:.2f}% ratio)".format(i+1, total_entries, entry["name"], original_size, compressed_size, 100 * compressed_size / original_size), file=sys.stderr)
 
-                writer.writerow(entry)
+                # Preserve column names so this CSV can be used in place of the original CSV
+                writer.writerow({"ImageID": entry["name"], "OriginalURL": new_url)
             except Exception:
                 print("Failed to reupload {} at url {}".format(entry["name"], filename), file=sys.stderr)
 
