@@ -7,6 +7,13 @@ class Sample < ApplicationRecord
   belongs_to :task
   belongs_to :actor
 
+  attribute :actor_sig
+
+  def actor_sig
+    return "GENERATED" if actor_id == 0
+    Actor.find(actor_id).actor_sig.split("-").first
+  end
+
   def additional_info
     task = Task.where(id: task_id).first
     type = task.actable_type

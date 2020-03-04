@@ -102,7 +102,8 @@ class V1::SamplesController < ApplicationController
   def all_samples(project_id)
     Sample.joins(:task)
           .where('tasks.project_id = ?', project_id)
-          .order('samples.created_at ASC')
+          .order('samples.created_at DESC')
+          .limit(50)
           .map(&:additional_info)
   end
 end
