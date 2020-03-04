@@ -17,11 +17,11 @@ function getActorSig(base: string): string {
     const N = 30;
     // tslint:disable-next-line: max-line-length
     const randId = base + platformString() + "-" + Array(N + 1).join((Math.random().toString(36) + "00000000000000000").slice(2, 18)).slice(0, N);
-    let queryDeviceId = localStorage.getItem("deviceID");
+    let queryDeviceId = localStorage.getItem("device_id");
     queryDeviceId = queryDeviceId || randId;
 
     if (queryDeviceId === randId) {
-        localStorage.setItem("deviceID", queryDeviceId);
+        localStorage.setItem("device_id", queryDeviceId);
     }
 
     return queryDeviceId;
