@@ -9,6 +9,7 @@ export {
     windowTouchToCanvasCoords,
     touchToImageCoords,
     isTouchInBounds,
+    isPointInBounds,
     rectToCanvasCoords,
     rectFromBoundingBoxAndImage,
 } from './CanvasCalcs';
