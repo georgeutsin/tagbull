@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { IBoundingBox, IPoint, IRect } from "../../Interfaces";
 import {
+    isPointInBounds,
     isTouchInBounds,
     rectFromBoundingBoxAndImage,
     rectToCanvasCoords,
@@ -87,6 +88,10 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         this.normalizeObjBounds();
         if (this.touchStage !== -1) {
             this.touchStage = -1;
+            if (this.props.targetPoint && !isPointInBounds(this.props.targetPoint, this.boundingBox)) {
+                alert(this.alertMessage());
+                return;
+            }
             let nextStage = this.state.currentStage;
             if (this.state.currentStage < this.numberOfStages) {
                 nextStage += 1;
@@ -98,6 +103,31 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
                 this.props.notifyTapComplete(this.boundingBox, this.state.currentStage);
             });
         }
+    }
+
+    public alertMessage() {
+        let part = "";
+        let location = "";
+        switch (this.state.currentStage) {
+            case 0:
+                part = "left";
+                location = "to the left";
+                break;
+            case 1:
+                part = "top";
+                location = "above";
+                break;
+            case 2:
+                part = "right";
+                location = "to the right";
+                break;
+            case 3:
+            default:
+                part = "bottom";
+                location = "below";
+                break;
+        }
+        return `The ${part}most part should be ${location} the target, thanks :)`;
     }
 
     public setImage(imageBounds: IRect, image?: HTMLImageElement) {

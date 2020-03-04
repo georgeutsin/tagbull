@@ -54,6 +54,13 @@ function isTouchInBounds(touch: any, rect: IRect) {
         touch.y <= rect.y + rect.h;
 }
 
+function isPointInBounds(point: any, bb: IBoundingBox) {
+    return point.x >= bb.min_x &&
+        point.x <= bb.max_x &&
+        point.y >= bb.min_y &&
+        point.y <= bb.max_y;
+}
+
 function rectToCanvasCoords(rect: IRect, imageBounds: IRect, image?: HTMLImageElement) {
     if (image) {
         const scale = image.width / imageBounds.w;
@@ -88,6 +95,7 @@ export {
     windowTouchToCanvasCoords,
     touchToImageCoords,
     isTouchInBounds,
+    isPointInBounds,
     rectToCanvasCoords,
     rectFromBoundingBoxAndImage,
 };
