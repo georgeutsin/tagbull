@@ -55,6 +55,11 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
         }));
     }
 
+    public componentDidCatch(error: any, info: any) {
+        this.setState({ completedActivityCounter: this.state.completedActivityCounter + 1 });
+        // TODO: call backend with error
+    }
+
     public doneActivity(data: any) {
         if (data.no_task_found) {
             this.setState({

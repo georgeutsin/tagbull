@@ -10,6 +10,7 @@ import {
 interface IBaseCanvasState {
     windowWidth: number;
     image?: HTMLImageElement;
+    hasError: boolean;
 }
 
 interface IBaseCanvasProps {
@@ -40,6 +41,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         this.state = {
             windowWidth: window.innerWidth,
             image: undefined,
+            hasError: false,
         };
 
         const image = new Image();
@@ -50,6 +52,9 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             }, () => {
                 this.updateImageBounds();
             });
+        };
+        image.onerror = () => {
+            this.setState({ hasError: true });
         };
 
         this.ctx = null;
@@ -88,18 +93,20 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     }
 
     public componentWillUnmount() {
-        // Make sure to remove the DOM listener when the component is unmounted.
-        const el: any = this.canvasRef.current;
-        if (this.mouseAdaptor !== undefined) {
-            this.mouseAdaptor.removeListeners(el);
-        }
-        if (this.touchAdaptor !== undefined) {
-            this.touchAdaptor.removeListeners(el);
-        }
-        el.removeEventListener("ptrstart", this.handleStart, false);
-        el.removeEventListener("ptrmove", this.handleMove, false);
-        el.removeEventListener("ptrend", this.handleEnd, false);
+        if (this.canvasRef.current) {
+            // Make sure to remove the DOM listener when the component is unmounted.
+            const el: any = this.canvasRef.current;
+            if (this.mouseAdaptor !== undefined) {
+                this.mouseAdaptor.removeListeners(el);
+            }
+            if (this.touchAdaptor !== undefined) {
+                this.touchAdaptor.removeListeners(el);
+            }
+            el.removeEventListener("ptrstart", this.handleStart, false);
+            el.removeEventListener("ptrmove", this.handleMove, false);
+            el.removeEventListener("ptrend", this.handleEnd, false);
 
+        }
         window.removeEventListener("resize", this.windowResizeListener);
     }
 
@@ -171,6 +178,10 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
     }
 
     public render() {
+        if (this.state.hasError) {
+            throw new Error("image load error");
+        }
+
         this.updateCanvasDims();
 
         return <div className="tagbullCanvas" style={{ width: this.canvasWidth, height: this.canvasHeight }}>
@@ -179,7 +190,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
                 className="tagbullCanvas"
                 ref={this.canvasRef}
                 width={this.canvasWidth}
-                height={this.canvasHeight}>
+                height={this.state.image === undefined ? 0 : this.canvasHeight}>
                 Your browser does not support canvas element.
             </canvas>
         </div>;
