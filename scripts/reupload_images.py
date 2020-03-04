@@ -35,6 +35,13 @@ def make_name(prefix, filename):
     return "{}/{}".format(prefix, os.path.basename(filename))
 
 
+def downscale(image):
+    MAX_DIMENSION = 1000 # px
+    # e.g. if width is 6*MAX_DIMENSION and height is 5*MAX_DIMENSION, our downscale ratio is 6.
+    ratio = max(image.width / MAX_DIMENSION, image.height / MAX_DIMENSION)
+    return image.resize((int(image.width // ratio), int(image.height // ratio)))
+
+
 def main(args):
     expected_args = ["csv file"]
     if len(args) != len(expected_args):
@@ -64,14 +71,15 @@ def main(args):
                 original_size = original.getbuffer().nbytes
                 with Image.open(original) as img:
                     compressed = BytesIO()
-                    img.save(compressed, format="JPEG", quality=65, optimize=True)
+                    resized = downscale(img)
+                    resized.save(compressed, format="JPEG", quality=65, optimize=True)
                     compressed_size = compressed.getbuffer().nbytes
                     new_name = make_name(prefix, filename)
                     new_url = upload_file(bucket, new_name, compressed)
                     print("Uploaded image {}/{}: {} ({}B original, {}B compressed, {:.2f}% ratio)".format(i+1, total_entries, entry["name"], original_size, compressed_size, 100 * compressed_size / original_size), file=sys.stderr)
 
                 # Preserve column names so this CSV can be used in place of the original CSV
-                writer.writerow({"ImageID": entry["name"], "OriginalURL": new_url)
+                writer.writerow({"ImageID": entry["name"], "OriginalURL": new_url})
             except Exception:
                 print("Failed to reupload {} at url {}".format(entry["name"], filename), file=sys.stderr)
 
