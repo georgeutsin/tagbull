@@ -37,7 +37,8 @@ class MetadataTask < ApplicationRecord
     create_occluded_task(discrete_tag)
     create_truncated_task(discrete_tag)
     create_depiction_task(discrete_tag)
-    create_inside_task(discrete_tag)
+    # TODO: temporarily removing is_inside for the donuts/bagels dataset
+    # create_inside_task(discrete_tag)
   end
 
   def base_arguments
