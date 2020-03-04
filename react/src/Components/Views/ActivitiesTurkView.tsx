@@ -162,12 +162,12 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
     }
 
     private activitySource() {
-        return Backend.getActivity(this.state.deviceId);
+        return Backend.getActivity("web_turk-" + this.state.deviceId);
     }
 
     private postSample(data: any, callback: any) {
         this.setState({ waitingOnPost: true });
-        data.actor_sig = this.state.deviceId;
+        data.actor_sig = "web_turk-" + this.state.deviceId;
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
             callback();

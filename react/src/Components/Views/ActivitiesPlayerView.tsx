@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend, UnityEvent } from "../../Utils";
+import { Backend, getActorSig, UnityEvent } from "../../Utils";
 import { CompletionComponent, ProgressBarComponent } from "../UIElements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
@@ -25,18 +25,6 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
 
         const values = queryString.parse(this.props.location.search);
 
-        // fetching device ID, first try query string, try localStorage and default to random
-        const N = 30;
-        // tslint:disable-next-line: max-line-length
-        const randId = "web" + Array(N + 1).join((Math.random().toString(36) + "00000000000000000").slice(2, 18)).slice(0, N);
-        let queryDeviceId = values.device_id ? String(values.device_id) : null;
-        queryDeviceId = queryDeviceId || localStorage.getItem("deviceID");
-        queryDeviceId = queryDeviceId || randId;
-
-        if (queryDeviceId === randId) {
-            localStorage.setItem("deviceID", queryDeviceId);
-        }
-
         // Don't call this.setState() here!
         this.state = {
             currentStage: PlayerViewStage.ACTIVITIES,
@@ -44,7 +32,7 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
             completedActivityCounter: 0,
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 3,
-            deviceId: queryDeviceId,
+            deviceId: values.device_id ? String(values.device_id) : getActorSig("web_player"),
             waitingOnPost: false,
         };
 

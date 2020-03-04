@@ -12,4 +12,8 @@ export {
     rectToCanvasCoords,
     rectFromBoundingBoxAndImage,
 } from './CanvasCalcs';
+export {
+    platformString,
+    getActorSig,
+} from './ActorUtils';
 export { Backend, BackendLocation } from './Backend';
