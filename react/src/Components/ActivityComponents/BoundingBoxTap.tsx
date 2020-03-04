@@ -73,11 +73,11 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const question = this.state.currentStage < this.numberOfStages ?
             <div className="question runSlideIn">
-                Please tap the
+                ({this.state.currentStage + 1}/4) Please tap the
                 <div className={"bolded " + this.state.animationClass}>
                     &nbsp;{INSTRUCTION[this.state.currentStage]}
                 </div> part
-                of the {category} { this.props.activity.config.target_point ? " indicated by the target " : "" }
+                of the {category} {this.props.activity.config.target_point ? " indicated by the target " : ""}
                 <HelpButtonComponent>
                     Tap the sides of the {category} as accurately as possible.
 

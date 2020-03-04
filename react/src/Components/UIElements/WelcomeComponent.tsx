@@ -32,7 +32,7 @@ class WelcomeComponent extends Component<{}, IHelpButtonState> {
                 This isn't a regular ad; this is a TagBull activity.
             <br></br>
             <br></br>
-                Answer three (3) questions to claim your reward!
+                Answer a few questions to claim your reward!
                 <br></br>
                 <br></br>
                 <BigButtonComponent

@@ -8,13 +8,13 @@ function drawMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: 
 
     // aiming for ~20px on fullscreen, ~10px on mobile.
     const radius = Math.max(imageBounds.w, imageBounds.h) / 60;
-
+    const x = marker.x * imageBounds.w + imageBounds.x;
+    const y = marker.y * imageBounds.h + imageBounds.y;
     // Draw black outer circle
     ctx.beginPath();
     ctx.strokeStyle = "#000000";
     ctx.ellipse(
-        marker.x * imageBounds.w + imageBounds.x,
-        marker.y * imageBounds.h + imageBounds.y,
+        x, y,
         radius, radius, 0, 0, Math.PI * 2);
     ctx.stroke();
 
@@ -22,9 +22,22 @@ function drawMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: 
     ctx.beginPath();
     ctx.strokeStyle = "#FFFFFF";
     ctx.ellipse(
-        marker.x * imageBounds.w + imageBounds.x,
-        marker.y * imageBounds.h + imageBounds.y,
+        x, y,
         radius + 1, radius + 1, 0, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Draw red lines
+    ctx.strokeStyle = "#FF0000";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(x, y - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x - radius, y);
+    ctx.lineTo(x + radius, y);
     ctx.stroke();
 
     ctx.restore();
