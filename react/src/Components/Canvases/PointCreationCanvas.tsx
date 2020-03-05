@@ -136,6 +136,7 @@ class PointCreationCanvas extends Component<IBoundingBoxCreationCanvasProps, IBo
             handleStartCB={this.handleStart}
             handleMoveCB={this.handleMove}
             handleEndCB={this.handleEnd}
+            handleLeaveCB={() => null}
             setImageCB={this.setImage}
             drawCB={this.draw}
         >

@@ -7,6 +7,7 @@ import {
     rectToCanvasCoords,
     touchToImageCoords,
     windowTouchToCanvasCoords,
+    normalizePointToBounds
 } from "../../Utils";
 import {
     BaseCanvas,
@@ -53,6 +54,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         this.handleStart = this.handleStart.bind(this);
         this.handleMove = this.handleMove.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
+        this.handleLeave = this.handleLeave.bind(this);
         this.setImage = this.setImage.bind(this);
         this.draw = this.draw.bind(this);
         this.boundingBox = { max_x: 1, max_y: 1, min_x: 0, min_y: 0 };
@@ -63,11 +65,12 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         const touches = evt.changedTouches;
         for (let touch of touches) {
             touch = windowTouchToCanvasCoords(el, touch);
-            if (isTouchInBounds(touch, this.imageBounds)) {
+            // if (isTouchInBounds(touch, this.imageBounds)) {
+                touch = normalizePointToBounds(touch, this.imageBounds);
                 const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
                 this.touchStage = this.nextTouchStage(imageCoords);
                 this.moveObjBounds(imageCoords, this.touchStage);
-            }
+            // }
         }
     }
 
@@ -80,6 +83,13 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             if (touch.id >= 0 && isTouchInBounds(touch, this.imageBounds)) {
                 const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
                 this.moveObjBounds(imageCoords, this.touchStage);
+                return;
+            }
+            if(touch.id >= 0) { // touch is out of bounds
+                touch = normalizePointToBounds(touch, this.imageBounds);
+                const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
+                this.moveObjBounds(imageCoords, this.touchStage);
+                return;
             }
         }
     }
@@ -102,6 +112,21 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             }, () => {
                 this.props.notifyTapComplete(this.boundingBox, this.state.currentStage);
             });
+        }
+    }
+
+    public handleLeave(evt: any) {
+        const el = evt.target;
+        const touches = evt.changedTouches;
+
+        for (let touch of touches) {
+            touch = windowTouchToCanvasCoords(el, touch);
+            touch = normalizePointToBounds(touch, this.imageBounds);
+            if (touch.id >= 0) {
+                const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
+                this.moveObjBounds(imageCoords, this.touchStage);
+                this.handleEnd({});
+            }
         }
     }
 
@@ -243,6 +268,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             handleStartCB={this.handleStart}
             handleMoveCB={this.handleMove}
             handleEndCB={this.handleEnd}
+            handleLeaveCB={this.handleLeave}
             setImageCB={this.setImage}
             drawCB={this.draw}
         >

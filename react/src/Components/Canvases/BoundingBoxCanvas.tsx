@@ -64,6 +64,7 @@ class BoundingBoxCanvas extends Component<IBoundingBoxCanvasProps, {}> {
             handleStartCB={() => null}
             handleMoveCB={() => null}
             handleEndCB={() => null}
+            handleLeaveCB={() => null}
             setImageCB={this.setImage}
             drawCB={this.draw}
         >

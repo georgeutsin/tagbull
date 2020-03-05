@@ -32,6 +32,7 @@ class TouchAdaptor {
         elem.addEventListener("touchmove", this.touchMoveToPtr, false);
         elem.addEventListener("touchend", this.touchEndToPtr, false);
         elem.addEventListener("touchcancel", this.touchCancelToPtr, false);
+        elem.addEventListener("touchleave", this.touchLeaveToPtr, false);
     }
 
     public removeListeners(elem: any) {
@@ -39,6 +40,7 @@ class TouchAdaptor {
         elem.removeEventListener("touchmove", this.touchMoveToPtr, false);
         elem.removeEventListener("touchend", this.touchEndToPtr, false);
         elem.removeEventListener("touchcancel", this.touchCancelToPtr, false);
+        elem.removeEventListener("touchleave", this.touchLeaveToPtr, false);
     }
 
     public touchStartToPtr(e: any) {
@@ -55,6 +57,10 @@ class TouchAdaptor {
 
     public touchCancelToPtr(e: any) {
         sendPtrEvent(e, e.target, "ptrcancel");
+    }
+
+    public touchLeaveToPtr(e: any) {
+        sendPtrEvent(e, e.target, "ptrleave");
     }
 }
 
