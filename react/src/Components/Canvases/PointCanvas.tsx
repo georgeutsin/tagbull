@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { IPoint, IRect } from "../../Interfaces";
-import { BaseCanvas, drawGreenMarker, drawHorizontalLine, drawVerticalLine } from "../Canvases";
+import { BaseCanvas, drawGreenMarker } from "../Canvases";
 
 interface IPointCanvasProps {
     media_url: string;
@@ -37,10 +37,6 @@ class PointCanvas extends Component<IPointCanvasProps, {}> {
 
     public drawMarkers(ctx: CanvasRenderingContext2D) {
         for (const marker of this.props.markers) {
-            const x = marker.x * this.imageBounds.w + this.imageBounds.x;
-            const y = marker.y * this.imageBounds.h + this.imageBounds.y;
-            drawVerticalLine(ctx, x, this.imageBounds);
-            drawHorizontalLine(ctx, y, this.imageBounds);
             drawGreenMarker(ctx, marker, this.imageBounds);
         }
     }
@@ -54,6 +50,7 @@ class PointCanvas extends Component<IPointCanvasProps, {}> {
             handleStartCB={() => null}
             handleMoveCB={() => null}
             handleEndCB={() => null}
+            handleLeaveCB={() => null}
             setImageCB={this.setImage}
             drawCB={this.draw}
         >

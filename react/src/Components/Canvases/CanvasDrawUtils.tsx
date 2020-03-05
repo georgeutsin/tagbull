@@ -109,22 +109,30 @@ function drawActiveImageOverlay(
 }
 
 function drawVerticalLine(ctx: CanvasRenderingContext2D, x: number, bounds: IRect) {
-    if (ctx && x !== bounds.x && x !== bounds.x + bounds.w) {
-        ctx.strokeStyle = "#DDDDDD";
+    if (ctx) {
+        ctx.save();
+        ctx.strokeStyle = "#00FF00";
+        ctx.setLineDash([5, 5]);
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(x, bounds.y);
         ctx.lineTo(x, bounds.y + bounds.h);
         ctx.stroke();
+        ctx.restore();
     }
 }
 
-function drawHorizontalLine(ctx: CanvasRenderingContext2D, y: number,  bounds: IRect) {
-    if (ctx && y !== bounds.y && y !== bounds.y + bounds.h) {
-        ctx.strokeStyle = "#DDDDDD";
+function drawHorizontalLine(ctx: CanvasRenderingContext2D, y: number, bounds: IRect) {
+    if (ctx) {
+        ctx.save();
+        ctx.strokeStyle = "#00FF00";
+        ctx.setLineDash([5, 5]);
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(bounds.x, y);
         ctx.lineTo(bounds.x + bounds.w, y);
         ctx.stroke();
+        ctx.restore();
     }
 }
 

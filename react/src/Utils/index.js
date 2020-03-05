@@ -12,6 +12,7 @@ export {
     isPointInBounds,
     rectToCanvasCoords,
     rectFromBoundingBoxAndImage,
+    normalizePointToBounds,
 } from './CanvasCalcs';
 export {
     platformString,

@@ -41,12 +41,14 @@ class MouseAdaptor {
         elem.addEventListener("mousedown", this.mouseDownToPtr, false);
         elem.addEventListener("mousemove", this.mouseMoveToPtr, false);
         elem.addEventListener("mouseup", this.mouseUpToPtr, false);
+        elem.addEventListener("mouseleave", this.mouseLeaveToPtr, false);
     }
 
     public removeListeners(elem: any) {
         elem.removeEventListener("mousedown", this.mouseDownToPtr, false);
         elem.removeEventListener("mousemove", this.mouseMoveToPtr, false);
         elem.removeEventListener("mouseup", this.mouseUpToPtr, false);
+        elem.removeEventListener("mouseleave", this.mouseLeaveToPtr, false);
     }
 
     public mouseDownToPtr(e: any) {
@@ -63,6 +65,11 @@ class MouseAdaptor {
     public mouseUpToPtr(e: any) {
         this.touchStarted = false;
         sendPtrEvent(e.clientX, e.clientY, e.target, "ptrend");
+    }
+
+    public mouseLeaveToPtr(e: any) {
+        this.touchStarted = false;
+        sendPtrEvent(e.clientX, e.clientY, e.target, "ptrleave");
     }
 }
 

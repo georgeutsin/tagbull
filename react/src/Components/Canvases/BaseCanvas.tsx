@@ -21,6 +21,7 @@ interface IBaseCanvasProps {
     handleStartCB(evt: any): any;
     handleMoveCB(evt: any): any;
     handleEndCB(evt: any): any;
+    handleLeaveCB(evt: any): any;
     drawCB(ctv: CanvasRenderingContext2D): any;
     setImageCB(imageBounds: IRect, image?: HTMLImageElement): any;
 }
@@ -61,6 +62,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
         this.handleStart = this.handleStart.bind(this);
         this.handleMove = this.handleMove.bind(this);
         this.handleEnd = this.handleEnd.bind(this);
+        this.handleLeave = this.handleLeave.bind(this);
         this.canvasHeight = 0;
         this.canvasWidth = 0;
         this.imageBounds = { x: 0, y: 0, w: 0, h: 0 };
@@ -87,6 +89,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             el.addEventListener("ptrstart", this.handleStart, false);
             el.addEventListener("ptrmove", this.handleMove, false);
             el.addEventListener("ptrend", this.handleEnd, false);
+            el.addEventListener("ptrleave", this.handleLeave, false);
 
             this.updateImageBounds();
         }
@@ -105,6 +108,7 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
             el.removeEventListener("ptrstart", this.handleStart, false);
             el.removeEventListener("ptrmove", this.handleMove, false);
             el.removeEventListener("ptrend", this.handleEnd, false);
+            el.removeEventListener("ptrleave", this.handleLeave, false);
 
         }
         window.removeEventListener("resize", this.windowResizeListener);
@@ -145,6 +149,11 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
 
     public handleEnd(evt: any) {
         this.props.handleEndCB(evt);
+        this.draw();
+    }
+
+    public handleLeave(evt: any) {
+        this.props.handleLeaveCB(evt);
         this.draw();
     }
 
