@@ -12,8 +12,6 @@ interface IBackend {
     postProject(data: any): any;
     patchProject(projectId: number, data: any): any;
     postMedia(projectId: number, data: any): any;
-    postPauseProject(projectId: number): any;
-    postResumeProject(projectId: number): any;
 }
 
 class RemoteBackend implements IBackend {
@@ -258,6 +256,6 @@ function getBackend(type: string): IBackend {
     }
 }
 
-const BackendLocation = "local"; // CHANGE THIS LINE TO CHANGE THE BACKEND
+const BackendLocation = "prod"; // CHANGE THIS LINE TO CHANGE THE BACKEND
 const Backend = getBackend(BackendLocation);
 export { Backend, BackendLocation };

@@ -29,12 +29,14 @@ class ProjectDetailView extends Component<any, any> {
                 task_type: "",
                 status: "In Progress",
                 paused: false,
+                is_private: false,
             },
             tags: [],
         };
         this.canvasDOMRect = new DOMRect(0, 0, 200, 200);
         this.canvasStyle = { width: this.canvasDOMRect.width, height: this.canvasDOMRect.height };
         this.pauseButtonClicked = this.pauseButtonClicked.bind(this);
+        this.privateButtonClicked = this.privateButtonClicked.bind(this);
     }
 
     public componentDidMount() {
@@ -48,15 +50,17 @@ class ProjectDetailView extends Component<any, any> {
     }
 
     public pauseButtonClicked() {
-        if (this.state.project.paused) {
-            Backend.postResumeProject(this.params.projectId).then((resp: any) => {
-                this.setProjectState(resp);
-            });
-        } else {
-            Backend.postPauseProject(this.params.projectId).then((resp: any) => {
-                this.setProjectState(resp);
-            });
-        }
+        const data = { paused: !this.state.project.paused };
+        Backend.patchProject(this.params.projectId, data).then((resp: any) => {
+            this.setProjectState(resp);
+        });
+    }
+
+    public privateButtonClicked() {
+        const data = { is_private: !this.state.project.is_private };
+        Backend.patchProject(this.params.projectId, data).then((resp: any) => {
+            this.setProjectState(resp);
+        });
     }
 
     public setProjectState(resp: any) {
@@ -67,6 +71,7 @@ class ProjectDetailView extends Component<any, any> {
                 name: project.name,
                 id: project.id,
                 paused: project.paused,
+                is_private: project.is_private,
                 status: project.paused ? "Paused" : "In Progress",
                 progress: project.completed_tasks * 100 / project.num_tasks,
                 task_type: taskTypes[project.task_type],
@@ -140,6 +145,7 @@ class ProjectDetailView extends Component<any, any> {
         });
 
         const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
+        const privateButtonLabel = this.state.project.is_private ? "Make Public" : "Make Private";
         return <div>
             <NavBar isPortal>
                 <li>
@@ -163,7 +169,7 @@ class ProjectDetailView extends Component<any, any> {
                         <div className="projectDetails">
                             <div className="thirds">
                                 <h5>Created At</h5> {this.state.project.created_at}
-                                <h5>Status</h5> {this.state.project.status}
+                                <h5>Status</h5> {this.state.project.status}, {this.state.project.is_private ? "is private" : "is public"}
                             </div>
                             <div className="thirds">
                                 <h5>Progress</h5>
@@ -176,6 +182,7 @@ class ProjectDetailView extends Component<any, any> {
                                     <button>View Raw Samples</button>
                                 </a>
                                 <button onClick={this.pauseButtonClicked}>{pauseButtonLabel}</button>
+                                <button onClick={this.privateButtonClicked}>{privateButtonLabel}</button>
                             </div>
                             <div style={{ clear: "both" }}></div>
                         </div>
