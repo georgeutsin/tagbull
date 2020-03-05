@@ -2,9 +2,9 @@
 
 # Activities controller
 class V1::ActivitiesController < ApplicationController
-  # GET /activities
+  # GET /activities?project_id=1234
   def show
-    activity = Activity.new(actor_sig: params[:actor_sig])
+    activity = Activity.new(actor_sig: params[:actor_sig], project_id: params[:project_id])
     json_response(activity)
   end
 

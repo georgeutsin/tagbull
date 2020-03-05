@@ -16,6 +16,7 @@ interface IActivitiesPlayerViewState {
     completedActivityCounter: number;
     numActivities: number;
     deviceId: string;
+    projectId?: string;
     waitingOnPost: boolean;
 }
 
@@ -33,6 +34,7 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 3,
             deviceId: values.device_id ? String(values.device_id) : getActorSig("web_player"),
+            projectId: values.project_id ? String(values.project_id) : undefined,
             waitingOnPost: false,
         };
 
@@ -139,7 +141,7 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
                 });
             });
         }
-        return Backend.getActivity(this.state.deviceId);
+        return Backend.getActivity(this.state.deviceId, this.state.projectId);
     }
 
     private postSample(data: any, callback: any) {

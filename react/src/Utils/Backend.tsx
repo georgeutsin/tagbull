@@ -2,7 +2,7 @@ import axios from "axios";
 
 // TODO: change all of the `any` to defined interfaces
 interface IBackend {
-    getActivity(deviceId: string): any;
+    getActivity(deviceId: string, projectId?: string): any;
     postSample(data: any): any;
     getTags(projectId: number): any;
     getSamples(projectId: number, taskId: number): any;
@@ -12,8 +12,6 @@ interface IBackend {
     postProject(data: any): any;
     patchProject(projectId: number, data: any): any;
     postMedia(projectId: number, data: any): any;
-    postPauseProject(projectId: number): any;
-    postResumeProject(projectId: number): any;
 }
 
 class RemoteBackend implements IBackend {
@@ -23,8 +21,12 @@ class RemoteBackend implements IBackend {
         this.base = base;
     }
 
-    public getActivity(deviceId: string): any {
-        return axios.get(this.base + `/activities/?actor_sig=${deviceId}`);
+    public getActivity(deviceId: string, projectId?: string): any {
+        let route = `/activities/?actor_sig=${deviceId}`;
+        if (projectId) {
+            route += `&project_id=${projectId}`;
+        }
+        return axios.get(this.base + route);
     }
 
     public postSample(data: any): any {
