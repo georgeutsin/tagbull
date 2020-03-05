@@ -1,3 +1,4 @@
+import queryString from "query-string";
 import React from "react";
 import { Backend } from "../../Utils";
 import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElements";
@@ -15,6 +16,7 @@ interface IActivitiesTurkViewState {
     completedActivityCounter: number;
     numActivities: number;
     deviceId: string;
+    projectId?: string;
     hasInput: boolean;
     waitingOnPost: boolean;
 }
@@ -22,6 +24,8 @@ interface IActivitiesTurkViewState {
 class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> {
     constructor(props: any) {
         super(props);
+
+        const values = queryString.parse(this.props.location.search);
 
         // fetching turker ID, first try query string, try localStorage and default to empty
         const turkId = localStorage.getItem("turkID") || "";
@@ -36,6 +40,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 10,
             deviceId: turkId,
+            projectId: values.project_id ? String(values.project_id) : undefined,
             hasInput: false,
             waitingOnPost: false,
         };
@@ -162,7 +167,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
     }
 
     private activitySource() {
-        return Backend.getActivity("web_turk-" + this.state.deviceId);
+        return Backend.getActivity("web_turk-" + this.state.deviceId, this.state.projectId);
     }
 
     private postSample(data: any, callback: any) {

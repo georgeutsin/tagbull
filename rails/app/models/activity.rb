@@ -12,7 +12,7 @@ class Activity
     self.new_actor = actor.new_record?
 
     ActiveRecord::Base.transaction do
-      task = Activity.next_task(actor.id)
+      task = Activity.next_task(actor.id, opts[:project_id])
       return unless task
 
       task.update!(pending_timestamp: DateTime.now)
@@ -69,11 +69,17 @@ class Activity
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
-  def self.next_task(actor_id)
-    Task.joins('INNER JOIN basic_task_states ON basic_task_states.id = tasks.id', :project)
-        .where(tasks_filter, actor_id)
-        .order(tasks_ordering)
-        .first
+  def self.next_task(actor_id, project_id)
+    result = Task.joins('INNER JOIN basic_task_states ON basic_task_states.id = tasks.id', :project)
+    if project_id
+      result = result.where(project_id: project_id)
+    else
+      result = result.where("projects.is_private is ? or projects.is_private is ?", false, nil)
+    end
+
+    result.where(tasks_filter, actor_id)
+      .order(tasks_ordering)
+      .first
   end
 
   def self.tasks_filter
