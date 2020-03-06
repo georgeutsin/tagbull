@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
+import aid_locator from "../../Images/Visuals/aid_locator.svg";
 import { IPoint } from "../../Interfaces";
 import { PointCreationCanvas } from "../Canvases";
 import {
@@ -82,14 +83,14 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
 
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
+        const helpButton =
+            <HelpButtonComponent>
+                Tap the center of the {category} as accurately as possible.
+                You may tap Reset to remove all markers.
+            </HelpButtonComponent>;
         const question =
             <div className="question runSlideIn">
                 Please tap on all the {category}
-                <HelpButtonComponent>
-                    Tap the center of the {category} as accurately as possible.
-
-                    You may tap Reset to remove all markers.
-                </HelpButtonComponent>
             </div>;
 
         const doneButtonHeight = 70;
@@ -100,7 +101,9 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             ref={(divElement) => this.view = divElement}
             id="view">
             <ActivityInstruction
-                ref={(divElement: any) => this.activityInstruction = divElement}>
+                ref={(divElement: any) => this.activityInstruction = divElement}
+                helpButton={helpButton}
+                visual={aid_locator}>
                 {question}
             </ActivityInstruction>
             <PointCreationCanvas

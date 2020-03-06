@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
+import bottom_visual from "../../Images/Visuals/aid_bb_bottom.svg";
+import final_visual from "../../Images/Visuals/aid_bb_final.svg";
+import left_visual from "../../Images/Visuals/aid_bb_left.svg";
+import right_visual from "../../Images/Visuals/aid_bb_right.svg";
+import top_visual from "../../Images/Visuals/aid_bb_top.svg";
 import { IBoundingBox } from "../../Interfaces";
 import { BoundingBoxCreationCanvas } from "../Canvases";
 import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../UIElements";
@@ -24,6 +29,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     private activityAction: HTMLDivElement | null;
     private numberOfStages: number;
     private boundingBox: IBoundingBox;
+    private visuals: any[];
 
     constructor(props: any) {
         super(props);
@@ -40,6 +46,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         this.activityInstruction = null;
         this.activityAction = null;
         this.boundingBox = { max_x: 0, max_y: 0, min_x: 0, min_y: 0 };
+        this.visuals = [left_visual, top_visual, right_visual, bottom_visual, final_visual];
 
         // Bindings.
         this.doneButtonClicked = this.doneButtonClicked.bind(this);
@@ -71,6 +78,15 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
 
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
+        const helpButton = this.state.currentStage < this.numberOfStages ?
+            <HelpButtonComponent>
+                Tap the sides of the {category} as accurately as possible.
+                Once you have tapped all four sides of the {category}, you can modify your selection.
+            </HelpButtonComponent> : <HelpButtonComponent>
+                If you are unhappy with the sides you selected, you can tap and drag to readjust them.
+                Try to form a tight box around the {category}.
+            </HelpButtonComponent>;
+
         const question = this.state.currentStage < this.numberOfStages ?
             <div className="question runSlideIn">
                 ({this.state.currentStage + 1}/4) Please tap the
@@ -78,19 +94,9 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                     &nbsp;{INSTRUCTION[this.state.currentStage]}
                 </div> part
                 of the {category} {this.props.activity.config.target_point ? " indicated by the target " : ""}
-                <HelpButtonComponent>
-                    Tap the sides of the {category} as accurately as possible.
-
-                    Once you have tapped all four sides of the {category}, you can modify your selection.
-                </HelpButtonComponent>
             </div> :
             <div className={"question " + this.state.animationClass}>
                 Please verify that all 4 borders touch, and fix them if they don't
-                <HelpButtonComponent>
-                    If you are unhappy with the sides you selected, you can tap and drag to readjust them.
-
-                    Try to form a tight box around the {category}.
-                </HelpButtonComponent>
             </div>;
 
         const doneButtonHeight = 70;
@@ -100,7 +106,9 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             ref={(divElement) => this.view = divElement}
             id="view">
             <ActivityInstruction
-                ref={(divElement: any) => this.activityInstruction = divElement}>
+                ref={(divElement: any) => this.activityInstruction = divElement}
+                helpButton={helpButton}
+                visual={this.visuals[this.state.currentStage]}>
                 {question}
             </ActivityInstruction>
             <BoundingBoxCreationCanvas
