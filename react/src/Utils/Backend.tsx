@@ -70,14 +70,6 @@ class RemoteBackend implements IBackend {
             },
         });
     }
-
-    public postPauseProject(projectId: number): any {
-        return axios.post(this.base + `/projects/${projectId}/pause`);
-    }
-
-    public postResumeProject(projectId: number): any {
-        return axios.post(this.base + `/projects/${projectId}/resume`);
-    }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -225,16 +217,6 @@ class MockBackend implements IBackend {
 
     public postMedia(projectId: number, data: any): any {
         // TODO
-        const resp = {};
-        return this.promiseOf(resp);
-    }
-
-    public postPauseProject(projectId: number): any {
-        const resp = {};
-        return this.promiseOf(resp);
-    }
-
-    public postResumeProject(projectId: number): any {
         const resp = {};
         return this.promiseOf(resp);
     }
