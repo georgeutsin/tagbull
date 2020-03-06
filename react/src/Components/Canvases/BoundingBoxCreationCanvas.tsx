@@ -3,11 +3,11 @@ import { IBoundingBox, IPoint, IRect } from "../../Interfaces";
 import {
     isPointInBounds,
     isTouchInBounds,
+    normalizePointToBounds,
     rectFromBoundingBoxAndImage,
     rectToCanvasCoords,
     touchToImageCoords,
     windowTouchToCanvasCoords,
-    normalizePointToBounds
 } from "../../Utils";
 import {
     BaseCanvas,
@@ -65,12 +65,10 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         const touches = evt.changedTouches;
         for (let touch of touches) {
             touch = windowTouchToCanvasCoords(el, touch);
-            // if (isTouchInBounds(touch, this.imageBounds)) {
-                touch = normalizePointToBounds(touch, this.imageBounds);
-                const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
-                this.touchStage = this.nextTouchStage(imageCoords);
-                this.moveObjBounds(imageCoords, this.touchStage);
-            // }
+            touch = normalizePointToBounds(touch, this.imageBounds);
+            const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
+            this.touchStage = this.nextTouchStage(imageCoords);
+            this.moveObjBounds(imageCoords, this.touchStage);
         }
     }
 
@@ -85,7 +83,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
                 this.moveObjBounds(imageCoords, this.touchStage);
                 return;
             }
-            if(touch.id >= 0) { // touch is out of bounds
+            if (touch.id >= 0) { // touch is out of bounds
                 touch = normalizePointToBounds(touch, this.imageBounds);
                 const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
                 this.moveObjBounds(imageCoords, this.touchStage);
@@ -136,7 +134,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         switch (this.state.currentStage) {
             case 0:
                 part = "left";
-                location = "to the left";
+                location = "to the left of";
                 break;
             case 1:
                 part = "top";
@@ -144,7 +142,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
                 break;
             case 2:
                 part = "right";
-                location = "to the right";
+                location = "to the right of";
                 break;
             case 3:
             default:

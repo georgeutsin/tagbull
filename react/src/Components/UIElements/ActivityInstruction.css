@@ -1,0 +1,16 @@
+.visualAid {
+    height: 190px;
+    display: inline-block;
+    width: 170px;
+}
+
+.visualAid img {
+    width: 170px;
+    height: 140px;
+}
+
+.instructionText {
+    display: inline-block;
+    width: calc(100% - 170px);
+    vertical-align: top;
+}
