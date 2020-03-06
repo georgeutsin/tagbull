@@ -15,9 +15,9 @@ interface IActivitiesComponentProps {
 }
 
 const activityDelay: { [key: string]: number; } = {
-    BoundingBoxTask: 3000,
-    LocatorTask: 1700,
-    DiscreteAttributeTask: 1700,
+    BoundingBoxTask: 2800,
+    LocatorTask: 1000,
+    DiscreteAttributeTask: 1200,
 };
 
 class ActivitiesComponent extends React.Component<IActivitiesComponentProps, IActivitiesComponentState> {
