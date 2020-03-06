@@ -32,7 +32,7 @@ class HelpButtonComponent extends Component<{}, IHelpButtonState> {
         let helpWindow = null;
         if (this.state.visible) {
             helpWindow = <div className="goodJobBackground">
-                <div className="both-center helpWindow">
+                <div className="both-center helpWindow" style={{fontSize: "2em"}}>
                     <div style={{ overflow: "hidden" }}>
                         <span className="closeButton" onClick={this.closeButton}>
                             <b>x</b>

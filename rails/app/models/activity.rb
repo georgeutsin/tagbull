@@ -69,7 +69,7 @@ class Activity
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
-  def self.next_task(actor_id, project_id)
+  def self.next_task(actor_id, project_id = nil)
     result = Task.joins('INNER JOIN basic_task_states ON basic_task_states.id = tasks.id', :project)
     if project_id
       result = result.where(project_id: project_id)
