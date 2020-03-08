@@ -38,7 +38,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
             progressIndicator: 1,
             completedActivityCounter: 0,
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
-            numActivities: 10,
+            numActivities: 20,
             deviceId: turkId,
             projectId: values.project_id ? String(values.project_id) : undefined,
             hasInput: false,
