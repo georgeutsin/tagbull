@@ -15,7 +15,7 @@ class DiscreteAttributeGenerator
   end
 
   def self.complete(task, sample_pair)
-    tag = generate_discrete_attribute(task, sample_pair)
+    tag = generate_discrete_attribute(task, sample_pair.first.option)
     BasicTaskEvent.create(task_id: task.id, event: 'similar')
 
     return if task.parent_id.nil?
@@ -28,8 +28,7 @@ class DiscreteAttributeGenerator
     sample1.option == sample2.option
   end
 
-  def self.generate_discrete_attribute(task, samples)
-    option = samples.first.option
+  def self.generate_discrete_attribute(task, option)
     DiscreteAttributeSample.create!({
       option: option
     }.merge(TagGenerator.generated_sample_params(task)))
