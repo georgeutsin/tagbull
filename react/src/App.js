@@ -11,6 +11,7 @@ import {
   ProjectDetailView,
   TagDetailView,
   SamplesView,
+  ActivitiesInfiniteView,
   ActivitiesPlayerView,
   ActivitiesTurkView,
   LoginView,
@@ -33,6 +34,7 @@ class App extends Component {
             <Route exact path="/privacy" component={PrivacyView}></Route>
             <Route exact path="/terms" component={TermsView}></Route>
 
+            <Route exact path="/activities/infinite" component={ActivitiesInfiniteView}></Route>
             <Route exact path="/activities/player" component={ActivitiesPlayerView}></Route>
             <Route exact path="/activities/turk" component={ActivitiesTurkView}></Route>
             <Route exact path="/login" component={LoginView}></Route>
