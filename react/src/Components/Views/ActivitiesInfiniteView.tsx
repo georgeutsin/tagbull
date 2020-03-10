@@ -34,7 +34,7 @@ class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteVie
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 3,
             deviceId: values.device_id ? String(values.device_id) : getActorSig("web_player"),
-            projectId: values.project_id ? String(values.project_id) : undefined,
+            projectId: "9",
             waitingOnPost: false,
         };
 
