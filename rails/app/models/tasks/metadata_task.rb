@@ -88,12 +88,16 @@ class MetadataTask < ApplicationRecord
     )
     # If the provided bounding box is nowhere near the edge, we can skip this step and generate our own "samples" for it.
     if base_args[:min_x] > 0.05 && base_args[:max_x] < 0.95 && base_args[:min_y] > 0.05 && base_args[:max_y] < 0.95
-      parent_task = task.acting_as
-      DiscreteAttributeGenerator.generate_discrete_attribute(parent_task, "no")
-      BasicTaskEvent.create!(task_id: parent_task.id, event: 'sample')
-      DiscreteAttributeGenerator.generate_discrete_attribute(parent_task, "no")
-      BasicTaskEvent.create!(task_id: parent_task.id, event: 'sample')
-      DiscreteAttributeGenerator.generate_tag(parent_task)
+      base_task = task.acting_as
+      tag = DiscreteAttributeGenerator.generate_discrete_attribute(base_task, "no")
+      BasicTaskEvent.create!(task_id: base_task.id, event: 'sample')
+      BasicTaskEvent.create!(task_id: base_task.id, event: 'sample')
+      BasicTaskEvent.create!(task_id: base_task.id, event: 'similar')
+
+      return if task.parent_id.nil?
+
+      parent_task = Task.find(task.parent_id).specific
+      parent_task.discrete_attribute_completed(tag)
     end
   end
 
