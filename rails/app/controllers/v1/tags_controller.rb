@@ -67,7 +67,6 @@ class V1::TagsController < ApplicationController
 
   def base_tag_params(task)
     type = task.actable_type
-    task = task.specific
     media = Medium.find(task.media_id)
     { type: type, task: task, media: media }
   end
