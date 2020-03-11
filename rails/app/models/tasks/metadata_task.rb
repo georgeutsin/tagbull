@@ -77,14 +77,28 @@ class MetadataTask < ApplicationRecord
   end
 
   def create_truncated_task(discrete_tag)
-    DiscreteAttributeTask.create!(
-      base_arguments.merge(
+    base_args = base_arguments
+    task = DiscreteAttributeTask.create!(
+      base_args.merge(
         category: discrete_tag.specific.option,
         options: %w[yes no],
         attribute_type: 'IsTruncated',
         level: level + 2
       )
     )
+    # If the provided bounding box is nowhere near the edge, we can skip this step and generate our own "samples" for it.
+    if base_args[:min_x] > 0.05 && base_args[:max_x] < 0.95 && base_args[:min_y] > 0.05 && base_args[:max_y] < 0.95
+      base_task = task.acting_as
+      tag = DiscreteAttributeGenerator.generate_discrete_attribute(base_task, "no")
+      BasicTaskEvent.create!(task_id: base_task.id, event: 'sample')
+      BasicTaskEvent.create!(task_id: base_task.id, event: 'sample')
+      BasicTaskEvent.create!(task_id: base_task.id, event: 'similar')
+
+      return if task.parent_id.nil?
+
+      parent_task = Task.find(task.parent_id).specific
+      parent_task.discrete_attribute_completed(tag)
+    end
   end
 
   def create_depiction_task(discrete_tag)
