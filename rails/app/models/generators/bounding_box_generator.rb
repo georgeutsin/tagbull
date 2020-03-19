@@ -4,9 +4,9 @@
 class BoundingBoxGenerator
   def self.generate_tag(task)
     samples = BoundingBoxSample.where(task_id: task.id).order(created_at: :DESC)
-    delta = 0.03
+    threshold = 0.03 * (samples.count - 1)
     comparison_func = ->(s1, s2, d) { compare_bounding_boxes(s1, s2, d) }
-    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, delta)
+    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, threshold)
 
     return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
 
