@@ -35,9 +35,11 @@ interface IBoundingBoxCreationCanvasProps {
 class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProps, IBoundingBoxCreationCanvasState> {
     private numberOfStages: number;
     private boundingBox: IBoundingBox;
+    private lastBoundingBox: IBoundingBox;
     private touchStage: number;
     private image?: HTMLImageElement;
     private imageBounds: IRect;
+    private didMove: boolean;
 
     constructor(props: any) {
         super(props);
@@ -58,6 +60,8 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         this.setImage = this.setImage.bind(this);
         this.draw = this.draw.bind(this);
         this.boundingBox = { max_x: 1, max_y: 1, min_x: 0, min_y: 0 };
+        this.lastBoundingBox = this.boundingBox;
+        this.didMove = false;
     }
 
     public handleStart(evt: any) {
@@ -68,14 +72,22 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             touch = normalizePointToBounds(touch, this.imageBounds);
             const imageCoords = touchToImageCoords(touch, this.imageBounds, this.image);
             this.touchStage = this.nextTouchStage(imageCoords);
-            this.moveObjBounds(imageCoords, this.touchStage);
+            this.lastBoundingBox = { ...this.boundingBox };
+            this.didMove = false;
+            this.moveObjBounds(imageCoords, this.state.currentStage); // Always assume it's a new point at first.
         }
     }
 
     public handleMove(evt: any) {
+        this.didMove = true;
         const el = evt.target;
         const touches = evt.changedTouches;
-
+        // If we are editing a previous stage, assume the last bounding box
+        if (this.touchStage < this.state.currentStage) {
+            this.boundingBox = { ...this.lastBoundingBox };
+        }
+        // Update the last bounding box every time
+        this.lastBoundingBox = this.boundingBox;
         for (let touch of touches) {
             touch = windowTouchToCanvasCoords(el, touch);
             if (touch.id >= 0 && isTouchInBounds(touch, this.imageBounds)) {
@@ -95,13 +107,15 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     public handleEnd(evt: any) {
         this.normalizeObjBounds();
         if (this.touchStage !== -1) {
+            const touchStage = this.touchStage;
             this.touchStage = -1;
             if (this.props.targetPoint && !isPointInBounds(this.props.targetPoint, this.boundingBox)) {
                 alert(this.alertMessage());
                 return;
             }
             let nextStage = this.state.currentStage;
-            if (this.state.currentStage < this.numberOfStages) {
+            if (this.state.currentStage < this.numberOfStages &&
+                (touchStage === this.state.currentStage || !this.didMove)) {
                 nextStage += 1;
             }
 
@@ -162,24 +176,36 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         return Math.abs(line1 - line2) < delta;
     }
 
+    public didGrabEdge(xPos: number, yPos: number): number {
+        const delta = 0.05;
+        if (this.withinDelta(this.boundingBox.min_x, xPos, delta)) {
+            return 0;
+        } else if (this.withinDelta(this.boundingBox.min_y, yPos, delta)) {
+            return 1;
+        } else if (this.withinDelta(this.boundingBox.max_x, xPos, delta)) {
+            return 2;
+        } else if (this.withinDelta(this.boundingBox.max_y, yPos, delta)) {
+            return 3;
+        }
+        return -1;
+    }
+
     public nextTouchStage(touch: any): number {
-        if (this.image && this.state.currentStage >= this.numberOfStages) {
+        if (this.image) {
             const xPos = touch.x / this.image.width;
             const yPos = touch.y / this.image.height;
-            const delta = 0.05;
 
-            if (this.withinDelta(this.boundingBox.min_x, xPos, delta)) {
-                return 0;
-            } else if (this.withinDelta(this.boundingBox.min_y, yPos, delta)) {
-                return 1;
-            } else if (this.withinDelta(this.boundingBox.max_x, xPos, delta)) {
-                return 2;
-            } else if (this.withinDelta(this.boundingBox.max_y, yPos, delta)) {
-                return 3;
+            const edge = this.didGrabEdge(xPos, yPos);
+
+            // Editing an existing edge
+            if (edge !== -1 && edge < this.state.currentStage) {
+                return edge;
             }
-        } else {
+
+            // Creating a new edge
             return this.state.currentStage;
         }
+
         return -1;
     }
 
@@ -217,27 +243,17 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
     }
 
     public drawHelperLines(ctx: CanvasRenderingContext2D, rect: IRect) {
-        switch (this.state.currentStage) {
-            case 0: // Leftmost
-                drawVerticalLine(ctx, rect.x, this.imageBounds);
-                break;
-            case 1: // Topmost
-                drawHorizontalLine(ctx, rect.y, this.imageBounds);
-                break;
-            case 2: // Rightmost
-                drawVerticalLine(ctx, rect.x + rect.w, this.imageBounds);
-                break;
-            case 3: // Bottommost
-                drawHorizontalLine(ctx, rect.y + rect.h, this.imageBounds);
-                break;
-            case 4:
-                drawVerticalLine(ctx, rect.x, this.imageBounds);
-                drawHorizontalLine(ctx, rect.y, this.imageBounds);
-                drawVerticalLine(ctx, rect.x + rect.w, this.imageBounds);
-                drawHorizontalLine(ctx, rect.y + rect.h, this.imageBounds);
-                break;
-            default:
-                break;
+        if (this.state.currentStage >= 3) { // Bottommost
+            drawHorizontalLine(ctx, rect.y + rect.h, this.imageBounds);
+        }
+        if (this.state.currentStage >= 2) { // Rightmost
+            drawVerticalLine(ctx, rect.x + rect.w, this.imageBounds);
+        }
+        if (this.state.currentStage >= 1) { // Topmost
+            drawHorizontalLine(ctx, rect.y, this.imageBounds);
+        }
+        if (this.state.currentStage >= 0) { // Leftmost
+            drawVerticalLine(ctx, rect.x, this.imageBounds);
         }
     }
 
