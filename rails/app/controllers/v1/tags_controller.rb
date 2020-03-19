@@ -4,8 +4,15 @@ require 'date'
 # Tags controller
 class V1::TagsController < ApplicationController
   def index
-    tags = tags_for(params[:project_id], params[:limit], params[:offset], params[:timestamp])
-    json_response(tags)
+    timestamp = get_timestamp(params[:timestamp])
+    offset = get_offset(params[:offset])
+    tags = tags_for(params[:project_id], timestamp, offset, params[:limit])
+    json_response(tags, base: {
+      meta: {
+        timestamp: timestamp.to_i,
+        offset: offset + tags.length
+      }
+    })
   end
 
   def show
@@ -15,27 +22,28 @@ class V1::TagsController < ApplicationController
 
   private
 
-  def tags_for(project_id, limit, offset, timestamp)
+  def get_timestamp(timestamp)
+    timestamp ? DateTime.strptime(timestamp, '%s') : Time.now.utc
+  end
+
+  def get_offset(offset)
+    offset ? offset.to_i : 0
+  end
+
+  def tags_for(project_id, timestamp, offset, limit)
     query = Task.joins(:sample)
         .where(tags_filter, project_id)
         .order(created_at: :asc)
+        .where("samples.created_at < ?", timestamp)
+        .offset(offset)
 
-    if limit && offset
-      limit = limit.to_i
-      timestamp = timestamp ? DateTime.strptime(timestamp, '%s') : Time.now.utc
-      query = query.where("samples.created_at < ?", timestamp)
-          .limit(limit+1)
-          .offset(offset)
+    if limit
+      query = query.limit(limit)
     end
 
-    more = query.length == limit + 1
-    tags = query[0...-1].map do |task|
+    query.map do |task|
       tag_for(task)
     end
-    {
-      :more => more,
-      :tags => tags
-    }
   end
 
   def samples_for(project_id, task_id)
