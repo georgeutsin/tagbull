@@ -40,6 +40,12 @@ class Activity
         target_point: {
           x: bb.x,
           y: bb.y
+        },
+        max_box: {
+          max_x: bb.max_x,
+          max_y: bb.max_y,
+          min_x: bb.min_x,
+          min_y: bb.min_y,
         }
       }
     when LocatorTask

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_05_005238) do
+ActiveRecord::Schema.define(version: 2020_03_19_001341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,10 @@ ActiveRecord::Schema.define(version: 2020_03_05_005238) do
     t.datetime "updated_at", precision: 6, null: false
     t.float "x"
     t.float "y"
+    t.float "min_x", default: 0.0
+    t.float "max_x", default: 1.0
+    t.float "min_y", default: 0.0
+    t.float "max_y", default: 1.0
   end
 
   create_table "dichotomy_tasks", force: :cascade do |t|
