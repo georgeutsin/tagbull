@@ -47,7 +47,30 @@ class DichotomyTask < ApplicationRecord
     )
   end
 
+  # the max box is used to eliminate any
+  # submitted bounding boxes that cover all locator points
+  def self.compute_max_box(points)
+    max_x = 1.0
+    min_x = 0.0
+    max_y = 1.0
+    min_y = 0.0
+    if points.size >= 2
+      max_x = 0.0
+      min_x = 1.0
+      max_y = 0.0
+      min_y = 1.0
+      points.each do |point|
+        max_x = [max_x, point['x'].to_f].max
+        min_x = [min_x, point['x'].to_f].min
+        max_y = [max_y, point['y'].to_f].max
+        min_y = [min_y, point['y'].to_f].min
+      end
+    end
+    {max_x: max_x, min_x: min_x, max_y: max_y, min_y: min_y}
+  end
+
   def create_bounding_box_tasks(points)
+    max_box = DichotomyTask.compute_max_box(points)
     points.each do |point|
       BoundingBoxTask.create!(
         parent_id: acting_as.id,
@@ -56,6 +79,10 @@ class DichotomyTask < ApplicationRecord
         category: parent_category,
         x: point['x'].to_f,
         y: point['y'].to_f,
+        max_x: max_box[:max_x],
+        min_x: max_box[:min_x],
+        max_y: max_box[:max_y],
+        min_y: max_box[:min_y],
         level: level + 1
       )
     end
