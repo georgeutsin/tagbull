@@ -113,7 +113,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
     public isDepiction(category: string, options: string[]) {
         const instruction =
             <div className="question runSlideIn">
-                Is this a real {category} (i.e: not a drawing)?
+                Is this an image of a real {category} (taken by a camera)?
             </div>;
         const helpButton =
             <HelpButtonComponent>
