@@ -20,7 +20,7 @@
     "react-dropzone": "^10.1.4",
     "react-resize-detector": "^4.2.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1"
+    "react-scripts": "^3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
