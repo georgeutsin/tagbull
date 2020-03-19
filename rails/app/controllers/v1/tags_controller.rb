@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+require 'date'
 
 # Tags controller
 class V1::TagsController < ApplicationController
   def index
-    tags = tags_for(params[:project_id])
+    tags = tags_for(params[:project_id], params[:limit], params[:offset], params[:timestamp])
     json_response(tags)
   end
 
@@ -14,13 +15,27 @@ class V1::TagsController < ApplicationController
 
   private
 
-  def tags_for(project_id)
-    Task.joins(:sample)
+  def tags_for(project_id, limit, offset, timestamp)
+    query = Task.joins(:sample)
         .where(tags_filter, project_id)
         .order(created_at: :asc)
-        .map do |task|
-          tag_for(task)
-        end
+
+    if limit && offset
+      limit = limit.to_i
+      timestamp = timestamp ? DateTime.strptime(timestamp, '%s') : Time.now.utc
+      query = query.where("samples.created_at < ?", timestamp)
+          .limit(limit+1)
+          .offset(offset)
+    end
+
+    more = query.length == limit + 1
+    tags = query[0...-1].map do |task|
+      tag_for(task)
+    end
+    {
+      :more => more,
+      :tags => tags
+    }
   end
 
   def samples_for(project_id, task_id)
