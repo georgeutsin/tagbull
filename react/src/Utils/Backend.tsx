@@ -4,7 +4,7 @@ import axios from "axios";
 interface IBackend {
     getActivity(deviceId: string, projectId?: string): any;
     postSample(data: any): any;
-    getTags(projectId: number): any;
+    getTags(projectId: number, meta?: any): any;
     getSamples(projectId: number, taskId: number): any;
     getAllSamples(projectId: number): any;
     getProjects(): any;
@@ -33,8 +33,8 @@ class RemoteBackend implements IBackend {
         return axios.post(this.base + `/samples`, data);
     }
 
-    public getTags(projectId: number): any {
-        return axios.get(this.base + `/projects/${projectId}/tags`);
+    public getTags(projectId: number, meta?: any): any {
+        return axios.get(this.base + `/projects/${projectId}/tags`, {params: meta});
     }
 
     public getSamples(projectId: number, taskId: number): any {
@@ -238,6 +238,6 @@ function getBackend(type: string): IBackend {
     }
 }
 
-const BackendLocation = "prod"; // CHANGE THIS LINE TO CHANGE THE BACKEND
+const BackendLocation = "local"; // CHANGE THIS LINE TO CHANGE THE BACKEND
 const Backend = getBackend(BackendLocation);
 export { Backend, BackendLocation };

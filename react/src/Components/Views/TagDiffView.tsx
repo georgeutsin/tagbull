@@ -12,6 +12,8 @@ class SamplesView extends Component<any, any> {
             projectIds: [Number(values.project1), Number(values.project2)],
             projectList: [{ name: "" }, { name: "" }],
             tagsLists: [[], []],
+            tagOffsets: [0, 0],
+            tagTimestamps: [null, null],
         };
     }
 
@@ -35,12 +37,17 @@ class SamplesView extends Component<any, any> {
 
     public loadTags(idx: number) {
         const projectId = this.state.projectIds[idx];
-        Backend.getTags(projectId).then((resp: any) => {
+        const meta = {offset: this.state.tagOffsets[idx], timestamp: this.state.tagTimestamps[idx]};
+        Backend.getTags(projectId, meta).then((resp: any) => {
             const newTags = resp.data.data;
             const tagsLists = this.state.tagsLists;
             tagsLists[idx] = tagsLists[idx].concat(newTags);
             console.log(tagsLists);
-            this.setState({ tagsLists });
+            const tagOffsets = this.state.tagOffsets;
+            tagOffsets[idx] = resp.data.data.length === 0 ? Infinity : resp.data.meta.offset;
+            const tagTimestamps = this.state.tagTimestamps;
+            tagTimestamps[idx] = resp.data.meta.timestamp;
+            this.setState({ tagsLists, tagOffsets, tagTimestamps });
         });
     }
 
@@ -51,12 +58,12 @@ class SamplesView extends Component<any, any> {
         // "Loose zip" through the two tag lists
         // Images in one tag list may not be present in another, so perform a modified zip on the two lists
         for (; ;) {
-            if (idx0 >= this.state.tagsLists[0].length) { // change length to offset in state when pagination merged in
-                break; // TODO REMOVE AFTER PAGINATION MERGED IN
+            if (idx0 >= this.state.tagOffsets[0]) { // change length to offset in state when pagination merged in
+                // break; // TODO REMOVE AFTER PAGINATION MERGED IN
                 this.loadTags(0);
             }
-            if (idx1 >= this.state.tagsLists[1].length) { // change length to offset in state when pagination merged in
-                break; // TODO REMOVE AFTER PAGINATION MERGED IN
+            if (idx1 >= this.state.tagOffsets[1]) { // change length to offset in state when pagination merged in
+                // break; // TODO REMOVE AFTER PAGINATION MERGED IN
                 this.loadTags(1);
             }
 
@@ -74,13 +81,13 @@ class SamplesView extends Component<any, any> {
             }
 
             if ((tag0 && tag1 && tag0.media.name < tag1.media.name) || tag1 === null) {
-                tagDiffs.push(<TagDiffPreview key={tag0.task.id + "_"}  tag0={tag0} tag1={null}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={tag0.task.id + "_"} tag0={tag0} tag1={null}></TagDiffPreview>);
                 idx0 += 1;
                 continue;
             }
 
             if ((tag0 && tag1 && tag0.media.name > tag1.media.name) || tag0 === null) {
-                tagDiffs.push(<TagDiffPreview key={"_" + tag1.task.id}tag0={null} tag1={tag1}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={"_" + tag1.task.id} tag0={null} tag1={tag1}></TagDiffPreview>);
                 idx1 += 1;
                 continue;
             }
@@ -108,7 +115,7 @@ class SamplesView extends Component<any, any> {
                     <div className="projectSection">
                         <h2>Samples</h2>
                     </div>
-                    <div className="tagPreviews" style={{display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
+                    <div className="tagPreviews" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
                         {tagDiffs}
                     </div>
                 </div>
