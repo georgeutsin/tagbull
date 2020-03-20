@@ -21,8 +21,8 @@ class SamplesView extends Component<any, any> {
         this.loadProject(0);
         this.loadProject(1);
 
-        this.loadTags(0);
-        this.loadTags(1);
+        // load all tags
+        this.loadMoreTags(true);
     }
 
     public loadProject(idx: number) {
@@ -35,19 +35,35 @@ class SamplesView extends Component<any, any> {
         });
     }
 
-    public loadTags(idx: number) {
+    public async loadTags(idx: number) {
         const projectId = this.state.projectIds[idx];
-        const meta = {offset: this.state.tagOffsets[idx], timestamp: this.state.tagTimestamps[idx]};
-        Backend.getTags(projectId, meta).then((resp: any) => {
-            const newTags = resp.data.data;
-            const tagsLists = this.state.tagsLists;
-            tagsLists[idx] = tagsLists[idx].concat(newTags);
-            console.log(tagsLists);
-            const tagOffsets = this.state.tagOffsets;
-            tagOffsets[idx] = resp.data.data.length === 0 ? Infinity : resp.data.meta.offset;
-            const tagTimestamps = this.state.tagTimestamps;
-            tagTimestamps[idx] = resp.data.meta.timestamp;
-            this.setState({ tagsLists, tagOffsets, tagTimestamps });
+        const meta = { offset: this.state.tagOffsets[idx], timestamp: this.state.tagTimestamps[idx] };
+        return await Backend.getTags(projectId, meta);
+    }
+
+
+    public async loadMoreTags(loadAll: boolean = false) {
+        const tagsLists = this.state.tagsLists;
+        const tagOffsets = this.state.tagOffsets;
+        const tagTimestamps = this.state.tagTimestamps;
+
+        if (this.state.tagOffsets[0] !== -1) {
+            const resp = await this.loadTags(0);
+            tagsLists[0] = tagsLists[0].concat(resp.data.data);
+            tagOffsets[0] = resp.data.data.length === 0 ? -1 : resp.data.meta.offset;
+            tagTimestamps[0] = resp.data.meta.timestamp;
+        }
+        if (this.state.tagOffsets[1] !== -1) {
+            const resp = await this.loadTags(1);
+            tagsLists[1] = tagsLists[1].concat(resp.data.data);
+            tagOffsets[1] = resp.data.data.length === 0 ? -1 : resp.data.meta.offset;
+            tagTimestamps[1] = resp.data.meta.timestamp;
+        }
+
+        this.setState({ tagsLists, tagOffsets, tagTimestamps }, () => {
+            if (loadAll && (this.state.tagOffsets[1] !== -1 || this.state.tagOffsets[0] !== -1)) {
+                this.loadMoreTags(true);
+            }
         });
     }
 
@@ -58,15 +74,6 @@ class SamplesView extends Component<any, any> {
         // "Loose zip" through the two tag lists
         // Images in one tag list may not be present in another, so perform a modified zip on the two lists
         for (; ;) {
-            if (idx0 >= this.state.tagOffsets[0]) { // change length to offset in state when pagination merged in
-                // break; // TODO REMOVE AFTER PAGINATION MERGED IN
-                this.loadTags(0);
-            }
-            if (idx1 >= this.state.tagOffsets[1]) { // change length to offset in state when pagination merged in
-                // break; // TODO REMOVE AFTER PAGINATION MERGED IN
-                this.loadTags(1);
-            }
-
             const tag0 = idx0 < this.state.tagsLists[0].length ? this.state.tagsLists[0][idx0] : null;
             const tag1 = idx1 < this.state.tagsLists[1].length ? this.state.tagsLists[1][idx1] : null;
             if (tag0 === null && tag1 === null) {
@@ -74,25 +81,25 @@ class SamplesView extends Component<any, any> {
             }
 
             if (tag0 && tag1 && tag0.media.name === tag1.media.name) {
-                tagDiffs.push(<TagDiffPreview key={tag0.task.id + "_" + tag1.task.id} tag0={tag0} tag1={tag1}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={tag0.media.name} tag0={tag0} tag1={tag1}></TagDiffPreview>);
                 idx0 += 1;
                 idx1 += 1;
                 continue;
             }
 
             if ((tag0 && tag1 && tag0.media.name < tag1.media.name) || tag1 === null) {
-                tagDiffs.push(<TagDiffPreview key={tag0.task.id + "_"} tag0={tag0} tag1={null}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={tag0.media.name} tag0={tag0} tag1={null}></TagDiffPreview>);
                 idx0 += 1;
                 continue;
             }
 
             if ((tag0 && tag1 && tag0.media.name > tag1.media.name) || tag0 === null) {
-                tagDiffs.push(<TagDiffPreview key={"_" + tag1.task.id} tag0={null} tag1={tag1}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={tag1.media.name} tag0={null} tag1={tag1}></TagDiffPreview>);
                 idx1 += 1;
                 continue;
             }
-
         }
+
         return tagDiffs;
     }
 
@@ -108,7 +115,8 @@ class SamplesView extends Component<any, any> {
             <div className="pageWrapper" style={{ minHeight: "100vh" }}>
                 <div className="spaceAfter"></div>
                 <div className="actionBar">
-                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name} Project2: {this.state.projectList[1].name}</h1></span>
+                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name} 
+                        <br></br> Project2: {this.state.projectList[1].name}</h1></span>
                     <div style={{ clear: "both" }}></div>
                 </div>
                 <div className="mainCard">
