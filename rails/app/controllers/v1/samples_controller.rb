@@ -17,8 +17,14 @@ class V1::SamplesController < ApplicationController
 
   # GET /projects/{id}/samples
   def index
-    samples = all_samples(params[:project_id])
-    json_response(samples)
+    timestamp = pagination_timestamp
+    samples = samples_for(params[:project_id], timestamp)
+    json_response(samples, base: {
+      meta: {
+        timestamp: timestamp.to_i,
+        offset: pagination_offset + samples.length
+      }
+    })
   end
 
   private
@@ -99,11 +105,25 @@ class V1::SamplesController < ApplicationController
     GenerateTagJob.perform_later(task)
   end
 
-  def all_samples(project_id)
+  def samples_for(project_id, timestamp)
     Sample.joins(:task)
           .where('tasks.project_id = ?', project_id)
           .order('samples.created_at DESC')
-          .limit(50)
+          .where("samples.created_at < ?", timestamp)
+          .offset(pagination_offset)
+          .limit(pagination_limit)
           .map(&:additional_info)
+  end
+
+  def pagination_timestamp
+    params[:timestamp] ? DateTime.strptime(params[:timestamp], '%s') : Time.now.utc
+  end
+
+  def pagination_offset
+    params[:offset] ? params[:offset].to_i : 0
+  end
+
+  def pagination_limit
+    params[:limit] ? params[:limit].to_i : 50
   end
 end
