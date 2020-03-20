@@ -148,6 +148,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
                     </div>
                 </div>
             }
+
             {this.state.currentStage === TurkViewStage.ACTIVITIES &&
                 <div style={{ height: `calc(100% - ${turkIdHeight + progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                     <ActivitiesComponent
