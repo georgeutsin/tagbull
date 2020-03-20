@@ -109,7 +109,7 @@ class V1::SamplesController < ApplicationController
     Sample.joins(:task)
           .where('tasks.project_id = ?', project_id)
           .order('samples.created_at DESC')
-          .where("samples.created_at < ?", timestamp)
+          .where(Sample.arel_table[:created_at].lt(timestamp))
           .offset(pagination_offset)
           .limit(pagination_limit)
           .map(&:additional_info)

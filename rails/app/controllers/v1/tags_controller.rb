@@ -37,7 +37,7 @@ class V1::TagsController < ApplicationController
     Task.joins(:sample)
       .where(tags_filter, project_id)
       .order(created_at: :asc)
-      .where("samples.created_at < ?", timestamp)
+      .where(Sample.arel_table[:created_at].lt(timestamp))
       .offset(pagination_offset)
       .limit(pagination_limit)
       .map do |task|
