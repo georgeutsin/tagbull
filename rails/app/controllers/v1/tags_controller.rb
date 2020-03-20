@@ -1,10 +1,17 @@
 # frozen_string_literal: true
+require 'date'
 
 # Tags controller
 class V1::TagsController < ApplicationController
   def index
-    tags = tags_for(params[:project_id])
-    json_response(tags)
+    timestamp = pagination_timestamp
+    tags = tags_for(params[:project_id], timestamp)
+    json_response(tags, base: {
+      meta: {
+        timestamp: timestamp.to_i,
+        offset: pagination_offset + tags.length
+      }
+    })
   end
 
   def show
@@ -14,13 +21,28 @@ class V1::TagsController < ApplicationController
 
   private
 
-  def tags_for(project_id)
+  def pagination_timestamp
+    params[:timestamp] ? DateTime.strptime(params[:timestamp], '%s') : Time.now.utc
+  end
+
+  def pagination_offset
+    params[:offset] ? params[:offset].to_i : 0
+  end
+
+  def pagination_limit
+    params[:limit] ? params[:limit].to_i : 10
+  end
+
+  def tags_for(project_id, timestamp)
     Task.joins(:sample)
-        .where(tags_filter, project_id)
-        .order(created_at: :asc)
-        .map do |task|
-          tag_for(task)
-        end
+      .where(tags_filter, project_id)
+      .order(created_at: :asc)
+      .where(Sample.arel_table[:created_at].lt(timestamp))
+      .offset(pagination_offset)
+      .limit(pagination_limit)
+      .map do |task|
+        tag_for(task)
+      end
   end
 
   def samples_for(project_id, task_id)
