@@ -5,106 +5,86 @@ import { NavBar, TagDiffPreview } from "../UIElements";
 
 
 class SamplesView extends Component<any, any> {
-    private projectId1: number;
-    private projectId2: number;
-    private idx1: number;
-    private idx2: number;
-
     constructor(props: any) {
         super(props);
         const values = queryString.parse(this.props.location.search);
-        this.projectId1 = Number(values.project1);
-        this.projectId2 = Number(values.project2);
         this.state = {
-            project1: {
-                name: "",
-            },
-            project2: {
-                name: "",
-            },
-            tags1: [],
-            tags2: [],
+            projectIds: [Number(values.project1), Number(values.project2)],
+            projectList: [{ name: "" }, { name: "" }],
+            tagsLists: [[], []],
         };
-        this.idx1 = 0;
-        this.idx2 = 0;
     }
 
     public componentDidMount() {
-        Backend.getProject(this.projectId1).then((resp: any) => {
-            const project = resp.data.data;
-            this.setState({
-                project1: {
-                    name: project.name,
-                },
-            });
-        });
-        Backend.getProject(this.projectId2).then((resp: any) => {
-            const project = resp.data.data;
-            this.setState({
-                project2: {
-                    name: project.name,
-                },
-            });
-        });
+        this.loadProject(0);
+        this.loadProject(1);
 
-        this.loadTags1();
-        this.loadTags2();
+        this.loadTags(0);
+        this.loadTags(1);
     }
 
-
-    public loadTags1() {
-        Backend.getTags(this.projectId1).then((resp: any) => {
-            const newList = this.state.tags1.concat(resp.data.data);
-            console.log(newList);
-            this.setState({ tags1: newList });
+    public loadProject(idx: number) {
+        const projectId = this.state.projectIds[idx];
+        Backend.getProject(projectId).then((resp: any) => {
+            const project = resp.data.data;
+            const projectList = this.state.projectList;
+            projectList[idx] = project;
+            this.setState({ projectList });
         });
     }
 
-    public loadTags2() {
-        Backend.getTags(this.projectId2).then((resp: any) => {
-            this.setState({ tags2: this.state.tags2.concat(resp.data.data) });
+    public loadTags(idx: number) {
+        const projectId = this.state.projectIds[idx];
+        Backend.getTags(projectId).then((resp: any) => {
+            const newTags = resp.data.data;
+            const tagsLists = this.state.tagsLists;
+            tagsLists[idx] = tagsLists[idx].concat(newTags);
+            console.log(tagsLists);
+            this.setState({ tagsLists });
         });
     }
 
     public renderDiffs() {
+        let idx0 = 0;
+        let idx1 = 0;
         const tagDiffs = [];
         // "Loose zip" through the two tag lists
         // Images in one tag list may not be present in another, so perform a modified zip on the two lists
-        // Further, pagination means that we need to keep track of indexes individually
-        for (;;) {
-            if (this.idx1 >= this.state.tags1.length) {
+        for (; ;) {
+            if (idx0 >= this.state.tagsLists[0].length) { // change length to offset in state when pagination merged in
                 break; // TODO REMOVE AFTER PAGINATION MERGED IN
-                this.loadTags1();
+                this.loadTags(0);
             }
-            if (this.idx2 >= this.state.tags2.length) {
+            if (idx1 >= this.state.tagsLists[1].length) { // change length to offset in state when pagination merged in
                 break; // TODO REMOVE AFTER PAGINATION MERGED IN
-                this.loadTags2();
+                this.loadTags(1);
             }
-            const tag1 = this.idx1 < this.state.tags1.length ? this.state.tags1[this.idx1] : null;
-            const tag2 = this.idx2 < this.state.tags2.length ? this.state.tags2[this.idx2] : null;
 
-            if (tag1 === null && tag2 === null) {
+            const tag0 = idx0 < this.state.tagsLists[0].length ? this.state.tagsLists[0][idx0] : null;
+            const tag1 = idx1 < this.state.tagsLists[1].length ? this.state.tagsLists[1][idx1] : null;
+            if (tag0 === null && tag1 === null) {
                 break;
             }
 
-            if (tag1 && tag2 && tag1.media.name === tag2.media.name) {
-                tagDiffs.push(<TagDiffPreview tag1={tag1} tag2={tag2}></TagDiffPreview>);
-                this.idx1 += 1;
-                this.idx2 += 1;
+            if (tag0 && tag1 && tag0.media.name === tag1.media.name) {
+                tagDiffs.push(<TagDiffPreview key={tag0.task.id + "_" + tag1.task.id} tag0={tag0} tag1={tag1}></TagDiffPreview>);
+                idx0 += 1;
+                idx1 += 1;
                 continue;
             }
 
-            if ((tag1 && tag2 && tag1.media.name < tag2.media.name) || tag2 === null) {
-                tagDiffs.push(<TagDiffPreview tag1={tag1} tag2={null}></TagDiffPreview>);
-                this.idx1 += 1;
+            if ((tag0 && tag1 && tag0.media.name < tag1.media.name) || tag1 === null) {
+                tagDiffs.push(<TagDiffPreview key={tag0.task.id + "_"}  tag0={tag0} tag1={null}></TagDiffPreview>);
+                idx0 += 1;
                 continue;
             }
 
-            if ((tag1 && tag2 && tag1.media.name > tag2.media.name) || tag1 === null) {
-                tagDiffs.push(<TagDiffPreview tag1={null} tag2={tag2}></TagDiffPreview>);
-                this.idx2 += 1;
+            if ((tag0 && tag1 && tag0.media.name > tag1.media.name) || tag0 === null) {
+                tagDiffs.push(<TagDiffPreview key={"_" + tag1.task.id}tag0={null} tag1={tag1}></TagDiffPreview>);
+                idx1 += 1;
                 continue;
             }
+
         }
         return tagDiffs;
     }
@@ -121,7 +101,7 @@ class SamplesView extends Component<any, any> {
             <div className="pageWrapper" style={{ minHeight: "100vh" }}>
                 <div className="spaceAfter"></div>
                 <div className="actionBar">
-                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.project1.name} Project2: {this.state.project2.name}</h1></span>
+                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name} Project2: {this.state.projectList[1].name}</h1></span>
                     <div style={{ clear: "both" }}></div>
                 </div>
                 <div className="mainCard">

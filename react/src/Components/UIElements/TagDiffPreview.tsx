@@ -7,7 +7,7 @@ class TagDiffPreview extends Component<any, any> {
     }
 
     public render() {
-        return <div>{this.props.tag1 ? this.props.tag1.media.name : "-"} : {this.props.tag2 ? this.props.tag2.media.name : "-"}</div>;
+        return <div>{this.props.tag0 ? this.props.tag0.media.name : "-"} : {this.props.tag1 ? this.props.tag1.media.name : "-"}</div>;
     }
 }
 
