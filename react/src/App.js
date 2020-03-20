@@ -11,6 +11,7 @@ import {
   ProjectDetailView,
   TagDetailView,
   SamplesView,
+  TagDiffView,
   ActivitiesInfiniteView,
   ActivitiesPlayerView,
   ActivitiesTurkView,
@@ -43,6 +44,7 @@ class App extends Component {
             <Route exact path="/projects/:projectId" component={ProjectDetailView}></Route>
             <Route exact path="/projects/:projectId/tags/:taskId" component={TagDetailView}></Route>
             <Route exact path="/projects/:projectId/samples" component={SamplesView}></Route>
+            <Route exact path="/diff" component={TagDiffView}></Route>
             <Route component={NotFoundView}></Route>
           </Switch>
         </div>

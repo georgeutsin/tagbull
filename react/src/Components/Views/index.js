@@ -8,6 +8,7 @@ export { default as ProjectsView } from "./ProjectsView";
 export { default as ProjectDetailView } from "./ProjectDetailView";
 export { default as TagDetailView } from "./TagDetailView";
 export { default as SamplesView } from "./SamplesView";
+export { default as TagDiffView } from "./TagDiffView";
 export { default as ActivitiesInfiniteView } from "./ActivitiesInfiniteView";
 export { default as ActivitiesPlayerView } from "./ActivitiesPlayerView";
 export { default as ActivitiesTurkView } from "./ActivitiesTurkView";
