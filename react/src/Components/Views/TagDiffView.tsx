@@ -94,14 +94,14 @@ class SamplesView extends Component<any, any> {
                 continue;
             }
 
-            if ((tag1 && tag2 && tag1.media.name < tag2.media.name) || tag1 === null) {
-                tagDiffs.push(<TagDiffPreview tag1={null} tag2={tag2}></TagDiffPreview>);
+            if ((tag1 && tag2 && tag1.media.name < tag2.media.name) || tag2 === null) {
+                tagDiffs.push(<TagDiffPreview tag1={tag1} tag2={null}></TagDiffPreview>);
                 this.idx1 += 1;
                 continue;
             }
 
-            if ((tag1 && tag2 && tag1.media.name > tag2.media.name) || tag2 === null) {
-                tagDiffs.push(<TagDiffPreview tag1={tag1} tag2={null}></TagDiffPreview>);
+            if ((tag1 && tag2 && tag1.media.name > tag2.media.name) || tag1 === null) {
+                tagDiffs.push(<TagDiffPreview tag1={null} tag2={tag2}></TagDiffPreview>);
                 this.idx2 += 1;
                 continue;
             }
