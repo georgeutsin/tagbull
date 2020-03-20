@@ -5,7 +5,6 @@ import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElem
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum TurkViewStage {
-    INPUT_TURK_ID = 0,
     ACTIVITIES = 1,
     COMPLETE = 2,
 }
@@ -30,7 +29,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         // fetching turker ID, first try query string, try localStorage and default to empty
         const turkId = localStorage.getItem("turkID") || "";
 
-        const stage = turkId === "" ? TurkViewStage.INPUT_TURK_ID : TurkViewStage.ACTIVITIES;
+        const stage = TurkViewStage.ACTIVITIES;
 
         // Don't call this.setState() here!
         this.state = {
@@ -49,28 +48,11 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         this.doneActivity = this.doneActivity.bind(this);
         this.activitySource = this.activitySource.bind(this);
         this.exit = this.exit.bind(this);
-        this.changeTurkId = this.changeTurkId.bind(this);
-        this.onIDChange = this.onIDChange.bind(this);
         this.doneClicked = this.doneClicked.bind(this);
     }
 
     public exit() {
         window.parent.postMessage("success", "*");
-    }
-
-    public changeTurkId() {
-        localStorage.setItem("turkID", "");
-        this.setState({
-            currentStage: TurkViewStage.INPUT_TURK_ID,
-            deviceId: "",
-        });
-    }
-
-    public onIDChange(turkID: string) {
-        this.setState({
-            deviceId: turkID,
-            hasInput: (turkID !== ""),
-        });
     }
 
     public doneClicked() {
@@ -107,8 +89,6 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
                 waitingOnPost: false,
             });
         });
-
-
     }
 
     public render() {
@@ -120,34 +100,10 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         const turkIdHeight = 30;
 
         return <div style={{ height: "100%" }}>
-            {this.state.currentStage === TurkViewStage.ACTIVITIES &&
-                <div style={{ height: turkIdHeight, textAlign: "center" }}>
-                    <p>Completing task as worker:&nbsp;
-                    <b>{this.state.deviceId}</b>
-                        <br></br>
-                        {/* eslint-disable-next-line  */}
-                        <a className="link" onClick={this.changeTurkId}>Not You?</a></p>
-                </div>
-            }
             <ProgressBarComponent
                 height={progressBarHeight}
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
             </ProgressBarComponent>
-            {this.state.currentStage === TurkViewStage.INPUT_TURK_ID &&
-                <div>
-                    <InputTurkID onIDChange={this.onIDChange} turkID={this.state.deviceId} />
-
-                    <div style={{ marginRight: "10px", marginLeft: "10px" }}>
-                        {
-                            <BigButtonComponent
-                                enabled={this.state.hasInput}
-                                onClick={this.doneClicked}
-                                label={"Done"}>
-                            </BigButtonComponent>
-                        }
-                    </div>
-                </div>
-            }
             {this.state.currentStage === TurkViewStage.ACTIVITIES &&
                 <div style={{ height: `calc(100% - ${turkIdHeight + progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                     <ActivitiesComponent
