@@ -121,6 +121,12 @@ class MockBackend implements IBackend {
                         x: 0.5,
                         y: 0.5,
                     },
+                    max_box: {
+                        min_x: 0.2,
+                        min_y: 0.2,
+                        max_x: 0.7,
+                        max_y: 0.7,
+                    },
                 },
             },
         };

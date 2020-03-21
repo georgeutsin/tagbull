@@ -13,6 +13,7 @@ interface IBoundingBoxTapState {
     animationClass: string;
     currentStage: number;
     finishedInput: boolean;
+    canvasKey: number;
 }
 
 interface IBoundingBoxTapProps {
@@ -30,7 +31,8 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     private numberOfStages: number;
     private boundingBox: IBoundingBox;
     private visuals: any[];
-    private box_too_big_alert_dismissed: boolean;
+    private boxTooBigAlertDismissed: boolean;
+    private boxTooSmallAlertDismissed: boolean;
 
     constructor(props: any) {
         super(props);
@@ -40,10 +42,12 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             finishedInput: false,
             currentStage: 0,
             animationClass: "",
+            canvasKey: Date.now(),
         };
 
         this.numberOfStages = 4;
-        this.box_too_big_alert_dismissed = false;
+        this.boxTooBigAlertDismissed = false;
+        this.boxTooSmallAlertDismissed = false;
         this.view = null;
         this.activityInstruction = null;
         this.activityAction = null;
@@ -55,11 +59,17 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         this.handleTapFinished = this.handleTapFinished.bind(this);
     }
 
-    public box_too_big() {
+    public boxTooBig() {
         return this.props.activity.config.max_box.min_x > this.boundingBox.min_x &&
             this.props.activity.config.max_box.min_y > this.boundingBox.min_y &&
             this.props.activity.config.max_box.max_x < this.boundingBox.max_x &&
             this.props.activity.config.max_box.max_y < this.boundingBox.max_y;
+    }
+
+    public boxTooSmall() { // TODO: This is an approximation since it's dependent on aspect ratio
+        const delta = 0.07;
+        return Math.abs(this.boundingBox.max_x - this.boundingBox.min_x) < delta
+            && Math.abs(this.boundingBox.max_y - this.boundingBox.min_y) < delta;
     }
 
     public doneButtonClicked() {
@@ -68,10 +78,15 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             // on the backend, we generate a maximum bounding box.
             // So verify here that it is not bigger than the max
             // bounding box.
-            if (!this.box_too_big_alert_dismissed && this.box_too_big()) {
+            if (!this.boxTooBigAlertDismissed && this.boxTooBig()) {
                 const category = this.props.activity.config.category.toLowerCase();
-                alert(`Are you sure you have drawn a box around the single ${category} indicated by the target?`);
-                this.box_too_big_alert_dismissed = true;
+                alert(`Is the box around the single ${category} indicated by the target?`);
+                this.boxTooBigAlertDismissed = true;
+            } else if (!this.boxTooSmallAlertDismissed && this.boxTooSmall()) {
+                const category = this.props.activity.config.category.toLowerCase();
+                alert(`Is the entire ${category} inside the box?`);
+                this.wipeProgress();
+                this.boxTooSmallAlertDismissed = true;
             } else {
                 this.props.notifyActivityComplete(this.boundingBox);
             }
@@ -91,6 +106,11 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         });
     }
 
+    public wipeProgress() {
+        this.boundingBox = { max_x: 0, max_y: 0, min_x: 0, min_y: 0 };
+        this.setState({ canvasKey: Date.now(), finishedInput: false, currentStage: 0 });
+    }
+
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const helpButton = this.state.currentStage < this.numberOfStages ?
@@ -107,8 +127,8 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 ({this.state.currentStage + 1}/4) Please tap the
                 <div className={"bolded " + this.state.animationClass}>
                     &nbsp;{INSTRUCTION[this.state.currentStage]}
-                </div> part
-                of the {category} {this.props.activity.config.target_point ? " indicated by the target " : ""}
+                </div> pixel
+                of the one {this.props.activity.config.target_point ? "indicated " : ""}{category}
             </div> :
             <div className={"question " + this.state.animationClass}>
                 Please verify that all 4 borders touch, and fix them if they don't
@@ -127,6 +147,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 {question}
             </ActivityInstruction>
             <BoundingBoxCreationCanvas
+                key={this.state.canvasKey}
                 instructionDims={this.instructionDims()}
                 actionDims={this.actionDims()}
                 viewDims={this.viewDims()}
@@ -147,7 +168,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             <ResizeDetector
                 handleWidth
                 handleHeight
-                onResize={(widht, height) => this.setState({})} />
+                onResize={(width, height) => this.setState({})} />
         </div>;
     }
 
