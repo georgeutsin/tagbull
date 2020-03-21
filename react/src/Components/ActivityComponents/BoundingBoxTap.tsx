@@ -13,6 +13,7 @@ interface IBoundingBoxTapState {
     animationClass: string;
     currentStage: number;
     finishedInput: boolean;
+    canvasKey: number;
 }
 
 interface IBoundingBoxTapProps {
@@ -41,6 +42,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             finishedInput: false,
             currentStage: 0,
             animationClass: "",
+            canvasKey: Date.now(),
         };
 
         this.numberOfStages = 4;
@@ -78,11 +80,12 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             // bounding box.
             if (!this.boxTooBigAlertDismissed && this.boxTooBig()) {
                 const category = this.props.activity.config.category.toLowerCase();
-                alert(`Are you sure you have drawn a box around the single ${category} indicated by the target?`);
+                alert(`Is the box around the single ${category} indicated by the target?`);
                 this.boxTooBigAlertDismissed = true;
             } else if (!this.boxTooSmallAlertDismissed && this.boxTooSmall()) {
                 const category = this.props.activity.config.category.toLowerCase();
-                alert(`Are you sure you have drawn a box around the entire ${category} (and not just the indicator itself)?`);
+                alert(`Is the entire ${category} inside the box?`);
+                this.wipeProgress();
                 this.boxTooSmallAlertDismissed = true;
             } else {
                 this.props.notifyActivityComplete(this.boundingBox);
@@ -103,6 +106,10 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         });
     }
 
+    public wipeProgress() {
+        this.boundingBox = { max_x: 0, max_y: 0, min_x: 0, min_y: 0 };
+        this.setState({ canvasKey: Date.now(), finishedInput: false, currentStage: 0 });
+    }
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const helpButton = this.state.currentStage < this.numberOfStages ?
@@ -139,6 +146,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 {question}
             </ActivityInstruction>
             <BoundingBoxCreationCanvas
+                key={this.state.canvasKey}
                 instructionDims={this.instructionDims()}
                 actionDims={this.actionDims()}
                 viewDims={this.viewDims()}
