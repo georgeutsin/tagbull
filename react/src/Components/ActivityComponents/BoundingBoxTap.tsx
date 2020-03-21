@@ -110,6 +110,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         this.boundingBox = { max_x: 0, max_y: 0, min_x: 0, min_y: 0 };
         this.setState({ canvasKey: Date.now(), finishedInput: false, currentStage: 0 });
     }
+
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const helpButton = this.state.currentStage < this.numberOfStages ?
