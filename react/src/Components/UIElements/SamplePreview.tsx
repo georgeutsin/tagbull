@@ -31,7 +31,7 @@ class SamplePreview extends Component<any, any> {
                 ></BoundingBoxCanvas>
             </div>
 
-            <div className="tagPreviewDetails">
+            <div className="tagPreviewDetails" style={{lineHeight: "1em", fontSize: "1em"}}>
                 <div> <h5>Type</h5> Bounding Box </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
                 <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}</div>
@@ -56,7 +56,7 @@ class SamplePreview extends Component<any, any> {
                 </PointCanvas>
             </div>
 
-            <div className="tagPreviewDetails">
+            <div className="tagPreviewDetails" style={{lineHeight: "1em", fontSize: "1em"}}>
                 <div> <h5>Type</h5> Locator </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
                 <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id} </div>
@@ -81,7 +81,7 @@ class SamplePreview extends Component<any, any> {
                 ></BoundingBoxCanvas>
             </div>
 
-            <div className="tagPreviewDetails">
+            <div className="tagPreviewDetails" style={{lineHeight: "1em", fontSize: "1em"}}>
                 <div> <h5>Type</h5> Discrete Attribute </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
                 <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}  </div>

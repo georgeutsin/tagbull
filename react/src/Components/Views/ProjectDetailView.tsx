@@ -28,9 +28,13 @@ class ProjectDetailView extends Component<any, any> {
                 is_private: false,
             },
             tags: [],
+            tagOffset: 0,
+            tagTimestamp: null,
         };
         this.pauseButtonClicked = this.pauseButtonClicked.bind(this);
         this.privateButtonClicked = this.privateButtonClicked.bind(this);
+        this.loadMoreButtonClicked = this.loadMoreButtonClicked.bind(this);
+        this.loadAllButtonClicked = this.loadAllButtonClicked.bind(this);
     }
 
     public componentDidMount() {
@@ -38,8 +42,31 @@ class ProjectDetailView extends Component<any, any> {
             this.setProjectState(resp);
         });
 
-        Backend.getTags(this.params.projectId).then((resp: any) => {
-            this.setState({ tags: resp.data.data });
+        this.loadMoreTags();
+    }
+
+    public async loadTags() {
+        const projectId = this.params.projectId;
+        const meta = { offset: this.state.tagOffset, timestamp: this.state.tagTimestamp };
+        return await Backend.getTags(projectId, meta);
+    }
+
+    public async loadMoreTags(loadAll: boolean = false) {
+        let tags = this.state.tags;
+        let tagOffset = this.state.tagOffset;
+        let tagTimestamp = this.state.tagTimestamp;
+
+        if (this.state.tagOffset !== -1) {
+            const resp = await this.loadTags();
+            tags = tags.concat(resp.data.data);
+            tagOffset = resp.data.data.length === 0 ? -1 : resp.data.meta.offset;
+            tagTimestamp = resp.data.meta.timestamp;
+        }
+
+        this.setState({ tags, tagOffset, tagTimestamp }, () => {
+            if (loadAll && this.state.tagOffset !== -1) {
+                this.loadMoreTags(true);
+            }
         });
     }
 
@@ -55,6 +82,14 @@ class ProjectDetailView extends Component<any, any> {
         Backend.patchProject(this.params.projectId, data).then((resp: any) => {
             this.setProjectState(resp);
         });
+    }
+
+    public loadMoreButtonClicked() {
+        this.loadMoreTags(false);
+    }
+
+    public loadAllButtonClicked() {
+        this.loadMoreTags(true);
     }
 
     public setProjectState(resp: any) {
@@ -77,7 +112,7 @@ class ProjectDetailView extends Component<any, any> {
 
     public render() {
         const tags = this.state.tags.map((tag: any) => {
-            return <TagPreview tag={tag} project_id={this.state.project.id}></TagPreview>;
+            return <TagPreview key={tag.task.id} tag={tag} project_id={this.state.project.id}></TagPreview>;
         });
 
         const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
@@ -130,6 +165,15 @@ class ProjectDetailView extends Component<any, any> {
                     <div className="tagPreviews">
                         {tags}
                     </div>
+                    {this.state.tagOffset !== -1 && <div style={{ textAlign: "center" }}>
+                        <button className="actionButton greyButton" onClick={this.loadMoreButtonClicked}>
+                            Load More
+                        </button>
+                        <div style={{width: 20, display: "inline-block"}}></div>
+                        <button className="actionButton greyButton" onClick={this.loadAllButtonClicked}>
+                            Load All
+                        </button>
+                    </div>}
                 </div>
             </div>
         </div>;

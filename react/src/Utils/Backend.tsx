@@ -6,7 +6,7 @@ interface IBackend {
     postSample(data: any): any;
     getTags(projectId: number, meta?: any): any;
     getSamples(projectId: number, taskId: number): any;
-    getAllSamples(projectId: number): any;
+    getAllSamples(projectId: number, meta?: any): any;
     getProjects(): any;
     getProject(projectId: number): any;
     postProject(data: any): any;
@@ -41,8 +41,8 @@ class RemoteBackend implements IBackend {
         return axios.get(this.base + `/projects/${projectId}/tags/${taskId}`);
     }
 
-    public getAllSamples(projectId: number): any {
-        return axios.get(this.base + `/projects/${projectId}/samples`);
+    public getAllSamples(projectId: number, meta?: any): any {
+        return axios.get(this.base + `/projects/${projectId}/samples`, {params: meta});
     }
 
     public getProjects(): any {

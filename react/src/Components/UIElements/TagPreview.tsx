@@ -40,12 +40,14 @@ class TagPreview extends Component<any, any> {
     }
 
     public dichotomyPreview(tag: any) {
+        let key = 0;
         return tag.tag.metadata.map((m: any) => {
             const bb: IBoundingBox = m.bounding_box;
             const attributes = m.attributes.map((t: any) => {
-                return <div> {t.attribute_type}-{t.option} </div>;
+                return <div key={t.attribute_type}> {t.attribute_type}-{t.option} </div>;
             });
-            return <div className="tagPreviewOuter" key={tag.media.name}>
+            key += 1;
+            return <div className="tagPreviewOuter" key={tag.media.name + key}>
                 <a href={`/projects/${this.props.project_id}/tags/${tag.task.id}`}>
                     <div className="tagPreviewThumb" style={this.canvasStyle}>
                         <BoundingBoxCanvas
