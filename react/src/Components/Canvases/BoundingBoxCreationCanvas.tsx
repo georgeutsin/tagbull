@@ -110,7 +110,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
             const touchStage = this.touchStage;
             this.touchStage = -1;
             if (this.props.targetPoint && !isPointInBounds(this.props.targetPoint, this.boundingBox)) {
-                alert(this.alertMessage());
+                alert(this.borderPlacementAlertMessage());
                 return;
             }
             let nextStage = this.state.currentStage;
@@ -142,7 +142,7 @@ class BoundingBoxCreationCanvas extends Component<IBoundingBoxCreationCanvasProp
         }
     }
 
-    public alertMessage() {
+    public borderPlacementAlertMessage() {
         let part = "";
         let location = "";
         switch (this.state.currentStage) {
