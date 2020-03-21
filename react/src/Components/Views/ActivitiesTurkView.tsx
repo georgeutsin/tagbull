@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend } from "../../Utils";
+import { Backend, getActorSig } from "../../Utils";
 import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
@@ -26,9 +26,6 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
 
         const values = queryString.parse(this.props.location.search);
 
-        // fetching turker ID, first try query string, try localStorage and default to empty
-        const turkId = localStorage.getItem("turkID") || "";
-
         const stage = TurkViewStage.ACTIVITIES;
 
         // Don't call this.setState() here!
@@ -38,7 +35,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
             completedActivityCounter: 0,
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 20,
-            deviceId: turkId,
+            deviceId: getActorSig("web_turk"),
             projectId: values.project_id ? String(values.project_id) : undefined,
             hasInput: false,
             waitingOnPost: false,
@@ -56,7 +53,6 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
     }
 
     public doneClicked() {
-        localStorage.setItem("turkID", this.state.deviceId);
         this.setState({
             currentStage: TurkViewStage.ACTIVITIES,
             completedActivityCounter: -1,
@@ -97,7 +93,6 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         }
 
         const progressBarHeight = 30;
-        const turkIdHeight = 30;
 
         return <div style={{ height: "100%" }}>
             <ProgressBarComponent
@@ -105,7 +100,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
             </ProgressBarComponent>
             {this.state.currentStage === TurkViewStage.ACTIVITIES &&
-                <div style={{ height: `calc(100% - ${turkIdHeight + progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
+                <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                     <ActivitiesComponent
                         key={this.state.completedActivityCounter}
                         doneActivityCallback={this.doneActivity}
@@ -123,12 +118,12 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
     }
 
     private activitySource() {
-        return Backend.getActivity("web_turk-" + this.state.deviceId, this.state.projectId);
+        return Backend.getActivity(this.state.deviceId, this.state.projectId);
     }
 
     private postSample(data: any, callback: any) {
         this.setState({ waitingOnPost: true });
-        data.actor_sig = "web_turk-" + this.state.deviceId;
+        data.actor_sig = this.state.deviceId;
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
             callback();
