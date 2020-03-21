@@ -12,5 +12,6 @@ export { default as ActivityInstruction } from "./ActivityInstruction";
 export { default as NavBar } from "./NavBar";
 export { default as MultipleOptionsComponent } from "./MultipleOptionsComponent";
 export { default as SamplePreview } from "./SamplePreview";
+export { default as TagDiffPreview } from "./TagDiffPreview";
 export { default as ActivityActionButtonComponent } from "./ActivityActionButtonComponent";
 export { default as WelcomeComponent } from "./WelcomeComponent";

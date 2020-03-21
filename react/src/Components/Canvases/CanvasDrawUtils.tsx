@@ -63,7 +63,7 @@ function drawGreenMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBou
     ctx.restore();
 }
 
-function drawGreenRect(ctx: CanvasRenderingContext2D, rect: IRect) {
+function drawColorRect(ctx: CanvasRenderingContext2D, rect: IRect, color: string) {
     if (ctx === null) {
         return;
     }
@@ -71,13 +71,21 @@ function drawGreenRect(ctx: CanvasRenderingContext2D, rect: IRect) {
 
     ctx.beginPath();
     ctx.rect(rect.x, rect.y, rect.w, rect.h);
-    ctx.strokeStyle = "#00FF00";
+    ctx.strokeStyle = color;
     // ctx.setLineDash([5, 5]);
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
 
     ctx.restore();
+}
+
+function drawBlueRect(ctx: CanvasRenderingContext2D, rect: IRect) {
+    drawColorRect(ctx, rect, "#0000FF");
+}
+
+function drawGreenRect(ctx: CanvasRenderingContext2D, rect: IRect) {
+    drawColorRect(ctx, rect, "#00FF00");
 }
 
 function drawBlackOverlay(ctx: CanvasRenderingContext2D, bounds: IRect) {
@@ -140,6 +148,7 @@ export {
     drawMarker,
     drawGreenMarker,
     drawGreenRect,
+    drawBlueRect,
     drawBlackOverlay,
     drawActiveImageOverlay,
     drawVerticalLine,
