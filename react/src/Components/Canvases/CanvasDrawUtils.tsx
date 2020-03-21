@@ -10,17 +10,11 @@ function drawMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: 
     const radius = Math.max(imageBounds.w, imageBounds.h) / 60;
     const x = marker.x * imageBounds.w + imageBounds.x;
     const y = marker.y * imageBounds.h + imageBounds.y;
-    // Draw black outer circle
-    ctx.beginPath();
-    ctx.strokeStyle = "#000000";
-    ctx.ellipse(
-        x, y,
-        radius, radius, 0, 0, Math.PI * 2);
-    ctx.stroke();
 
-    // Draw white inner circle
+    // Draw green circle
     ctx.beginPath();
-    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#00FF00";
     ctx.ellipse(
         x, y,
         radius + 1, radius + 1, 0, 0, Math.PI * 2);
@@ -42,6 +36,7 @@ function drawMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: 
 
     ctx.restore();
 }
+
 function drawGreenMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: IRect) {
     if (ctx === null) {
         return;
