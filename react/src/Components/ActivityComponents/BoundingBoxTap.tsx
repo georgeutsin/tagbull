@@ -82,7 +82,7 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
                 this.boxTooBigAlertDismissed = true;
             } else if (!this.boxTooSmallAlertDismissed && this.boxTooSmall()) {
                 const category = this.props.activity.config.category.toLowerCase();
-                alert(`Are you sure you have drawn a box around the ${category} (and not the indicator itself)?`);
+                alert(`Are you sure you have drawn a box around the entire ${category} (and not just the indicator itself)?`);
                 this.boxTooSmallAlertDismissed = true;
             } else {
                 this.props.notifyActivityComplete(this.boundingBox);
