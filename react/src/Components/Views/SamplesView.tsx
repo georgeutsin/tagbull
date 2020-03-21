@@ -94,7 +94,7 @@ class SamplesView extends Component<any, any> {
                     <div className="projectSection">
                         <h2>Samples</h2>
                     </div>
-                    <div className="samplePreviews" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
+                    <div className="tagPreviews" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
                         {samples}
                     </div>
                     {this.state.sampleOffset !== -1 && <div style={{ textAlign: "center" }}>
