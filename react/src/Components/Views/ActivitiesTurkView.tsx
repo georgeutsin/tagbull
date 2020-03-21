@@ -1,11 +1,10 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend } from "../../Utils";
+import { Backend, getActorSig } from "../../Utils";
 import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum TurkViewStage {
-    INPUT_TURK_ID = 0,
     ACTIVITIES = 1,
     COMPLETE = 2,
 }
@@ -27,10 +26,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
 
         const values = queryString.parse(this.props.location.search);
 
-        // fetching turker ID, first try query string, try localStorage and default to empty
-        const turkId = localStorage.getItem("turkID") || "";
-
-        const stage = turkId === "" ? TurkViewStage.INPUT_TURK_ID : TurkViewStage.ACTIVITIES;
+        const stage = TurkViewStage.ACTIVITIES;
 
         // Don't call this.setState() here!
         this.state = {
@@ -39,7 +35,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
             completedActivityCounter: 0,
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 20,
-            deviceId: turkId,
+            deviceId: getActorSig("web_turk"),
             projectId: values.project_id ? String(values.project_id) : undefined,
             hasInput: false,
             waitingOnPost: false,
@@ -49,8 +45,6 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         this.doneActivity = this.doneActivity.bind(this);
         this.activitySource = this.activitySource.bind(this);
         this.exit = this.exit.bind(this);
-        this.changeTurkId = this.changeTurkId.bind(this);
-        this.onIDChange = this.onIDChange.bind(this);
         this.doneClicked = this.doneClicked.bind(this);
     }
 
@@ -58,23 +52,7 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         window.parent.postMessage("success", "*");
     }
 
-    public changeTurkId() {
-        localStorage.setItem("turkID", "");
-        this.setState({
-            currentStage: TurkViewStage.INPUT_TURK_ID,
-            deviceId: "",
-        });
-    }
-
-    public onIDChange(turkID: string) {
-        this.setState({
-            deviceId: turkID,
-            hasInput: (turkID !== ""),
-        });
-    }
-
     public doneClicked() {
-        localStorage.setItem("turkID", this.state.deviceId);
         this.setState({
             currentStage: TurkViewStage.ACTIVITIES,
             completedActivityCounter: -1,
@@ -107,8 +85,6 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
                 waitingOnPost: false,
             });
         });
-
-
     }
 
     public render() {
@@ -117,39 +93,14 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         }
 
         const progressBarHeight = 30;
-        const turkIdHeight = 30;
 
         return <div style={{ height: "100%" }}>
-            {this.state.currentStage === TurkViewStage.ACTIVITIES &&
-                <div style={{ height: turkIdHeight, textAlign: "center" }}>
-                    <p>Completing task as worker:&nbsp;
-                    <b>{this.state.deviceId}</b>
-                        <br></br>
-                        {/* eslint-disable-next-line  */}
-                        <a className="link" onClick={this.changeTurkId}>Not You?</a></p>
-                </div>
-            }
             <ProgressBarComponent
                 height={progressBarHeight}
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
             </ProgressBarComponent>
-            {this.state.currentStage === TurkViewStage.INPUT_TURK_ID &&
-                <div>
-                    <InputTurkID onIDChange={this.onIDChange} turkID={this.state.deviceId} />
-
-                    <div style={{ marginRight: "10px", marginLeft: "10px" }}>
-                        {
-                            <BigButtonComponent
-                                enabled={this.state.hasInput}
-                                onClick={this.doneClicked}
-                                label={"Done"}>
-                            </BigButtonComponent>
-                        }
-                    </div>
-                </div>
-            }
             {this.state.currentStage === TurkViewStage.ACTIVITIES &&
-                <div style={{ height: `calc(100% - ${turkIdHeight + progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
+                <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                     <ActivitiesComponent
                         key={this.state.completedActivityCounter}
                         doneActivityCallback={this.doneActivity}
@@ -167,12 +118,12 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
     }
 
     private activitySource() {
-        return Backend.getActivity("web_turk-" + this.state.deviceId, this.state.projectId);
+        return Backend.getActivity(this.state.deviceId, this.state.projectId);
     }
 
     private postSample(data: any, callback: any) {
         this.setState({ waitingOnPost: true });
-        data.actor_sig = "web_turk-" + this.state.deviceId;
+        data.actor_sig = this.state.deviceId;
         Backend.postSample(data).then((response: any) => {
             // TODO handle successs
             callback();
