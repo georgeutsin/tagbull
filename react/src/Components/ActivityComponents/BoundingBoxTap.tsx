@@ -30,7 +30,8 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     private numberOfStages: number;
     private boundingBox: IBoundingBox;
     private visuals: any[];
-    private box_too_big_alert_dismissed: boolean;
+    private boxTooBigAlertDismissed: boolean;
+    private boxTooSmallAlertDismissed: boolean;
 
     constructor(props: any) {
         super(props);
@@ -43,7 +44,8 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
         };
 
         this.numberOfStages = 4;
-        this.box_too_big_alert_dismissed = false;
+        this.boxTooBigAlertDismissed = false;
+        this.boxTooSmallAlertDismissed = false;
         this.view = null;
         this.activityInstruction = null;
         this.activityAction = null;
@@ -62,16 +64,28 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             this.props.activity.config.max_box.max_y < this.boundingBox.max_y;
     }
 
+    public box_too_small() {
+        const targetPoint = this.props.activity.config.target_point;
+        return Math.abs(this.boundingBox.min_x - targetPoint.x) <= 0.05 &&
+            Math.abs(this.boundingBox.max_x - targetPoint.x) <= 0.05 &&
+            Math.abs(this.boundingBox.min_y - targetPoint.y) <= 0.05 &&
+            Math.abs(this.boundingBox.max_y - targetPoint.y) <= 0.05;
+    }
+
     public doneButtonClicked() {
         if (this.state.currentStage === this.numberOfStages) {
             // verify that the box does not cover all locator dots
             // on the backend, we generate a maximum bounding box.
             // So verify here that it is not bigger than the max
             // bounding box.
-            if (!this.box_too_big_alert_dismissed && this.box_too_big()) {
+            if (!this.boxTooBigAlertDismissed && this.box_too_big()) {
                 const category = this.props.activity.config.category.toLowerCase();
-                alert(`Are you sure you have drawn a box around the single ${category} indicated by the target?`);
-                this.box_too_big_alert_dismissed = true;
+                alert(`Is only the the targeted ${category} inside the bounding box?`);
+                this.boxTooBigAlertDismissed = true;
+            } else if (!this.boxTooSmallAlertDismissed && this.box_too_small()) {
+                const category = this.props.activity.config.category.toLowerCase();
+                alert(`Is the entire ${category} inside the bounding box?`);
+                this.boxTooSmallAlertDismissed = true;
             } else {
                 this.props.notifyActivityComplete(this.boundingBox);
             }
