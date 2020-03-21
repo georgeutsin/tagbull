@@ -50,6 +50,7 @@ class TagDiffPreview extends Component<any, any> {
                     viewDims={this.canvasDOMRect}
                     media_url={tag.media.url}
                     boundingBox={bb}
+                    baseBoundingBox={bb}
                 ></BoundingBoxCanvas>
             </div>
             <div className="tagPreviewDetails">
@@ -72,6 +73,7 @@ class TagDiffPreview extends Component<any, any> {
     }
     public dichotomyMatchPreview(metadata0: any, metadata1: any, tag: any, key: number) {
         const bb0: IBoundingBox = metadata0.bounding_box;
+        const bb1: IBoundingBox = metadata1.bounding_box;
         const attributes = this.dichotomyMatchAttributesPreview(metadata0, metadata1);
         return <div className="tagPreviewOuter" style={{ backgroundColor: "green" }} key={key}>
             MATCH
@@ -81,7 +83,8 @@ class TagDiffPreview extends Component<any, any> {
                     actionDims={new DOMRect()}
                     viewDims={this.canvasDOMRect}
                     media_url={tag.media.url}
-                    boundingBox={bb0}
+                    boundingBox={bb1}
+                    baseBoundingBox={bb0}
                 ></BoundingBoxCanvas>
             </div>
             <div className="tagPreviewDetails">

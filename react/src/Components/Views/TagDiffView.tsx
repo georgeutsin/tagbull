@@ -115,7 +115,7 @@ class SamplesView extends Component<any, any> {
             <div className="pageWrapper" style={{ minHeight: "100vh" }}>
                 <div className="spaceAfter"></div>
                 <div className="actionBar">
-                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name} 
+                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name}
                         <br></br> Project2: {this.state.projectList[1].name}</h1></span>
                     <div style={{ clear: "both" }}></div>
                 </div>

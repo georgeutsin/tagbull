@@ -8,6 +8,7 @@ import {
     BaseCanvas,
     drawActiveImageOverlay,
     drawBlackOverlay,
+    drawBlueRect,
     drawGreenRect,
     drawMarker,
 } from "../Canvases";
@@ -19,6 +20,7 @@ interface IBoundingBoxCanvasProps {
     viewDims: DOMRect;
 
     boundingBox: IBoundingBox;
+    baseBoundingBox?: IBoundingBox;
     targetPoint?: IPoint;
 }
 
@@ -49,6 +51,12 @@ class BoundingBoxCanvas extends Component<IBoundingBoxCanvasProps, {}> {
         drawBlackOverlay(ctx, this.imageBounds);
         drawActiveImageOverlay(ctx, rect, canvasRect, this.image);
         drawGreenRect(ctx, canvasRect);
+
+        if (this.props.baseBoundingBox) {
+            const r = rectFromBoundingBoxAndImage(this.props.baseBoundingBox, this.image);
+            const cr = rectToCanvasCoords(r, this.imageBounds, this.image);
+            drawBlueRect(ctx, cr);
+        }
 
         if (this.props.targetPoint && this.props.targetPoint !== null) {
             drawMarker(ctx, this.props.targetPoint, this.imageBounds);

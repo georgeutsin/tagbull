@@ -7,6 +7,7 @@ export {
     drawMarker,
     drawGreenMarker,
     drawGreenRect,
+    drawBlueRect,
     drawBlackOverlay,
     drawActiveImageOverlay,
     drawVerticalLine,
