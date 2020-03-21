@@ -16,22 +16,24 @@ class TagDiffPreview extends Component<any, any> {
         const attributes = metadata.attributes.map((t: any) => {
             return <div key={t.attribute_type}> {t.attribute_type}-{t.option} </div>;
         });
-        return <div className="tagPreviewOuter" style={{ backgroundColor: "yellow" }} key={key}>
-            EXTRA
-            <div className="tagPreviewThumb" style={this.canvasStyle}>
-                <BoundingBoxCanvas
-                    instructionDims={new DOMRect()}
-                    actionDims={new DOMRect()}
-                    viewDims={this.canvasDOMRect}
-                    media_url={tag.media.url}
-                    boundingBox={bb}
-                ></BoundingBoxCanvas>
-            </div>
-            <div className="tagPreviewDetails">
-                <div>
-                    <h5>Category</h5>{metadata.category}
+        return <div style={{ backgroundColor: "yellow" }} key={key}>
+            BB_EXTRA <br></br>
+            <div className="tagPreviewOuter">
+                <div className="tagPreviewThumb" style={this.canvasStyle}>
+                    <BoundingBoxCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={this.canvasDOMRect}
+                        media_url={tag.media.url}
+                        boundingBox={bb}
+                    ></BoundingBoxCanvas>
                 </div>
-                <div> <h5>METADATA</h5>{attributes} </div>
+                <div className="tagPreviewDetails">
+                    <div>
+                        <h5>Category</h5>{metadata.category}
+                    </div>
+                    <div> <h5>METADATA</h5>{attributes} </div>
+                </div>
             </div>
         </div>;
     }
@@ -41,23 +43,25 @@ class TagDiffPreview extends Component<any, any> {
         const attributes = metadata.attributes.map((t: any) => {
             return <div key={t.attribute_type}> {t.attribute_type}-{t.option} </div>;
         });
-        return <div className="tagPreviewOuter" style={{ backgroundColor: "red" }} key={key}>
-            MISSING
-            <div className="tagPreviewThumb" style={this.canvasStyle}>
-                <BoundingBoxCanvas
-                    instructionDims={new DOMRect()}
-                    actionDims={new DOMRect()}
-                    viewDims={this.canvasDOMRect}
-                    media_url={tag.media.url}
-                    boundingBox={bb}
-                    baseBoundingBox={bb}
-                ></BoundingBoxCanvas>
-            </div>
-            <div className="tagPreviewDetails">
-                <div>
-                    <h5>Category</h5>{metadata.category}
+        return <div style={{ backgroundColor: "red" }} key={key}>
+            BB_MISSING <br></br>
+            <div className="tagPreviewOuter">
+                <div className="tagPreviewThumb" style={this.canvasStyle}>
+                    <BoundingBoxCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={this.canvasDOMRect}
+                        media_url={tag.media.url}
+                        boundingBox={bb}
+                        baseBoundingBox={bb}
+                    ></BoundingBoxCanvas>
                 </div>
-                <div> <h5>METADATA</h5>{attributes} </div>
+                <div className="tagPreviewDetails">
+                    <div>
+                        <h5>Category</h5>{metadata.category}
+                    </div>
+                    <div> <h5>METADATA</h5>{attributes} </div>
+                </div>
             </div>
         </div>;
     }
@@ -67,7 +71,7 @@ class TagDiffPreview extends Component<any, any> {
             const baseAttr = metadata0.attributes.find((element: any) => element.attribute_type === t.attribute_type);
             const matches: boolean = baseAttr.option === t.option;
             return <div key={t.attribute_type} style={{ backgroundColor: matches ? "green" : "red" }}>
-                {t.attribute_type}-{t.option}
+                {t.attribute_type}-{t.option} ({matches ? "DA_C" : "DA_I"})
             </div>;
         });
     }
@@ -75,25 +79,26 @@ class TagDiffPreview extends Component<any, any> {
         const bb0: IBoundingBox = metadata0.bounding_box;
         const bb1: IBoundingBox = metadata1.bounding_box;
         const attributes = this.dichotomyMatchAttributesPreview(metadata0, metadata1);
-        return <div className="tagPreviewOuter" style={{ backgroundColor: "green" }} key={key}>
-            MATCH
-            <div className="tagPreviewThumb" style={this.canvasStyle}>
-                <BoundingBoxCanvas
-                    instructionDims={new DOMRect()}
-                    actionDims={new DOMRect()}
-                    viewDims={this.canvasDOMRect}
-                    media_url={tag.media.url}
-                    boundingBox={bb1}
-                    baseBoundingBox={bb0}
-                ></BoundingBoxCanvas>
-            </div>
-            <div className="tagPreviewDetails">
-                <div>
-                    <h5>Category</h5>{metadata0.category}
+        return <div style={{ backgroundColor: "green" }} key={key}>
+            BB_MATCH <br></br>
+            <div className="tagPreviewOuter" >
+                <div className="tagPreviewThumb" style={this.canvasStyle}>
+                    <BoundingBoxCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={this.canvasDOMRect}
+                        media_url={tag.media.url}
+                        boundingBox={bb1}
+                        baseBoundingBox={bb0}
+                    ></BoundingBoxCanvas>
                 </div>
-                <div> <h5>METADATA</h5>{attributes} </div>
-            </div>
-        </div>;
+                <div className="tagPreviewDetails">
+                    <div>
+                        <h5>Category</h5>{metadata0.category}
+                    </div>
+                    <div> <h5>METADATA</h5>{attributes} </div>
+                </div>
+            </div></div>;
     }
 
     public withinDelta(bb0: IBoundingBox, bb1: IBoundingBox): boolean {
