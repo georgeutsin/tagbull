@@ -79,22 +79,22 @@ class SamplesView extends Component<any, any> {
             if (tag0 === null && tag1 === null) {
                 break;
             }
-
+            const key = "" + idx0 + "_" + idx1;
             if (tag0 && tag1 && tag0.media.name === tag1.media.name) {
-                tagDiffs.push(<TagDiffPreview key={tag0.media.name} tag0={tag0} tag1={tag1}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={key} tag0={tag0} tag1={tag1}></TagDiffPreview>);
                 idx0 += 1;
                 idx1 += 1;
                 continue;
             }
 
             if ((tag0 && tag1 && tag0.media.name < tag1.media.name) || tag1 === null) {
-                tagDiffs.push(<TagDiffPreview key={tag0.media.name} tag0={tag0} tag1={null}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={key} tag0={tag0} tag1={null}></TagDiffPreview>);
                 idx0 += 1;
                 continue;
             }
 
             if ((tag0 && tag1 && tag0.media.name > tag1.media.name) || tag0 === null) {
-                tagDiffs.push(<TagDiffPreview key={tag1.media.name} tag0={null} tag1={tag1}></TagDiffPreview>);
+                tagDiffs.push(<TagDiffPreview key={key} tag0={null} tag1={tag1}></TagDiffPreview>);
                 idx1 += 1;
                 continue;
             }

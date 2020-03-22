@@ -69,6 +69,9 @@ class TagDiffPreview extends Component<any, any> {
     public dichotomyMatchAttributesPreview(metadata0: any, metadata1: any) {
         return metadata1.attributes.map((t: any) => {
             const baseAttr = metadata0.attributes.find((element: any) => element.attribute_type === t.attribute_type);
+            if (!baseAttr) {
+                return null;
+            }
             const matches: boolean = baseAttr.option === t.option;
             return <div key={t.attribute_type} style={{ backgroundColor: matches ? "green" : "red" }}>
                 {t.attribute_type}-{t.option} ({matches ? "DA_C" : "DA_I"})
@@ -102,7 +105,7 @@ class TagDiffPreview extends Component<any, any> {
     }
 
     public withinDelta(bb0: IBoundingBox, bb1: IBoundingBox): boolean {
-        const delta = 0.05;
+        const delta = 0.06;
         return Math.abs(bb0.min_x - bb1.min_x) < delta
             && Math.abs(bb0.min_y - bb1.min_y) < delta
             && Math.abs(bb0.max_x - bb1.max_x) < delta
