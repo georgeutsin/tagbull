@@ -33,10 +33,16 @@ class V1::TagsController < ApplicationController
     params[:limit] ? params[:limit].to_i : 10
   end
 
+  def tag_sort
+    return Medium.arel_table[:name].asc if params[:sort] && params[:sort] == "media_name"
+    Task.arel_table[:created_at].asc
+  end
+
   def tags_for(project_id, timestamp)
     Task.joins(:sample)
+      .joins("INNER JOIN media ON media.id = tasks.media_id")
       .where(tags_filter, project_id)
-      .order(created_at: :asc)
+      .order(tag_sort)
       .where(Sample.arel_table[:created_at].lt(timestamp))
       .offset(pagination_offset)
       .limit(pagination_limit)
