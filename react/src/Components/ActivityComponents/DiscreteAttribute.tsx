@@ -86,7 +86,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
     public isOccluded(category: string, options: string[]) {
         const instruction =
             <div className="question runSlideIn">
-                Is the {category} covered by anything?
+                Is any part of the <b>{category}</b> obstructed from view by anything?
             </div>;
         const helpButton =
             <HelpButtonComponent>
