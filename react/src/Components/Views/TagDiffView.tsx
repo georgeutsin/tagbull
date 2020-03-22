@@ -37,7 +37,11 @@ class SamplesView extends Component<any, any> {
 
     public async loadTags(idx: number) {
         const projectId = this.state.projectIds[idx];
-        const meta = { offset: this.state.tagOffsets[idx], timestamp: this.state.tagTimestamps[idx] };
+        const meta = {
+            offset: this.state.tagOffsets[idx],
+            timestamp: this.state.tagTimestamps[idx],
+            sort: "media_name",
+        };
         return await Backend.getTags(projectId, meta);
     }
 
