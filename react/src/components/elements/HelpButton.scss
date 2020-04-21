@@ -1,0 +1,42 @@
+.help {
+  text-align: center;
+}
+
+.help div {
+  height: 30px;
+  font-size: 1.2em;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  vertical-align: baseline;
+  background-color: rgb(185, 185, 185);
+  color: white;
+  font-weight: bolder;
+  padding: 5px;
+}
+
+.helpButton {
+  user-select: none;
+  bottom: 0;
+}
+
+.help:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.helpWindow {
+  height: 80%;
+  width: 80%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.closeButton {
+  float: right;
+  right: 0;
+  padding-right: 10px;
+  user-select: none;
+  font-size: 2em;
+}

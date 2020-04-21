@@ -6,6 +6,7 @@ import {
     MouseAdaptor,
     TouchAdaptor,
 } from "../../utils";
+import "./BaseCanvas.scss";
 
 interface IBaseCanvasState {
     windowWidth: number;

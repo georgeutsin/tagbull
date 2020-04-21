@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { NavBar, ProjectsList } from "../elements";
 
+import "./portal.scss";
+
 class ProjectsListView extends Component {
     public render() {
         return <div>
@@ -9,8 +11,8 @@ class ProjectsListView extends Component {
                     <a href="/about">About Us</a>
                 </li>
             </NavBar>
-            <div className="pageWrapper" style={{ minHeight: "100vh" }}>
-                <div className="spaceAfter"></div>
+            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+                <div className="spacer"></div>
                 <div className="actionBar">
                     <span style={{ display: "inline-block" }}><h1>Projects</h1></span>
                     <span className="actions">
@@ -21,7 +23,9 @@ class ProjectsListView extends Component {
                     <div style={{ clear: "both" }}></div>
                 </div>
 
-                <ProjectsList></ProjectsList>
+                <div className="mainCard">
+                    <ProjectsList></ProjectsList>
+                </div>
             </div>
         </div>;
     }

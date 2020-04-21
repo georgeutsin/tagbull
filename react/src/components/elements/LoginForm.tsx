@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import "./LoginForm.scss";
+
 class LoginForm extends Component {
     public render() {
         return <div>

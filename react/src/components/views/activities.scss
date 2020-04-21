@@ -1,0 +1,14 @@
+.cancelActivities {
+  padding-left: 10px;
+  color: white;
+  font-family: "Heebo", sans-serif;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.cancelActivities:hover {
+  cursor: pointer;
+}

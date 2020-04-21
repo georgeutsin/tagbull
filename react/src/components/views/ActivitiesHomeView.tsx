@@ -3,6 +3,8 @@ import { Backend, getActorSig, UnityEvent } from "../../utils";
 import { ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
+import "./activities.scss";
+
 interface IActivitiesHomeViewState {
     progressIndicator: number;
     completedActivityCounter: number;
@@ -123,13 +125,13 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
                         </div>
                     </div>
                     <div style={{ clear: "both" }}></div>
-                    <div className="spaceAfter"></div>
+                    <div className="spacer"></div>
                 </div>
             </div>;
         }
         const progressBarHeight = 50;
 
-        return <div className="goodJobBackground" onClick={this.cancel} >
+        return <div className="fullscreenOverlayBackground" onClick={this.cancel} >
             <div className="both-center" style={{ height: "80%", width: "80%", backgroundColor: "white", borderRadius: "10px" }} ref={this.bgRef}>
                 <ProgressBar
                     progress={this.state.progressIndicator / this.progressDivisor() * 100}>

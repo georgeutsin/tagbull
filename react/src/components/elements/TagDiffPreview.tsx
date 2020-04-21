@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { IBoundingBox } from "../../interfaces";
 import { BoundingBoxCanvas } from "../canvases";
+import "./TagPreview.scss";
 
 class TagDiffPreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;

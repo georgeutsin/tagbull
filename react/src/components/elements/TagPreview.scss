@@ -1,0 +1,51 @@
+.tagPreviewOuter {
+  display: inline-flex;
+  padding: 20px;
+  text-align: left;
+}
+
+.tagPreviewThumb {
+  display: inline-block;
+  margin: auto;
+  /* vertically center */
+  padding-right: 20px;
+}
+
+.tagPreviewDetails {
+  margin: auto;
+  /* vertically center */
+  font-size: 1.2em;
+  line-height: 1.2em;
+  color: #444;
+}
+
+.tagPreviewDetails h5 {
+  color: #bebebe;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  font-size: 0.7em;
+}
+
+.tagPreviewDetails button {
+  background-color: white;
+  border: none;
+  text-align: center;
+  height: 2em;
+  font-size: 1em;
+  color: #444;
+  margin: 0;
+  margin-right: 5%;
+  margin-top: 10px;
+  width: 45%;
+  border-radius: 2px;
+  font-weight: 600;
+  border: 1px solid grey;
+  font-size: 1em;
+  line-height: 0.5em;
+}
+
+.tagPreviewDetails button:hover {
+  cursor: pointer;
+  background-color: #efefef;
+}

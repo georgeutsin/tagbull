@@ -1,0 +1,81 @@
+.mainCard {
+  background-color: white;
+  min-height: 200px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #eee;
+}
+
+.mainCard h2 {
+  color: #bbb;
+  font-weight: 100;
+  font-size: 1.7em;
+  margin-bottom: 10px;
+}
+
+.lightText {
+  font-style: italic;
+  color: #bbb;
+  text-align: center;
+  padding: 40px;
+}
+
+.tagPreviews {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.disabledButton {
+  color: rgb(200, 200, 200);
+  background-color: rgba(215, 215, 215, 0.8);
+  border: none;
+}
+
+.disabledButton:hover {
+  background-color: rgba(215, 215, 215, 0.8);
+  cursor: not-allowed;
+}
+
+.projectSection {
+  margin: 20px;
+}
+
+.actions {
+  float: right;
+}
+
+.actionBar {
+  margin-bottom: 40px;
+}
+
+.actionButton {
+  background-color: #333;
+  border: none;
+  text-align: center;
+  height: 70%;
+  font-size: 1em;
+  color: white;
+  margin: 0;
+  padding: 9px 30px 12px 30px;
+  border-radius: 3px;
+  font-weight: 600;
+  /* border: 1px solid grey; */
+  font-weight: 400;
+}
+
+.actionButton:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
+.greyButton {
+  background-color: #dcdcdc;
+  color: #333;
+}
+
+.greyButton:hover {
+  background-color: #efefef;
+  cursor: pointer;
+}

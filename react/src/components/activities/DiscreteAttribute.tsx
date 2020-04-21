@@ -14,6 +14,8 @@ import {
     HelpButton,
 } from "../elements";
 
+import "./activities.scss";
+
 interface IDiscreteAttributeState {
     selectedLabel: string;
     finishedInput: boolean;

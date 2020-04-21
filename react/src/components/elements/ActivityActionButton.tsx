@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./ActivityActionButton.css";
+import "./ActivityActionButton.scss";
 
 interface IActionButtonProps {
     enabled: boolean;

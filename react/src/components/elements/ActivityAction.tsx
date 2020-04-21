@@ -1,4 +1,5 @@
 import React from "react";
+import "./ActivityAction.scss";
 
 const ActivityAction = React.forwardRef((props: any, ref: any) => (
     <div

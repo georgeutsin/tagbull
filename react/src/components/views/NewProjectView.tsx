@@ -4,6 +4,9 @@ import { Backend } from "../../utils";
 import ImageUpload from "../elements/ImageUpload";
 import ActivitiesComponent from "./ActivitiesComponent";
 
+import "./NewProjectView.scss";
+import "./portal.scss";
+
 enum NewProjectStage {
     IMAGE_UPLOAD = 0,
     TASK_TYPE_SELECTION = 1,
@@ -196,12 +199,12 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
         }
 
         return <div>
-            <div className="pageWrapper menuBar">
+            <div className="portalWrapper menuBar">
                 <a href="/"><span style={{ width: "170px", height: "100%", float: "left" }}></span></a>
                 <li className="light">Settings</li>
             </div>
-            <div className="pageWrapper" style={{ minHeight: "100vh" }}>
-                <div className="spaceAfter"></div>
+            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+                <div className="spacer"></div>
                 <div className="actionBar">
                     <span style={{ display: "inline-block" }}><h1>Create a New Project</h1></span>
                     <span className="actions">

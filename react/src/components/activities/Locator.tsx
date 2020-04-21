@@ -10,7 +10,9 @@ import {
     BigButton,
     HelpButton,
 } from "../elements";
-import "./Locator.css";
+
+import "./activities.scss";
+import "./Locator.scss";
 
 interface ILocatorState {
     currentStage: number;

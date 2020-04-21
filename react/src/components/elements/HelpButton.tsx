@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./HelpButton.scss";
 
 interface IHelpButtonState {
     visible: boolean;
@@ -31,7 +32,7 @@ class HelpButton extends Component<{}, IHelpButtonState> {
     public render() {
         let helpWindow = null;
         if (this.state.visible) {
-            helpWindow = <div className="goodJobBackground">
+            helpWindow = <div className="fullscreenOverlayBackground">
                 <div className="both-center helpWindow" style={{fontSize: "2em"}}>
                     <div style={{ overflow: "hidden" }}>
                         <span className="closeButton" onClick={this.closeButton}>

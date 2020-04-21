@@ -1,6 +1,5 @@
 import confetti from "canvas-confetti";
 import React, { Component } from "react";
-import "./Completion.css";
 
 const completionTexts: string[] = [
     "That's it!",
@@ -31,7 +30,7 @@ class Completion extends Component<any, any> {
         return <div className="fullscreenOverlay">
             <div className="both-center">
                 <div style={{ padding: 10 }} className="runSlideIn">
-                    <h1 className="completion">
+                    <h1 className="accent">
                         {completionTexts[rand]}
                     </h1>
                     <br></br>

@@ -1,0 +1,52 @@
+#root,
+.fs {
+  height: 100vh;
+  /* Fallback for browsers that do not support Custom Properties */
+  min-height: calc(var(--vh, 1vh) * 100);
+  height: 100%;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.both-center {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.portalWrapper {
+  width: 100%;
+  padding-left: 100px;
+  padding-right: 100px;
+  box-sizing: border-box;
+}
+
+.pageWrapper {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.thirds {
+  width: calc(33% - 10px);
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px;
+}
+
+.half {
+  display: inline-block;
+  width: calc(50% - 40px);
+  vertical-align: top;
+  margin: 5px;
+  padding: 15px;
+}

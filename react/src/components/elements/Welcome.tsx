@@ -23,25 +23,25 @@ class Welcome extends Component<{}, IWelcomeState> {
     }
 
     public render() {
-        const component = <div className="goodJobBackground">
+        const component = <div className="fullscreenOverlayBackground">
             <div className="both-center helpWindow">
-            <div className="both-center">
-                <div style={{ padding: 10 }} className="runSlideIn">
-                <h1 className="completion">Hey there!</h1>
-                <br></br>
-                This isn't a regular ad; this is a TagBull activity.
-            <br></br>
-            <br></br>
-                Answer a few questions to claim your reward!
-                <br></br>
-                <br></br>
-                <BigButton
-                    enabled={true}
-                    onClick={this.closeButton}
-                    label={"ok"}
-                ></BigButton>
+                <div className="both-center">
+                    <div style={{ padding: 10 }} className="runSlideIn">
+                        <h1 className="accent">Hey there!</h1>
+                        <br></br>
+                        This isn't a regular ad; this is a TagBull activity.
+                        <br></br>
+                        <br></br>
+                        Answer a few questions to claim your reward!
+                        <br></br>
+                        <br></br>
+                        <BigButton
+                            enabled={true}
+                            onClick={this.closeButton}
+                            label={"ok"}>
+                        </BigButton>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>;
         if (this.state.visible) {
