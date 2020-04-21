@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React from "react";
 import { Backend, getActorSig } from "../../utils";
-import { ProgressBarComponent } from "../elements";
+import { ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum TurkViewStage {
@@ -95,10 +95,10 @@ class ActivitiesTurkView extends React.Component<any, IActivitiesTurkViewState> 
         const progressBarHeight = 30;
 
         return <div style={{ height: "100%" }}>
-            <ProgressBarComponent
+            <ProgressBar
                 height={progressBarHeight}
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
-            </ProgressBarComponent>
+            </ProgressBar>
             {this.state.currentStage === TurkViewStage.ACTIVITIES &&
                 <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                     <ActivitiesComponent

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FooterComponent, NavBar } from "../elements";
+import { Footer, NavBar } from "../elements";
 
 class CareersView extends Component<any, any> {
     public render() {
@@ -56,7 +56,7 @@ class CareersView extends Component<any, any> {
                     <div style={{ height: "100px" }}></div>
                 </div>
             </div>
-            <FooterComponent></FooterComponent>
+            <Footer></Footer>
         </div>;
     }
 }

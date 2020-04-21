@@ -1,16 +1,16 @@
 import React from "react";
 import { Backend } from "../../utils";
-import ProgressBarComponent from "./ProgressBarComponent";
+import ProgressBar from "./ProgressBar";
 
-interface IProjectListComponentState {
+interface IProjectsListState {
     projects: any;
 }
 
 // tslint:disable-next-line: no-empty-interface
-interface IProjectListComponentProps {
+interface IProjectsListProps {
 }
 
-class ProjectsListComponent extends React.Component<IProjectListComponentProps, IProjectListComponentState> {
+class ProjectsList extends React.Component<IProjectsListProps, IProjectsListState> {
 
     constructor(props: any) {
         super(props);
@@ -57,7 +57,7 @@ class ProjectsListComponent extends React.Component<IProjectListComponentProps, 
                             <span style={{ fontSize: "1.5em" }}>&nbsp;<b>›</b></span>
                         </div>
                         <div className="projectProgress tableBody">
-                            <ProgressBarComponent progress={project.progress} height={40}></ProgressBarComponent>
+                            <ProgressBar progress={project.progress} height={40}></ProgressBar>
                         </div>
                         <div className="projectCreated tableBody">{project.created_at}</div>
                     </div></a>
@@ -78,4 +78,4 @@ class ProjectsListComponent extends React.Component<IProjectListComponentProps, 
     }
 }
 
-export default ProjectsListComponent;
+export default ProjectsList;

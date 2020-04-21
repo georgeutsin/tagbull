@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import "./MultipleOptions.css";
+import "./ButtonSelector.css";
 
-interface IMultipleOptionsState {
+interface IButtonSelectorState {
     selectedOption: number;
 }
 
-interface IMultipleOptionsProps {
+interface IButtonSelectorProps {
     onLabelChange: any;
     options: string[];
 }
 
-class MultipleOptionsComponent extends Component<IMultipleOptionsProps, IMultipleOptionsState> {
+class ButtonSelector extends Component<IButtonSelectorProps, IButtonSelectorState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -44,4 +44,4 @@ class MultipleOptionsComponent extends Component<IMultipleOptionsProps, IMultipl
     }
 }
 
-export default MultipleOptionsComponent;
+export default ButtonSelector;

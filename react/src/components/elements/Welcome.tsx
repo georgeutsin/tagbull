@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import BigButtonComponent from "./BigButtonComponent";
+import BigButton from "./BigButton";
 
-interface IHelpButtonState {
+interface IWelcomeState {
     visible: boolean;
 }
 
-class WelcomeComponent extends Component<{}, IHelpButtonState> {
+class Welcome extends Component<{}, IWelcomeState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -35,11 +35,11 @@ class WelcomeComponent extends Component<{}, IHelpButtonState> {
                 Answer a few questions to claim your reward!
                 <br></br>
                 <br></br>
-                <BigButtonComponent
+                <BigButton
                     enabled={true}
                     onClick={this.closeButton}
                     label={"ok"}
-                ></BigButtonComponent>
+                ></BigButton>
                     </div>
                     </div>
             </div>
@@ -52,4 +52,4 @@ class WelcomeComponent extends Component<{}, IHelpButtonState> {
     }
 }
 
-export default WelcomeComponent;
+export default Welcome;

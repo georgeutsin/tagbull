@@ -8,7 +8,7 @@ interface IActionButtonProps {
     width?: any;
 }
 
-class ActivityActionButtonComponent extends Component<IActionButtonProps, any> {
+class ActivityActionButton extends Component<IActionButtonProps, any> {
     constructor(props: IActionButtonProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
@@ -34,4 +34,4 @@ class ActivityActionButtonComponent extends Component<IActionButtonProps, any> {
     }
 }
 
-export default ActivityActionButtonComponent;
+export default ActivityActionButton;

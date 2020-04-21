@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import logo from "../../tagbull-white.svg";
 
-class FooterComponent extends Component {
+class Footer extends Component {
     public render() {
         return <div className="footerParent">
             <div className="bodyWrapper">
@@ -41,4 +41,4 @@ class FooterComponent extends Component {
     }
 }
 
-export default FooterComponent;
+export default Footer;

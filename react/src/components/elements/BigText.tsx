@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class BigTextComponent extends Component {
+class BigText extends Component {
     public render() {
         return <div className="sentence">
             tagbull is <br></br>for dataset<br></br>
@@ -14,4 +14,4 @@ class BigTextComponent extends Component {
     }
 }
 
-export default BigTextComponent;
+export default BigText;

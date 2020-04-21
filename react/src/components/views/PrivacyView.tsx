@@ -1,6 +1,6 @@
 /* tslint:disable */
 import React, { Component } from "react";
-import { FooterComponent, NavBar } from "../elements";
+import { Footer, NavBar } from "../elements";
 
 class PrivacyView extends Component<any, any> {
     public render() {
@@ -194,7 +194,7 @@ class PrivacyView extends Component<any, any> {
                     <div style={{ height: "50px" }}></div>
                 </div>
             </div>
-            <FooterComponent></FooterComponent>
+            <Footer></Footer>
         </div>;
     }
 }

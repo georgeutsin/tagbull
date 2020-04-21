@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../utils";
-import { NavBar, ProgressBarComponent, TagPreview } from "../elements";
+import { NavBar, ProgressBar, TagPreview } from "../elements";
 
 
 const taskTypes: { [key: string]: string; } = {
@@ -144,8 +144,8 @@ class ProjectDetailView extends Component<any, any> {
                             </div>
                             <div className="thirds">
                                 <h5>Progress</h5>
-                                <ProgressBarComponent progress={this.state.project.progress}
-                                    height={40}></ProgressBarComponent>
+                                <ProgressBar progress={this.state.project.progress}
+                                    height={40}></ProgressBar>
                             </div>
                             <div className="thirds">
                                 <h5>Actions</h5>
