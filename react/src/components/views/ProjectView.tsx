@@ -11,7 +11,7 @@ const taskTypes: { [key: string]: string; } = {
     DiscreteAttributeTask: "A Label Given a Bounding Box",
 };
 
-class ProjectDetailView extends Component<any, any> {
+class ProjectView extends Component<any, any> {
     private params: any;
     constructor(props: any) {
         super(props);
@@ -180,4 +180,4 @@ class ProjectDetailView extends Component<any, any> {
     }
 }
 
-export default ProjectDetailView;
+export default ProjectView;
