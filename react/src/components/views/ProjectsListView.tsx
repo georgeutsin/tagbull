@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavBar, ProjectsList } from "../elements";
 
-class ProjectsView extends Component {
+class ProjectsListView extends Component {
     public render() {
         return <div>
             <NavBar isPortal>
@@ -27,4 +27,4 @@ class ProjectsView extends Component {
     }
 }
 
-export default ProjectsView;
+export default ProjectsListView;

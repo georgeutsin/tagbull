@@ -1,8 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { ActivitiesComponent } from ".";
 import { Backend } from "../../utils";
 import ImageUpload from "../elements/ImageUpload";
+import ActivitiesComponent from "./ActivitiesComponent";
 
 enum NewProjectStage {
     IMAGE_UPLOAD = 0,

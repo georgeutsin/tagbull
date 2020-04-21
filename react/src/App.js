@@ -7,8 +7,8 @@ import {
 import {
   HomeView,
   NotFoundView,
-  ProjectsView,
-  ProjectDetailView,
+  ProjectsListView,
+  ProjectView,
   TagDetailView,
   SamplesView,
   TagDiffView,
@@ -39,9 +39,9 @@ class App extends Component {
             <Route exact path="/activities/player" component={ActivitiesPlayerView}></Route>
             <Route exact path="/activities/turk" component={ActivitiesTurkView}></Route>
             <Route exact path="/login" component={LoginView}></Route>
-            <Route exact path="/projects" component={ProjectsView}></Route>
+            <Route exact path="/projects" component={ProjectsListView}></Route>
             <Route exact path="/projects/new" component={NewProjectView}></Route>
-            <Route exact path="/projects/:projectId" component={ProjectDetailView}></Route>
+            <Route exact path="/projects/:projectId" component={ProjectView}></Route>
             <Route exact path="/projects/:projectId/tags/:taskId" component={TagDetailView}></Route>
             <Route exact path="/projects/:projectId/samples" component={SamplesView}></Route>
             <Route exact path="/diff" component={TagDiffView}></Route>
