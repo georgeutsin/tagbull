@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import play from "../../images/play-button.svg";
-import { FooterComponent, NavBar } from "../elements";
+import { Footer, NavBar } from "../elements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 
 const scrollToRef = (ref: any) => window.scrollTo({ top: ref.current.offsetTop - 76, behavior: "smooth" });
@@ -313,7 +313,7 @@ class HomeView extends Component<any, any> {
                 </div>
             </div>
 
-            <FooterComponent></FooterComponent>
+            <Footer></Footer>
             {activitiesComponent}
         </div>;
     }

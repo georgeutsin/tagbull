@@ -3,7 +3,7 @@ import david from "../../images/david.jpg";
 import george from "../../images/george.jpg";
 import kevin from "../../images/kevin.jpg";
 import matt from "../../images/matt.jpg";
-import { FooterComponent, NavBar } from "../elements";
+import { Footer, NavBar } from "../elements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 
 class AboutView extends Component<any, any> {
@@ -143,7 +143,7 @@ class AboutView extends Component<any, any> {
                     <div style={{ height: "100px" }}></div>
                 </div>
             </div>
-            <FooterComponent></FooterComponent>
+            <Footer></Footer>
             {activitiesComponent}
         </div>;
     }

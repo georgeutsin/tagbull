@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React from "react";
 import { Backend, getActorSig, UnityEvent } from "../../utils";
-import { CompletionComponent, ProgressBarComponent } from "../elements";
+import { Completion, ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum PlayerViewStage {
@@ -101,16 +101,16 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
     public render() {
         let completeComponent = null;
         if (this.state.currentStage >= PlayerViewStage.COMPLETE) {
-            completeComponent = <div onClick={this.exit}><CompletionComponent ></CompletionComponent></div>;
+            completeComponent = <div onClick={this.exit}><Completion></Completion></div>;
         }
 
         const progressBarHeight = 50;
 
         return <div style={{ height: "100%" }}>
-            <ProgressBarComponent
+            <ProgressBar
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
                 {completeComponent === null && <div className="cancelActivities" onClick={this.cancel}>Cancel</div>}
-            </ProgressBarComponent>
+            </ProgressBar>
             <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                 {!completeComponent && <ActivitiesComponent
                     key={this.state.completedActivityCounter}

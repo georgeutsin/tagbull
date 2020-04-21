@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 
-interface IDropdownInputState {
+interface IDropdownSelectorState {
     input: string;
     filteredOptions: any;
     optionsVisible: boolean;
 }
 
-interface IDropdownInputProps {
+interface IDropdownSelectorProps {
     onInputChange: any;
     validate?: boolean;
     placeHolder?: string;
     options: any;
 }
 
-class DropdownInputComponent extends Component<IDropdownInputProps, IDropdownInputState> {
+class DropdownSelector extends Component<IDropdownSelectorProps, IDropdownSelectorState> {
     public static defaultProps = {
         validate: false,
         placeHolder: "Select option...",
@@ -113,4 +113,4 @@ class DropdownInputComponent extends Component<IDropdownInputProps, IDropdownInp
     }
 }
 
-export default DropdownInputComponent;
+export default DropdownSelector;

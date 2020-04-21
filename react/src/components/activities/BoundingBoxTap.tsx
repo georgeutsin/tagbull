@@ -7,7 +7,7 @@ import right_visual from "../../images/visuals/aid_bb_right.svg";
 import top_visual from "../../images/visuals/aid_bb_top.svg";
 import { IBoundingBox } from "../../interfaces";
 import { BoundingBoxCreationCanvas } from "../canvases";
-import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../elements";
+import { ActivityAction, ActivityInstruction, BigButton, HelpButton } from "../elements";
 
 interface IBoundingBoxTapState {
     animationClass: string;
@@ -114,13 +114,13 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const helpButton = this.state.currentStage < this.numberOfStages ?
-            <HelpButtonComponent>
+            <HelpButton>
                 Tap the sides of the {category} as accurately as possible.
                 Once you have tapped all four sides of the {category}, you can modify your selection.
-            </HelpButtonComponent> : <HelpButtonComponent>
+            </HelpButton> : <HelpButton>
                 If you are unhappy with the sides you selected, you can tap and drag to readjust them.
                 Try to form a tight box around the {category}.
-            </HelpButtonComponent>;
+            </HelpButton>;
 
         const question = this.state.currentStage < this.numberOfStages ?
             <div className="question runSlideIn">
@@ -157,12 +157,12 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             ></BoundingBoxCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
-                <BigButtonComponent
+                <BigButton
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}
                     onClick={this.doneButtonClicked}
                     label={"Done"}>
-                </BigButtonComponent>
+                </BigButton>
             </ActivityAction>
             <div style={{ clear: "both" }}></div>
             <ResizeDetector

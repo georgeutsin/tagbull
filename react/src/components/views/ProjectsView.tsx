@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavBar, ProjectsListComponent } from "../elements";
+import { NavBar, ProjectsList } from "../elements";
 
 class ProjectsView extends Component {
     public render() {
@@ -21,7 +21,7 @@ class ProjectsView extends Component {
                     <div style={{ clear: "both" }}></div>
                 </div>
 
-                <ProjectsListComponent></ProjectsListComponent>
+                <ProjectsList></ProjectsList>
             </div>
         </div>;
     }

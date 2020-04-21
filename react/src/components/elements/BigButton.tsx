@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
-interface IDoneButtonProps {
+interface IBigButtonProps {
     height?: number;
     enabled: boolean;
     onClick: any;
     label: string;
 }
 
-class BigButtonComponent extends Component<IDoneButtonProps, any> {
-    constructor(props: IDoneButtonProps) {
+class BigButton extends Component<IBigButtonProps, any> {
+    constructor(props: IBigButtonProps) {
         super(props);
         this.doneClicked = this.doneClicked.bind(this);
     }
@@ -29,4 +29,4 @@ class BigButtonComponent extends Component<IDoneButtonProps, any> {
     }
 }
 
-export default BigButtonComponent;
+export default BigButton;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class LoginFormComponent extends Component {
+class LoginForm extends Component {
     public render() {
         return <div>
             <div className="loginOption selected ">
@@ -23,4 +23,4 @@ class LoginFormComponent extends Component {
     }
 }
 
-export default LoginFormComponent;
+export default LoginForm;

@@ -5,10 +5,10 @@ import { IPoint } from "../../interfaces";
 import { PointCreationCanvas } from "../canvases";
 import {
     ActivityAction,
-    ActivityActionButtonComponent,
+    ActivityActionButton,
     ActivityInstruction,
-    BigButtonComponent,
-    HelpButtonComponent,
+    BigButton,
+    HelpButton,
 } from "../elements";
 import "./Locator.css";
 
@@ -84,10 +84,10 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
         const helpButton =
-            <HelpButtonComponent>
+            <HelpButton>
                 Tap the center of the {category} as accurately as possible.
                 You may tap Reset to remove all markers.
-            </HelpButtonComponent>;
+            </HelpButton>;
         const question =
             <div className="question runSlideIn">
                 Please tap on all the {category}
@@ -116,19 +116,19 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
                 <div className="multipleActionsContainer">
-                    <ActivityActionButtonComponent
+                    <ActivityActionButton
                         width={undefined}
                         enabled={true}
                         onClick={this.state.finishedInput ? this.resetButtonClicked : this.noObjectsButtonClicked}
                         label={actionButtonLabel}>
-                    </ActivityActionButtonComponent>
+                    </ActivityActionButton>
                 </div>
-                <BigButtonComponent
+                <BigButton
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}
                     onClick={this.doneButtonClicked}
                     label={"Done"}>
-                </BigButtonComponent>
+                </BigButton>
             </ActivityAction>
             <div style={{ clear: "both" }}></div>
             <ResizeDetector

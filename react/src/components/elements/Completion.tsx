@@ -10,7 +10,7 @@ const completionTexts: string[] = [
     "Nice!",
 ];
 
-class CompletionComponent extends Component<any, any> {
+class Completion extends Component<any, any> {
     public render() {
         confetti({
             particleCount: 100,
@@ -44,4 +44,4 @@ class CompletionComponent extends Component<any, any> {
     }
 }
 
-export default CompletionComponent;
+export default Completion;

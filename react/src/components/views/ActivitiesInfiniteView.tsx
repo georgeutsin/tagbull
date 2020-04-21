@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React from "react";
 import { Backend, getActorSig, UnityEvent } from "../../utils";
-import { ProgressBarComponent } from "../elements";
+import { ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum PlayerViewStage {
@@ -75,10 +75,10 @@ class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteVie
         const progressBarHeight = 50;
 
         return <div style={{ height: "100%" }}>
-            <ProgressBarComponent
+            <ProgressBar
                 progress={100}>
                 <div className="cancelActivities" onClick={this.exit}>Exit</div>
-            </ProgressBarComponent>
+            </ProgressBar>
             <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                 {<ActivitiesComponent
                     key={this.state.completedActivityCounter}

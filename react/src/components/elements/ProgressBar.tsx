@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class ProgressBarComponent extends Component<any, any> {
+class ProgressBar extends Component<any, any> {
     public render() {
         return <div style={{ padding: "10px" }}>
             <div
@@ -14,4 +14,4 @@ class ProgressBarComponent extends Component<any, any> {
     }
 }
 
-export default ProgressBarComponent;
+export default ProgressBar;

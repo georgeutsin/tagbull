@@ -4,7 +4,7 @@ interface IHelpButtonState {
     visible: boolean;
 }
 
-class HelpButtonComponent extends Component<{}, IHelpButtonState> {
+class HelpButton extends Component<{}, IHelpButtonState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -56,4 +56,4 @@ class HelpButtonComponent extends Component<{}, IHelpButtonState> {
     }
 }
 
-export default HelpButtonComponent;
+export default HelpButton;

@@ -9,9 +9,9 @@ import { BoundingBoxCanvas } from "../canvases";
 import {
     ActivityAction,
     ActivityInstruction,
-    BigButtonComponent,
-    HelpButtonComponent,
-    MultipleOptionsComponent,
+    BigButton,
+    ButtonSelector,
+    HelpButton,
 } from "../elements";
 
 interface IDiscreteAttributeState {
@@ -63,10 +63,10 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
     }
 
     public actionsComponent(options: string[]) {
-        return <MultipleOptionsComponent
+        return <ButtonSelector
             options={options}
             onLabelChange={this.onLabelChaged}>
-        </MultipleOptionsComponent>;
+        </ButtonSelector>;
     }
 
     public labelNameComponents(category: string, options: string[]) {
@@ -75,10 +75,10 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                 Is this {category} a <b>{options[0]}</b> or a <b>{options[1]}</b>?
             </div>;
         const helpButton =
-            <HelpButtonComponent>
+            <HelpButton>
                 Determine if the object located inside the box is a
                     <b>{options[0]}</b> or a <b>{options[1]}</b>
-            </HelpButtonComponent>;
+            </HelpButton>;
 
         return [instruction, this.actionsComponent(options), helpButton, aid_da_label];
     }
@@ -89,10 +89,10 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                 Is any part of the <b>{category}</b> obstructed from view by anything?
             </div>;
         const helpButton =
-            <HelpButtonComponent>
+            <HelpButton>
                 If any part of the object is covered by any other object, answer yes. <br />
                 If the whole object is not visible in the image due to another object, answer no.
-            </HelpButtonComponent>;
+            </HelpButton>;
 
         return [instruction, this.actionsComponent(options), helpButton, aid_da_occluded];
     }
@@ -103,9 +103,9 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                 Is any part of the {category} outside the edges of the image?
             </div>;
         const helpButton =
-            <HelpButtonComponent>
+            <HelpButton>
                 If any part of the object goes outside the borders of the image, answer yes.
-            </HelpButtonComponent>;
+            </HelpButton>;
 
         return [instruction, this.actionsComponent(options), helpButton, aid_da_outside];
     }
@@ -116,10 +116,10 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                 Is this an image of a real {category} (taken by a camera)?
             </div>;
         const helpButton =
-            <HelpButtonComponent>
+            <HelpButton>
                 If the image looks like a photo or is photorealistic enough that you can't tell, answer yes.
                 Otherwise, if its a drawing, rendering, cartoon, or any other depiction, answer no.
-            </HelpButtonComponent>;
+            </HelpButton>;
 
         return [instruction, this.actionsComponent(options), helpButton, aid_da_depiction];
     }
@@ -130,10 +130,10 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
                 Is this picture taken from within the {category}?
             </div>;
         const helpButton =
-            <HelpButtonComponent>
+            <HelpButton>
                 If the picture is from inside the {category}, answer yes.
                 An example of this would be a picture from inside a train.
-            </HelpButtonComponent>;
+            </HelpButton>;
 
         return [instruction, this.actionsComponent(options), helpButton, aid_da_inside];
     }
@@ -186,12 +186,12 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
                 {currentAction}
-                <BigButtonComponent
+                <BigButton
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}
                     onClick={this.doneButtonClicked}
                     label={"Done"}>
-                </BigButtonComponent>
+                </BigButton>
             </ActivityAction>
             <div style={{ clear: "both" }}></div>
             <ResizeDetector

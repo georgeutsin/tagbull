@@ -1,6 +1,6 @@
 import React from "react";
 import { Backend, getActorSig, UnityEvent } from "../../utils";
-import { ProgressBarComponent } from "../elements";
+import { ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 interface IActivitiesHomeViewState {
@@ -131,12 +131,12 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
 
         return <div className="goodJobBackground" onClick={this.cancel} >
             <div className="both-center" style={{ height: "80%", width: "80%", backgroundColor: "white", borderRadius: "10px" }} ref={this.bgRef}>
-                <ProgressBarComponent
+                <ProgressBar
                     progress={this.state.progressIndicator / this.progressDivisor() * 100}>
                     <div className="cancelActivities" onClick={this.cancel} ref={this.cancelRef}>
                         Cancel
                 </div>
-                </ProgressBarComponent>
+                </ProgressBar>
                 <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                     {activities}
                 </div>
