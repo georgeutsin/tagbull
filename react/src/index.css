@@ -281,7 +281,7 @@ a.landing {
 }
 
 .velocityLogo {
-  background-image: url("Images/velocity-logo.png");
+  background-image: url("images/velocity-logo.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: 50%;
@@ -645,7 +645,7 @@ a.landing {
 }
 
 .goodJob {
-  background-image: url("Images/goodjob.svg");
+  background-image: url("images/goodjob.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
@@ -655,7 +655,7 @@ a.landing {
 }
 
 .loadingWheel {
-  background-image: url("Images/loadingWheel.svg");
+  background-image: url("images/loadingWheel.svg");
   background-repeat: no-repeat;
   background-size: 20% 20%;
   background-position: center center;
@@ -1026,7 +1026,7 @@ textarea:focus {
 }
 
 .graphic1 {
-  background-image: url("Images/graphic1.svg");
+  background-image: url("images/graphic1.svg");
 }
 
 .promoText {
