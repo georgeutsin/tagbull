@@ -1,6 +1,6 @@
 import React from "react";
 import ResizeDetector from "react-resize-detector";
-import "./ActivityInstruction.css";
+import "./ActivityInstruction.scss";
 
 const ActivityInstruction = React.forwardRef((props: any, ref: any) => (
     <div

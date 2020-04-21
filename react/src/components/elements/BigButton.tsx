@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./BigButton.scss";
 
 interface IBigButtonProps {
     height?: number;
@@ -20,7 +21,7 @@ class BigButton extends Component<IBigButtonProps, any> {
     public render() {
         return <div style={{ height: this.props.height || 70, paddingTop: "10px" }}>
             <button
-                className={"doneButton" + (!this.props.enabled ? " disabledButton" : "")}
+                className={"bigButton" + (!this.props.enabled ? " disabledButton" : "")}
                 disabled={!this.props.enabled}
                 onClick={this.doneClicked}>
                 <span style={{ fontSize: 50 }}>{this.props.label}</span>

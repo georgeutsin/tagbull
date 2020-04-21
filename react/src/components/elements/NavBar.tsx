@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./NavBar.scss";
 
 class NavBar extends Component<any, any> {
     private burgerRef: any;
@@ -34,7 +35,7 @@ class NavBar extends Component<any, any> {
             activeClass = this.state.activeClass;
         }
 
-        const wrapper = this.props.isPortal ? "pageWrapper" : "bodyWrapper";
+        const wrapper = this.props.isPortal ? "portalWrapper" : "pageWrapper";
         const menuBarClasses = `menuBar ${ !this.props.isPortal && "runSlideIn"} ${activeClass} ${this.state.menuOpen}`;
         return <div className={menuBarClasses}>
         <div className={wrapper} >

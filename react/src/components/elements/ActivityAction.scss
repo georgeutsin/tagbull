@@ -1,0 +1,11 @@
+.activityAction {
+  float: none;
+  width: 100%;
+}
+
+@media only screen and (max-height: 600px) {
+  .activityAction {
+    float: left;
+    width: 45%;
+  }
+}

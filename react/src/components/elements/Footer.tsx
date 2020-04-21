@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import logo from "../../tagbull-white.svg";
+import "./Footer.scss";
 
 class Footer extends Component {
     public render() {
         return <div className="footerParent">
-            <div className="bodyWrapper">
+            <div className="pageWrapper">
                 <div style={{ padding: "10px" }}>
                     <div style={{ height: "25px" }}></div>
                     <div style={{ width: "50%", display: "inline-block", verticalAlign: "top" }}>

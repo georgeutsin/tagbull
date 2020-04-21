@@ -6,6 +6,8 @@ import matt from "../../images/matt.jpg";
 import { Footer, NavBar } from "../elements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 
+import "./pages.scss";
+
 class AboutView extends Component<any, any> {
     constructor(props: any) {
         super(props);

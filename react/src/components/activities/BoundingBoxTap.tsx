@@ -9,6 +9,8 @@ import { IBoundingBox } from "../../interfaces";
 import { BoundingBoxCreationCanvas } from "../canvases";
 import { ActivityAction, ActivityInstruction, BigButton, HelpButton } from "../elements";
 
+import "./activities.scss";
+
 interface IBoundingBoxTapState {
     animationClass: string;
     currentStage: number;

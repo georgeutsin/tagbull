@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./DropdownSelector.scss";
 
 interface IDropdownSelectorState {
     input: string;
@@ -93,18 +94,18 @@ class DropdownSelector extends Component<IDropdownSelectorProps, IDropdownSelect
 
     public render() {
         const optionsList = this.state.filteredOptions.map((option: any) => {
-            return (<div key={option.value} className="dropdownInputOption"
+            return (<div key={option.value} className="dropdownSelectorOption"
                 onClick={(e) => this.onOptionClick(e)}> {option.value} </div>);
         });
 
-        return <div className="dropdownInputContainer">
-            <input ref={this.dropdownInputRef} className="dropdownInput" type="text"
+        return <div className="dropdownSelectorContainer">
+            <input ref={this.dropdownInputRef} className="dropdownSelector" type="text"
                 placeholder={this.props.placeHolder}
                 value={this.state.input}
                 onClick={this.onInputClick}
                 onChange={this.onInputChange} />
             {this.state.optionsVisible &&
-                <div ref={this.dropdownInputMenuRef} className="dropdownInputMenu">
+                <div ref={this.dropdownInputMenuRef} className="dropdownSelectorMenu">
                     {optionsList}
                 </div>
             }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./ButtonSelector.css";
+import "./ButtonSelector.scss";
 
 interface IButtonSelectorState {
     selectedOption: number;

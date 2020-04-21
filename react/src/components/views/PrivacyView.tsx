@@ -2,6 +2,8 @@
 import React, { Component } from "react";
 import { Footer, NavBar } from "../elements";
 
+import "./pages.scss";
+
 class PrivacyView extends Component<any, any> {
     public render() {
         return <div>

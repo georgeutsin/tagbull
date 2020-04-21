@@ -1,0 +1,40 @@
+.dropdownSelectorContainer {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.dropdownSelector {
+  box-sizing: border-box;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 8px;
+  width: 100%;
+}
+
+.dropdownSelectorMenu {
+  box-sizing: border-box;
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  bottom: 100%;
+  z-index: 99;
+  border: 1px solid #ddd;
+  overflow-y: scroll;
+  max-height: 275px;
+}
+
+.dropdownSelectorOption {
+  color: #000000;
+  padding: 8px 16px;
+  font-size: 1.5em;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  user-select: none;
+}
+
+.dropdownSelectorOption:hover {
+  color: #000000;
+  background-color: #efefef;
+}

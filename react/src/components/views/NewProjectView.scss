@@ -1,0 +1,139 @@
+.stepList {
+  display: table;
+  width: 100%;
+}
+
+.step {
+  display: table-row;
+  width: 100%;
+  margin-bottom: 40px;
+  vertical-align: top;
+}
+
+.stepInstruction {
+  display: table-cell;
+  width: 30%;
+  min-width: 200px;
+  padding-right: 40px;
+  font-size: 1em;
+  color: #888;
+  padding-bottom: 60px;
+  vertical-align: top;
+}
+
+.stepInstruction h3 {
+  color: #555;
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 1.4em;
+  margin-bottom: 20px;
+}
+
+.disabledInstruction {
+  opacity: 0.2;
+}
+
+.stepBody {
+  display: table-cell;
+  background-color: white;
+  min-width: 400px;
+  width: 70%;
+  color: #333;
+  border-radius: 3px;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+}
+
+.stepBodyTop {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.stepBodyBottom {
+  border-bottom: 1px solid #ddd;
+}
+
+.stepTask {
+  height: 600px;
+}
+
+/*
+    Hide radio button (the round disc)
+    we will use just the label to create pushbutton effect
+  */
+
+input[type="radio"] {
+  display: none;
+  margin: 10px;
+}
+
+/*
+  Change the look'n'feel of labels (which are adjacent to radiobuttons).
+  Add some margin, padding to label
+  */
+
+input[type="radio"] + label {
+  display: inline-block;
+  margin: -1px;
+  padding: 4px 12px;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 18px;
+  cursor: pointer;
+}
+
+.leftRadio {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.rightRadio {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/*
+  Change background color for label next to checked radio button
+  to make it look like highlighted button
+  */
+
+input[type="radio"]:checked + label {
+  background-image: none;
+  background-color: #f5f5f5;
+}
+
+.newProjectTextArea {
+  width: 100%;
+  font-size: 1em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-height: 200px;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+textarea:focus {
+  outline: none !important;
+  box-shadow: none;
+  border: 1px solid #ddd;
+}
+
+.examplePrompt {
+  color: #aaa;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.inlineInput {
+    font-size: 1em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 8px;
+    min-width: 350px;
+  }
+  

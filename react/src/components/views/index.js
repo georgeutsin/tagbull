@@ -4,7 +4,6 @@ export { default as ActivitiesPlayerView } from "./ActivitiesPlayerView";
 export { default as ActivitiesTurkView } from "./ActivitiesTurkView";
 export { default as CareersView } from "./CareersView";
 export { default as HomeView } from "./HomeView";
-export { default as LoginView } from "./LoginView";
 export { default as NewProjectView } from "./NewProjectView";
 export { default as NotFoundView } from "./NotFoundView";
 export { default as PrivacyView } from "./PrivacyView";

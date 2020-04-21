@@ -4,6 +4,8 @@ import { Backend, getActorSig, UnityEvent } from "../../utils";
 import { ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
+import "./activities.scss";
+
 enum PlayerViewStage {
     ACTIVITIES = 0,
     COMPLETE = 1,

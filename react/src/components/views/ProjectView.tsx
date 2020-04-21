@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Backend } from "../../utils";
 import { NavBar, ProgressBar, TagPreview } from "../elements";
 
+import "./portal.scss";
+import "./ProjectView.scss";
 
 const taskTypes: { [key: string]: string; } = {
     BoundingBoxTask: "Bounding Box Given A Label",
@@ -123,8 +125,8 @@ class ProjectView extends Component<any, any> {
                     <a href="/about">About Us</a>
                 </li>
             </NavBar>
-            <div className="pageWrapper" style={{ minHeight: "100vh" }}>
-                <div className="spaceAfter"></div>
+            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+                <div className="spacer"></div>
                 <div className="actionBar">
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
                     <span className="actions">

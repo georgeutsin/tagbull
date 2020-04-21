@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Backend } from "../../utils";
 import { NavBar, TagDiffPreview } from "../elements";
 
+import "./portal.scss";
 
 class SamplesView extends Component<any, any> {
     constructor(props: any) {
@@ -116,8 +117,8 @@ class SamplesView extends Component<any, any> {
                     <a href="/about">About Us</a>
                 </li>
             </NavBar>
-            <div className="pageWrapper" style={{ minHeight: "100vh" }}>
-                <div className="spaceAfter"></div>
+            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+                <div className="spacer"></div>
                 <div className="actionBar">
                     <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name}
                         <br></br> Project2: {this.state.projectList[1].name}</h1></span>

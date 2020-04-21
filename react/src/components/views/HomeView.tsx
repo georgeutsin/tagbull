@@ -3,6 +3,8 @@ import play from "../../images/play-button.svg";
 import { Footer, NavBar } from "../elements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 
+import styles from "./HomeView.module.scss";
+
 const scrollToRef = (ref: any) => window.scrollTo({ top: ref.current.offsetTop - 76, behavior: "smooth" });
 
 class HomeView extends Component<any, any> {
@@ -80,7 +82,7 @@ class HomeView extends Component<any, any> {
                     <div className="vertical-center" style={{ width: "100%", maxWidth: "1080px" }} >
                         <div style={{ display: "inline-block", width: "50%" }}>
                             <div style={{ paddingLeft: "10px" }}>
-                                <div className="tagbullLogo"
+                                <div className={styles.tagbullLogo}
                                     style={{ width: "450px", height: "150px" }}>
                                 </div>
                                 <div
@@ -119,53 +121,37 @@ class HomeView extends Component<any, any> {
 
             </div>
             <div ref={this.productRef} style={{ minHeight: "100vh", overflow: "hidden" }}>
-                {/* <div style={{ height: "150px" }}>
-                    <div className="halfNoSpacing"
-                        style={{ textAlign: "center" }}>
-                        <div className="vertical-center"
-                            style={{ padding: "10px", position: "relative", fontWeight: 100, fontSize: "1.5em" }}>
-                            For Dataset Owners
-                        </div>
-                    </div>
-                    <div className="halfNoSpacing"
-                        style={{ textAlign: "center", backgroundColor: "#333", color: "white" }}>
-                        <div className="vertical-center"
-                            style={{ padding: "10px", position: "relative", fontWeight: 100, fontSize: "1.5em" }}>
-                            For Game Developers<br />
-                            Coming Soon
-                        </div>
-                    </div>
-                </div> */}
-                <div className="spaceAfter"></div>
+                <div className="spacer"></div>
                 <div style={{ maxWidth: "1080px", margin: "0 auto", padding: "5px" }}>
                     <div style={{ width: "100%", padding: "5px" }}>
                         <div>
-                            <div className="promoTextHeader" style={{ maxWidth: "600px" }}>
-                                <span className="promoInverted">Better models</span> start
-                                with <span className="promoInverted">better data</span>,
+                            <div className={styles.promoTextHeader} style={{ maxWidth: "600px" }}>
+                                <span className={styles.promoInverted}>Better models</span> start
+                                with <span className={styles.promoInverted}>better data</span>,
                                 so we focus on two things:
                         </div>
                         </div>
                     </div>
-                    <div className="promoSection" style={{ marginTop: 0 }}>
+                    <div className={styles.promoSection} style={{ marginTop: 0 }}>
 
-                        <div className="promoSection" style={{ marginTop: "0" }}>
-                            <div className="promoTitle">
+                        <div className={styles.promoSection} style={{ marginTop: "0" }}>
+                            <div className={styles.promoTitle}>
                                 1) Crowd Consensus
                             </div>
-                            <div className="promoGraphic graphic1 responsiveHalf"
+                            <div className={`${styles.promoGraphic} ${styles.graphic1} ${styles.responsiveHalf}`}
                                 style={{ height: "300px" }}>
                             </div>
-                            <div className="promoBody responsiveHalf">
-                                <div className="promoTextHeader" style={{ fontSize: "1em" }}>
-                                    <span className="promoInverted">Distribute trust.</span>
+                            <div className={`${styles.promoBody} ${styles.responsiveHalf}`}>
+                                <div className={styles.promoTextHeader} style={{ fontSize: "1em" }}>
+                                    <span className={styles.promoInverted}>Distribute trust.</span>
                                 </div>
                                 Instead of trusting a single labeller to be the ground source of truth,
                                 we aggregate multiple opinions and apply statistical analysis to
                                 generate the best label.<br /><br />
                                 This means we can guarantee label quality regardless of the workforce.<br /><br />
-                                <div className="promoTextHeader" style={{ fontSize: "1em" }}>
-                                    Prioritize <span className="promoInverted">validation</span> over measurement.
+                                <div className={styles.promoTextHeader} style={{ fontSize: "1em" }}>
+                                    Prioritize <span className={styles.promoInverted}>validation</span> over
+                                    measurement.
                                 </div>
                                 Gold standard questions waste your money and your contractors' time;
                                 crowd consensus is here and it works.<br /><br />
@@ -210,13 +196,13 @@ class HomeView extends Component<any, any> {
                             </div>
                             <div style={{ clear: "both" }}></div>
                         </div>
-                        <div className="promoSection" style={{ marginBottom: "50px" }}>
-                            <div className="promoTitle">
+                        <div className={styles.promoSection} style={{ marginBottom: "50px" }}>
+                            <div className={styles.promoTitle}>
                                 2) Beautiful Interfaces
                             </div>
-                            <div className="promoBody responsiveHalf">
-                                <div className="promoTextHeader" style={{ fontSize: "1em" }}>
-                                    Putting the <span className="promoInverted">labeller first</span>
+                            <div className={`${styles.promoBody} ${styles.responsiveHalf}`}>
+                                <div className={styles.promoTextHeader} style={{ fontSize: "1em" }}>
+                                    Putting the <span className={styles.promoInverted}>labeller first</span>
                                     means better data at the source.
                             </div>
 
@@ -227,8 +213,8 @@ class HomeView extends Component<any, any> {
                                 </a>.
                                 <br /><br />
 
-                                <div className="promoTextHeader" style={{ fontSize: "1em" }}>
-                                    The best training is <span className="promoInverted">intuition.</span>
+                                <div className={styles.promoTextHeader} style={{ fontSize: "1em" }}>
+                                    The best training is <span className={styles.promoInverted}>intuition.</span>
                                 </div>
                                 We break tasks down to their core to create intuitive operations, making
                                 training fast and effortless. <br /><br />
@@ -237,7 +223,7 @@ class HomeView extends Component<any, any> {
 
                             </div>
                             <div
-                                className="responsiveHalf"
+                                className={styles.responsiveHalf}
                                 style={{ height: "400px", textAlign: "center" }}>
                                 <div className="vertical-center purpleGradient" style={
                                     {
@@ -284,7 +270,7 @@ class HomeView extends Component<any, any> {
                         </div>
                     </div>
 
-                    <div className="promoSection"
+                    <div className={styles.promoSection}
                         style={{ textAlign: "center", backgroundColor: "white", margin: "10px", borderBottom: "1px solid #eee" }}>
                         <div
                             style={{ fontWeight: 100, fontSize: "2.5em", padding: "40px" }}>
@@ -308,7 +294,7 @@ class HomeView extends Component<any, any> {
                             </div>
                         </div>
                         <div style={{ clear: "both" }}></div>
-                        <div className="spaceAfter"></div>
+                        <div className="spacer"></div>
                     </div>
                 </div>
             </div>

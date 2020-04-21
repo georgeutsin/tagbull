@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Backend } from "../../utils";
 import { NavBar, SamplePreview } from "../elements";
 
+import "./portal.scss";
+
 class TagDetailView extends Component<any, any> {
     private params: any;
 
@@ -50,8 +52,8 @@ class TagDetailView extends Component<any, any> {
                     <a href="/about">About Us</a>
                 </li>
             </NavBar>
-            <div className="pageWrapper" style={{ minHeight: "100vh" }}>
-                <div className="spaceAfter"></div>
+            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+                <div className="spacer"></div>
                 <div className="actionBar">
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
                     <span className="actions">

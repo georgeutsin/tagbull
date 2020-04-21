@@ -2,6 +2,8 @@ import React from "react";
 import { Backend } from "../../utils";
 import ProgressBar from "./ProgressBar";
 
+import "./ProjectsList.scss";
+
 interface IProjectsListState {
     projects: any;
 }
@@ -70,7 +72,7 @@ class ProjectsList extends React.Component<IProjectsListProps, IProjectsListStat
             </div>;
         }
 
-        return <div className="mainCard">
+        return <div>
             {header}
             {projectItems}
             {footer}

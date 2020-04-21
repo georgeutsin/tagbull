@@ -1,0 +1,10 @@
+.tagbullCanvas {
+  float: none;
+  width: 100%;
+}
+
+@media only screen and (max-height: 600px) {
+  .tagbullCanvas {
+    float: right;
+  }
+}

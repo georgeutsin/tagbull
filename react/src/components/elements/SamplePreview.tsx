@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { IBoundingBox, IPoint } from "../../interfaces";
 import { BoundingBoxCanvas, PointCanvas } from "../canvases";
+import "./TagPreview.scss";
 
 class SamplePreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;
