@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { IPoint, IRect } from "../../Interfaces";
-import { BaseCanvas, drawGreenMarker } from "../Canvases";
+import { BaseCanvas, drawGreenMarker } from ".";
+import { IPoint, IRect } from "../../interfaces";
 
 interface IPointCanvasProps {
     media_url: string;

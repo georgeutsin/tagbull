@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar } from "../UIElements";
+import { NavBar } from "../elements";
 function NotFoundView() {
     return <div>
             <NavBar isPortal>

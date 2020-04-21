@@ -1,6 +1,6 @@
 import React from "react";
-import { Backend, getActorSig, UnityEvent } from "../../Utils";
-import { ProgressBarComponent } from "../UIElements";
+import { Backend, getActorSig, UnityEvent } from "../../utils";
+import { ProgressBarComponent } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 interface IActivitiesHomeViewState {

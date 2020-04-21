@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import FormData from 'form-data';
-import { Backend } from "../../Utils";
+import { Backend } from "../../utils";
 
 const thumbsContainer = {
   display: "flex",

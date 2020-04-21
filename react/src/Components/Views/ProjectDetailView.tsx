@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Backend } from "../../Utils";
-import { NavBar, ProgressBarComponent, TagPreview } from "../UIElements";
+import { Backend } from "../../utils";
+import { NavBar, ProgressBarComponent, TagPreview } from "../elements";
 
 
 const taskTypes: { [key: string]: string; } = {

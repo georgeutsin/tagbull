@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
-import aid_locator from "../../Images/Visuals/aid_locator.svg";
-import { IPoint } from "../../Interfaces";
-import { PointCreationCanvas } from "../Canvases";
+import aid_locator from "../../images/visuals/aid_locator.svg";
+import { IPoint } from "../../interfaces";
+import { PointCreationCanvas } from "../canvases";
 import {
     ActivityAction,
     ActivityActionButtonComponent,
     ActivityInstruction,
     BigButtonComponent,
     HelpButtonComponent,
-} from "../UIElements";
+} from "../elements";
 import "./Locator.css";
 
 interface ILocatorState {

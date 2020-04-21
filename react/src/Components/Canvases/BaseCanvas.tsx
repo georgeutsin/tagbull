@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { IRect } from "../../Interfaces";
+import { IRect } from "../../interfaces";
 import {
     calculateImageDimensions,
     calculateImageLocation,
     MouseAdaptor,
     TouchAdaptor,
-} from "../../Utils";
+} from "../../utils";
 
 interface IBaseCanvasState {
     windowWidth: number;

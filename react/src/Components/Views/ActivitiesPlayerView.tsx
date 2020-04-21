@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend, getActorSig, UnityEvent } from "../../Utils";
-import { CompletionComponent, ProgressBarComponent } from "../UIElements";
+import { Backend, getActorSig, UnityEvent } from "../../utils";
+import { CompletionComponent, ProgressBarComponent } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum PlayerViewStage {

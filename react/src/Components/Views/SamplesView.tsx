@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Backend } from "../../Utils";
-import { NavBar, SamplePreview } from "../UIElements";
+import { Backend } from "../../utils";
+import { NavBar, SamplePreview } from "../elements";
 
 
 class SamplesView extends Component<any, any> {

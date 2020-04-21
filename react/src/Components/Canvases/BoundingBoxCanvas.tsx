@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import { IBoundingBox, IPoint, IRect } from "../../Interfaces";
-import {
-    rectFromBoundingBoxAndImage,
-    rectToCanvasCoords,
-} from "../../Utils";
 import {
     BaseCanvas,
     drawActiveImageOverlay,
@@ -11,7 +6,12 @@ import {
     drawBlueRect,
     drawGreenRect,
     drawMarker,
-} from "../Canvases";
+} from ".";
+import { IBoundingBox, IPoint, IRect } from "../../interfaces";
+import {
+    rectFromBoundingBoxAndImage,
+    rectToCanvasCoords,
+} from "../../utils";
 
 interface IBoundingBoxCanvasProps {
     media_url: string;

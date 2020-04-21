@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { IPoint, IRect } from "../../Interfaces";
+import { BaseCanvas, drawMarker } from ".";
+import { IPoint, IRect } from "../../interfaces";
 import {
     isTouchInBounds,
     touchToImageCoords,
     windowTouchToCanvasCoords,
-} from "../../Utils";
-import { BaseCanvas, drawMarker } from "../Canvases";
+} from "../../utils";
 
 interface IBoundingBoxCreationCanvasState {
     currentStage: number;

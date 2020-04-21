@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { IBoundingBox, IPoint } from "../../Interfaces";
-import { BoundingBoxCanvas, PointCanvas } from "../Canvases";
+import { IBoundingBox, IPoint } from "../../interfaces";
+import { BoundingBoxCanvas, PointCanvas } from "../canvases";
 
 class SamplePreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;

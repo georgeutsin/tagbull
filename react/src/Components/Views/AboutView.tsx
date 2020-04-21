@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import david from "../../Images/david.jpg";
-import george from "../../Images/george.jpg";
-import kevin from "../../Images/kevin.jpg";
-import matt from "../../Images/matt.jpg";
-import { FooterComponent, NavBar } from "../UIElements";
+import david from "../../images/david.jpg";
+import george from "../../images/george.jpg";
+import kevin from "../../images/kevin.jpg";
+import matt from "../../images/matt.jpg";
+import { FooterComponent, NavBar } from "../elements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 
 class AboutView extends Component<any, any> {

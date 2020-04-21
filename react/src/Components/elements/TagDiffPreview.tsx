@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { IBoundingBox } from "../../Interfaces";
-import { BoundingBoxCanvas } from "../Canvases";
+import { IBoundingBox } from "../../interfaces";
+import { BoundingBoxCanvas } from "../canvases";
 
 class TagDiffPreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;

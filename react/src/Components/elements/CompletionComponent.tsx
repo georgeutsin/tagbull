@@ -27,7 +27,7 @@ class CompletionComponent extends Component<any, any> {
             colors: ["#6100ff", "#a332ff"],
             origin: { x: 0, y: -0.3 },
         });
-        const rand = Math.floor(Math.random() * Math.floor(completionTexts.length - 1)); ;
+        const rand = Math.floor(Math.random() * Math.floor(completionTexts.length - 1));
         return <div className="fullscreenOverlay">
             <div className="both-center">
                 <div style={{ padding: 10 }} className="runSlideIn">

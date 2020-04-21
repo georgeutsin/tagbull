@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { IBoundingBox, IPoint, IRect } from "../../Interfaces";
+import {
+    BaseCanvas,
+    drawActiveImageOverlay,
+    drawBlackOverlay,
+    drawHorizontalLine,
+    drawMarker,
+    drawVerticalLine,
+} from ".";
+import { IBoundingBox, IPoint, IRect } from "../../interfaces";
 import {
     isPointInBounds,
     isTouchInBounds,
@@ -8,15 +16,7 @@ import {
     rectToCanvasCoords,
     touchToImageCoords,
     windowTouchToCanvasCoords,
-} from "../../Utils";
-import {
-    BaseCanvas,
-    drawActiveImageOverlay,
-    drawBlackOverlay,
-    drawHorizontalLine,
-    drawMarker,
-    drawVerticalLine,
-} from "../Canvases";
+} from "../../utils";
 
 interface IBoundingBoxCreationCanvasState {
     currentStage: number;

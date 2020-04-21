@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React, { Component } from "react";
-import { Backend } from "../../Utils";
-import { NavBar, TagDiffPreview } from "../UIElements";
+import { Backend } from "../../utils";
+import { NavBar, TagDiffPreview } from "../elements";
 
 
 class SamplesView extends Component<any, any> {

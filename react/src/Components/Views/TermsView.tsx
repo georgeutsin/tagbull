@@ -1,6 +1,6 @@
 /* tslint:disable */
 import React, { Component } from "react";
-import { FooterComponent, NavBar } from "../UIElements";
+import { FooterComponent, NavBar } from "../elements";
 
 class TermsView extends Component<any, any> {
     public render() {

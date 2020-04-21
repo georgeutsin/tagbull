@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
-import bottom_visual from "../../Images/Visuals/aid_bb_bottom.svg";
-import final_visual from "../../Images/Visuals/aid_bb_final.svg";
-import left_visual from "../../Images/Visuals/aid_bb_left.svg";
-import right_visual from "../../Images/Visuals/aid_bb_right.svg";
-import top_visual from "../../Images/Visuals/aid_bb_top.svg";
-import { IBoundingBox } from "../../Interfaces";
-import { BoundingBoxCreationCanvas } from "../Canvases";
-import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../UIElements";
+import bottom_visual from "../../images/visuals/aid_bb_bottom.svg";
+import final_visual from "../../images/visuals/aid_bb_final.svg";
+import left_visual from "../../images/visuals/aid_bb_left.svg";
+import right_visual from "../../images/visuals/aid_bb_right.svg";
+import top_visual from "../../images/visuals/aid_bb_top.svg";
+import { IBoundingBox } from "../../interfaces";
+import { BoundingBoxCreationCanvas } from "../canvases";
+import { ActivityAction, ActivityInstruction, BigButtonComponent, HelpButtonComponent } from "../elements";
 
 interface IBoundingBoxTapState {
     animationClass: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import { BoundingBoxTap, DiscreteAttribute, Locator } from "../ActivityComponents";
-import { WelcomeComponent } from "../UIElements";
+import { BoundingBoxTap, DiscreteAttribute, Locator } from "../activities";
+import { WelcomeComponent } from "../elements";
 
 interface IActivitiesComponentState {
     taskId: number;

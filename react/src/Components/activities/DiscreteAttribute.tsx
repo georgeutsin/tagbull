@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import ResizeDetector from "react-resize-detector";
-import aid_da_depiction from "../../Images/Visuals/aid_da_depiction.svg";
-import aid_da_inside from "../../Images/Visuals/aid_da_inside.svg";
-import aid_da_label from "../../Images/Visuals/aid_da_label.svg";
-import aid_da_occluded from "../../Images/Visuals/aid_da_occluded.svg";
-import aid_da_outside from "../../Images/Visuals/aid_da_outside.svg";
-import { BoundingBoxCanvas } from "../Canvases";
+import aid_da_depiction from "../../images/visuals/aid_da_depiction.svg";
+import aid_da_inside from "../../images/visuals/aid_da_inside.svg";
+import aid_da_label from "../../images/visuals/aid_da_label.svg";
+import aid_da_occluded from "../../images/visuals/aid_da_occluded.svg";
+import aid_da_outside from "../../images/visuals/aid_da_outside.svg";
+import { BoundingBoxCanvas } from "../canvases";
 import {
     ActivityAction,
     ActivityInstruction,
     BigButtonComponent,
     HelpButtonComponent,
     MultipleOptionsComponent,
-} from "../UIElements";
+} from "../elements";
 
 interface IDiscreteAttributeState {
     selectedLabel: string;

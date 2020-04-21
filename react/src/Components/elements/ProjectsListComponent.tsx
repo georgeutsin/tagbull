@@ -1,5 +1,5 @@
 import React from "react";
-import { Backend } from "../../Utils";
+import { Backend } from "../../utils";
 import ProgressBarComponent from "./ProgressBarComponent";
 
 interface IProjectListComponentState {

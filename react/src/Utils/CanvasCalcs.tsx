@@ -1,4 +1,4 @@
-import { IBoundingBox, IRect } from "../Interfaces";
+import { IBoundingBox, IRect } from "../interfaces";
 
 function calculateImageDimensions(maxDims: any, imageDims: any): any {
     const canvasAspectRatio = maxDims.width / maxDims.height;
@@ -62,15 +62,15 @@ function isPointInBounds(point: any, bb: IBoundingBox) {
 }
 
 function normalizePointToBounds(point: any, bounds: IRect) {
-    const min_x = bounds.x;
-    const max_x = bounds.x + bounds.w;
-    const min_y = bounds.y;
-    const max_y = bounds.y + bounds.h;
+    const minX = bounds.x;
+    const maxX = bounds.x + bounds.w;
+    const minY = bounds.y;
+    const maxY = bounds.y + bounds.h;
     return {
-        x: point.x <= min_x ? min_x : point.x >= max_x ? max_x : point.x,
-        y: point.y <= min_y ? min_y : point.y >= max_y ? max_y : point.y,
+        x: point.x <= minX ? minX : point.x >= maxX ? maxX : point.x,
+        y: point.y <= minY ? minY : point.y >= maxY ? maxY : point.y,
         id: point.id <= 0 ? 0 : point.id,
-    }
+    };
 }
 
 function rectToCanvasCoords(rect: IRect, imageBounds: IRect, image?: HTMLImageElement) {

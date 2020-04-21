@@ -1,4 +1,4 @@
-import { IPoint, IRect } from "../../Interfaces";
+import { IPoint, IRect } from "../../interfaces";
 
 function drawMarker(ctx: CanvasRenderingContext2D, marker: IPoint, imageBounds: IRect) {
     if (ctx === null) {

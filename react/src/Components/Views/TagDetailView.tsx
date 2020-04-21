@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Backend } from "../../Utils";
-import { NavBar, SamplePreview } from "../UIElements";
+import { Backend } from "../../utils";
+import { NavBar, SamplePreview } from "../elements";
 
 class TagDetailView extends Component<any, any> {
     private params: any;
