@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React from "react";
 import { Backend, getActorSig } from "../../Utils";
-import { BigButtonComponent, InputTurkID, ProgressBarComponent } from "../UIElements";
+import { ProgressBarComponent } from "../UIElements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum TurkViewStage {
