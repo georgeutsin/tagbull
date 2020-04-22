@@ -1,7 +1,7 @@
 import React from "react";
-import { NavBar } from "../elements";
+import { NavBar } from "../../elements";
 
-import pageStyles from "../../styles/page.module.scss";
+import pageStyles from "../../../styles/page.module.scss";
 
 function NotFoundView() {
     return <div>

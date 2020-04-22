@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import BigButton from "./BigButton";
+import BigButton from "../common/BigButton";
 
 interface IWelcomeState {
     visible: boolean;

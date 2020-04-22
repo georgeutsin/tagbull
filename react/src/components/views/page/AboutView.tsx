@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import david from "../../images/david.jpg";
-import george from "../../images/george.jpg";
-import kevin from "../../images/kevin.jpg";
-import matt from "../../images/matt.jpg";
-import { Footer, NavBar } from "../elements";
-import ActivitiesHomeView from "./ActivitiesHomeView";
+import david from "../../../images/david.jpg";
+import george from "../../../images/george.jpg";
+import kevin from "../../../images/kevin.jpg";
+import matt from "../../../images/matt.jpg";
+import { Footer, NavBar } from "../../elements";
+import ActivitiesHomeView from "../activity/ActivitiesHomeView";
 
-import pageStyles from "../../styles/page.module.scss";
+import pageStyles from "../../../styles/page.module.scss";
 
 class AboutView extends Component<any, any> {
     constructor(props: any) {

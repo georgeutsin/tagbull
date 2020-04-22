@@ -1,8 +1,8 @@
 /* tslint:disable */
 import React, { Component } from "react";
-import { Footer, NavBar } from "../elements";
+import { Footer, NavBar } from "../../elements";
 
-import pageStyles from "../../styles/page.module.scss";
+import pageStyles from "../../../styles/page.module.scss";
 
 class PrivacyView extends Component<any, any> {
     public render() {

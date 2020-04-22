@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Backend } from "../../utils";
-import { NavBar, ProgressBar, TagPreview } from "../elements";
+import { Backend } from "../../../utils";
+import { NavBar, ProgressBar, TagPreview } from "../../elements";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./ProjectView.module.scss";
 
 const taskTypes: { [key: string]: string; } = {

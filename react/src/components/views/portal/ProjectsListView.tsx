@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { NavBar, ProjectsList } from "../elements";
+import { NavBar, ProjectsList } from "../../elements";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 
 class ProjectsListView extends Component {
     public render() {

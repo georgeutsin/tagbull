@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./BigButton.module.scss";
 
 interface IBigButtonProps {
