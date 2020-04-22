@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import "./BigButton.scss";
+
+import portalStyles from "../../styles/portal.module.scss";
+import styles from "./BigButton.module.scss";
 
 interface IBigButtonProps {
     height?: number;
@@ -21,7 +23,7 @@ class BigButton extends Component<IBigButtonProps, any> {
     public render() {
         return <div style={{ height: this.props.height || 70, paddingTop: "10px" }}>
             <button
-                className={"bigButton" + (!this.props.enabled ? " disabledButton" : "")}
+                className={styles.bigButton + (!this.props.enabled ? ` ${portalStyles.disabledButton}` : "")}
                 disabled={!this.props.enabled}
                 onClick={this.doneClicked}>
                 <span style={{ fontSize: 50 }}>{this.props.label}</span>

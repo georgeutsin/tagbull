@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { IBoundingBox } from "../../interfaces";
 import { BoundingBoxCanvas } from "../canvases";
-import "./TagPreview.scss";
+import previewStyles from "./preview.module.scss";
 
 class TagDiffPreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;
@@ -19,8 +19,8 @@ class TagDiffPreview extends Component<any, any> {
         });
         return <div style={{ backgroundColor: "yellow" }} key={key}>
             BB_EXTRA <br></br>
-            <div className="tagPreviewOuter">
-                <div className="tagPreviewThumb" style={this.canvasStyle}>
+            <div className={previewStyles.tagPreviewOuter}>
+                <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
                         actionDims={new DOMRect()}
@@ -29,7 +29,7 @@ class TagDiffPreview extends Component<any, any> {
                         boundingBox={bb}
                     ></BoundingBoxCanvas>
                 </div>
-                <div className="tagPreviewDetails">
+                <div className={previewStyles.tagPreviewDetails}>
                     <div>
                         <h5>Category</h5>{metadata.category}
                     </div>
@@ -46,8 +46,8 @@ class TagDiffPreview extends Component<any, any> {
         });
         return <div style={{ backgroundColor: "red" }} key={key}>
             BB_MISSING <br></br>
-            <div className="tagPreviewOuter">
-                <div className="tagPreviewThumb" style={this.canvasStyle}>
+            <div className={previewStyles.tagPreviewOuter}>
+                <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
                         actionDims={new DOMRect()}
@@ -57,7 +57,7 @@ class TagDiffPreview extends Component<any, any> {
                         baseBoundingBox={bb}
                     ></BoundingBoxCanvas>
                 </div>
-                <div className="tagPreviewDetails">
+                <div className={previewStyles.tagPreviewDetails}>
                     <div>
                         <h5>Category</h5>{metadata.category}
                     </div>
@@ -85,8 +85,8 @@ class TagDiffPreview extends Component<any, any> {
         const attributes = this.dichotomyMatchAttributesPreview(metadata0, metadata1);
         return <div style={{ backgroundColor: "green" }} key={key}>
             BB_MATCH <br></br>
-            <div className="tagPreviewOuter" >
-                <div className="tagPreviewThumb" style={this.canvasStyle}>
+            <div className={previewStyles.tagPreviewOuter} >
+                <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
                         actionDims={new DOMRect()}
@@ -96,7 +96,7 @@ class TagDiffPreview extends Component<any, any> {
                         baseBoundingBox={bb0}
                     ></BoundingBoxCanvas>
                 </div>
-                <div className="tagPreviewDetails">
+                <div className={previewStyles.tagPreviewDetails}>
                     <div>
                         <h5>Category</h5>{metadata0.category}
                     </div>

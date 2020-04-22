@@ -6,7 +6,7 @@ import matt from "../../images/matt.jpg";
 import { Footer, NavBar } from "../elements";
 import ActivitiesHomeView from "./ActivitiesHomeView";
 
-import "./pages.scss";
+import pageStyles from "../../styles/page.module.scss";
 
 class AboutView extends Component<any, any> {
     constructor(props: any) {
@@ -52,17 +52,17 @@ class AboutView extends Component<any, any> {
             </NavBar>
 
             <div style={{ minHeight: "100vh", overflow: "hidden" }}>
-                <header>
-                    <div className="header-bg purpleGradient"></div>
+                <div className={pageStyles.header}>
+                    <div className={`${pageStyles.headerBg} purpleGradient`}></div>
                     <div style={{ maxWidth: "1080px", margin: "0 auto", padding: "5px" }}>
                         <div style={{ height: "100px" }}></div>
-                        <h1 className="textShadow" style={{ fontSize: "5em" }}>Our Company</h1>
+                        <h1 className={pageStyles.textShadow} style={{ fontSize: "5em" }}>Our Company</h1>
                         <div style={{ height: "50px" }}></div>
                         <span style={{ color: "white", position: "relative", fontSize: "1.5em", padding: "10px" }}>
                             We're transforming the way people interact with data.
                         </span>
                     </div>
-                </header>
+                </div>
 
                 <div style={{ maxWidth: "1080px", margin: "0 auto", padding: "5px" }}>
                     <div style={{ height: "100px" }}></div>
@@ -126,7 +126,7 @@ class AboutView extends Component<any, any> {
 
                     <h1>Investors</h1>
                     <div style={{ height: "50px" }}></div>
-                    <div className="velocityLogo"></div>
+                    <div className={pageStyles.velocityLogo}></div>
                     <div style={{ height: "100px" }}></div>
 
                     <h1>In the News</h1>
@@ -136,7 +136,7 @@ class AboutView extends Component<any, any> {
                             style={{ textDecorationColor: "#6100ff" }}>
                             <div style={
                                 { color: "#6600ff", fontSize: "2em", paddingBottom: "30px", fontFamily: "Heebo" }
-                                }>
+                            }>
                                 Meet the winners of the 24th Velocity Fund Finals
                             </div>
                         </a>

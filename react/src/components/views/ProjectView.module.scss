@@ -1,0 +1,33 @@
+.projectDetails {
+  color: #444;
+  margin: 0;
+}
+
+.projectDetails h5 {
+  color: #bebebe;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 0.7em;
+}
+
+.projectDetails button {
+  background-color: white;
+  border: none;
+  text-align: center;
+  font-size: 1em;
+  color: #444;
+  margin: 10px;
+  padding: 9px 20px 12px 20px;
+  border-radius: 2px;
+  font-weight: 100;
+  border: 1px solid grey;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+.projectDetails button:hover {
+  cursor: pointer;
+  background-color: #efefef;
+}

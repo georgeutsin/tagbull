@@ -96,7 +96,7 @@ class HomeView extends Component<any, any> {
                         <div style={{ display: "inline-block", width: "50%" }}>
                             <div style={{ paddingRight: "10px" }}>
                                 <div
-                                    className="login"
+                                    className={styles.formWrapper}
                                     style={{ maxWidth: "350px", marginLeft: "auto", marginRight: 0 }}>
                                     <form
                                         name="contact-top"
@@ -278,7 +278,8 @@ class HomeView extends Component<any, any> {
                     </div>
                         <div>
                             Get the most out of your data now. Let's get in touch:
-                        <div className="login" style={{ width: "400px", margin: "auto", paddingTop: "30px" }}>
+                        <div className={styles.formWrapper}
+                            style={{ width: "400px", margin: "auto", paddingTop: "30px" }}>
                                 <form name="contact-bottom" method="POST" data-netlify="true" netlify-honeypot="bot-field" ref="form-top" onSubmit={handleSubmit}>
                                     <input type="hidden" name="form-name" value="contact-bottom" />
                                     <input

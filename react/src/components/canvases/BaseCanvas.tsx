@@ -6,7 +6,8 @@ import {
     MouseAdaptor,
     TouchAdaptor,
 } from "../../utils";
-import "./BaseCanvas.scss";
+
+import styles from "./BaseCanvas.module.scss";
 
 interface IBaseCanvasState {
     windowWidth: number;
@@ -194,10 +195,10 @@ class BaseCanvas extends Component<IBaseCanvasProps, IBaseCanvasState> {
 
         this.updateCanvasDims();
 
-        return <div className="tagbullCanvas" style={{ width: this.canvasWidth, height: this.canvasHeight }}>
+        return <div className={styles.tagbullCanvas} style={{ width: this.canvasWidth, height: this.canvasHeight }}>
             {this.state.image === undefined && <div className="loadingWheel"></div>}
             <canvas
-                className="tagbullCanvas"
+                className={styles.tagbullCanvas}
                 ref={this.canvasRef}
                 width={this.canvasWidth}
                 height={this.state.image === undefined ? 0 : this.canvasHeight}>

@@ -1,3 +1,9 @@
+.pageWrapper {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
 .textShadow {
   text-shadow: 0 0 70px #00000028;
 }
@@ -6,12 +12,12 @@
   text-shadow: 0 0 30px #00000083;
 }
 
-header {
+.header {
   position: relative;
   height: 500px;
 }
 
-.header-bg {
+.headerBg {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -23,13 +29,13 @@ header {
   transform-origin: top left;
 }
 
-header h1 {
+.header h1 {
   position: relative;
   color: white;
 }
 
 .velocityLogo {
-  background-image: url("../../images/velocity-logo.png");
+  background-image: url("../images/velocity-logo.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: 50%;

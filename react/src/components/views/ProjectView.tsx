@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Backend } from "../../utils";
 import { NavBar, ProgressBar, TagPreview } from "../elements";
 
-import "./portal.scss";
-import "./ProjectView.scss";
+import portalStyles from "../../styles/portal.module.scss";
+import styles from "./ProjectView.module.scss";
 
 const taskTypes: { [key: string]: string; } = {
     BoundingBoxTask: "Bounding Box Given A Label",
@@ -125,21 +125,23 @@ class ProjectView extends Component<any, any> {
                     <a href="/about">About Us</a>
                 </li>
             </NavBar>
-            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+            <div className={portalStyles.portalWrapper} style={{ minHeight: "100vh" }}>
                 <div className="spacer"></div>
-                <div className="actionBar">
+                <div className={portalStyles.actionBar}>
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
-                    <span className="actions">
-                        <a href="/projects"><button className="actionButton greyButton">
-                            Back
-                        </button></a>
+                    <span className={portalStyles.actions}>
+                        <a href="/projects">
+                            <button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
+                                Back
+                            </button>
+                        </a>
                     </span>
                     <div style={{ clear: "both" }}></div>
                 </div>
-                <div className="mainCard">
-                    <div className="projectSection">
+                <div className={portalStyles.mainCard}>
+                    <div className={portalStyles.projectSection}>
                         <h2> Details</h2>
-                        <div className="projectDetails">
+                        <div className={styles.projectDetails}>
                             <div className="thirds">
                                 <h5>Created At</h5> {this.state.project.created_at}
                                 <h5>Status</h5> {this.state.project.status}, {this.state.project.is_private ? "is private" : "is public"}
@@ -161,18 +163,22 @@ class ProjectView extends Component<any, any> {
                         </div>
                     </div>
                     <div style={{ height: "40px" }}></div>
-                    <div className="projectSection">
+                    <div className={portalStyles.projectSection}>
                         <h2>Tags</h2>
                     </div>
-                    <div className="tagPreviews">
+                    <div className={portalStyles.tagPreviews}>
                         {tags}
                     </div>
                     {this.state.tagOffset !== -1 && <div style={{ textAlign: "center" }}>
-                        <button className="actionButton greyButton" onClick={this.loadMoreButtonClicked}>
+                        <button
+                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            onClick={this.loadMoreButtonClicked}>
                             Load More
                         </button>
-                        <div style={{width: 20, display: "inline-block"}}></div>
-                        <button className="actionButton greyButton" onClick={this.loadAllButtonClicked}>
+                        <div style={{ width: 20, display: "inline-block" }}></div>
+                        <button
+                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            onClick={this.loadAllButtonClicked}>
                             Load All
                         </button>
                     </div>}

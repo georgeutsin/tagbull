@@ -167,9 +167,9 @@ class MockBackend implements IBackend {
 
     public getActivity(deviceId: string): any {
         // const resp = { data: this.locatorActivityResp };
-        const resp = { data: this.bbActivityResp };
+        // const resp = { data: this.bbActivityResp };
         // const resp = { data: this.imageFailureResp };
-        // const resp = { data: this.discreteAttrActivityResp };
+        const resp = { data: this.discreteAttrActivityResp };
         return this.promiseOf(resp);
     }
 

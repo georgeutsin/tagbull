@@ -2,7 +2,8 @@ import React from "react";
 import { Backend } from "../../utils";
 import ProgressBar from "./ProgressBar";
 
-import "./ProjectsList.scss";
+import portalStyles from "../../styles/portal.module.scss";
+import styles from "./ProjectsList.module.scss";
 
 interface IProjectsListState {
     projects: any;
@@ -43,31 +44,35 @@ class ProjectsList extends React.Component<IProjectsListProps, IProjectsListStat
     public render() {
         let header = null;
         let footer = null;
-        let projectItems = <div className="lightText">Oops, looks like you don't have any projects yet!</div>;
+        let projectItems = <div className={portalStyles.lightText}>
+            Oops, looks like you don't have any projects yet!
+        </div>;
         if (this.state.projects.length > 0) {
-            header = <div className="projectTitleRow">
-                <div className="projectName tableHeader">Project Name</div>
-                <div className="projectProgress tableHeader">Progress</div>
-                <div className="projectCreated tableHeader">Created At</div>
+            header = <div className={styles.projectTitleRow}>
+                <div className={`${styles.projectName} ${styles.tableHeader}`}>Project Name</div>
+                <div className={`${styles.projectProgress} ${styles.tableHeader}`}>Progress</div>
+                <div className={`${styles.projectCreated} ${styles.tableHeader}`}>Created At</div>
             </div>;
 
             projectItems = this.state.projects.map((project: any) =>
                 <div key={project.id}>
-                    <a href={"/projects/" + project.id}><div className="projectRow">
-                        <div className="projectName tableBody">
+                    <a href={"/projects/" + project.id}><div className={styles.projectRow}>
+                        <div className={`${styles.projectName} ${styles.tableBody}`}>
                             {project.name}
                             <span style={{ fontSize: "1.5em" }}>&nbsp;<b>›</b></span>
                         </div>
-                        <div className="projectProgress tableBody">
+                        <div className={`${styles.projectProgress} ${styles.tableBody}`}>
                             <ProgressBar progress={project.progress} height={40}></ProgressBar>
                         </div>
-                        <div className="projectCreated tableBody">{project.created_at}</div>
+                        <div className={`${styles.projectCreated} ${styles.tableBody}`}>
+                            {project.created_at}
+                        </div>
                     </div></a>
                     <div style={{ height: "20px" }}></div>
                 </div> ,
             );
 
-            footer = <div className="tableFooter">
+            footer = <div className={styles.tableFooter}>
                 Showing {this.state.projects.length} of {this.state.projects.length} projects
             </div>;
         }

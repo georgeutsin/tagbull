@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { IBoundingBox, IPoint } from "../../interfaces";
 import { BoundingBoxCanvas, PointCanvas } from "../canvases";
-import "./TagPreview.scss";
+import previewStyles from "./preview.module.scss";
 
 class SamplePreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;
@@ -21,8 +21,8 @@ class SamplePreview extends Component<any, any> {
     public boundingBoxPreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const bb: IBoundingBox = sample.sample;
-        return <div className="tagPreviewOuter" key={sample.media.name} style={actorStyle}>
-            <div className="tagPreviewThumb" style={this.canvasStyle}>
+        return <div className={previewStyles.tagPreviewOuter} key={sample.media.name} style={actorStyle}>
+            <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                 <BoundingBoxCanvas
                     instructionDims={new DOMRect()}
                     actionDims={new DOMRect()}
@@ -32,7 +32,7 @@ class SamplePreview extends Component<any, any> {
                 ></BoundingBoxCanvas>
             </div>
 
-            <div className="tagPreviewDetails" style={{lineHeight: "1em", fontSize: "1em"}}>
+            <div className={previewStyles.tagPreviewDetails} style={{lineHeight: "1em", fontSize: "1em"}}>
                 <div> <h5>Type</h5> Bounding Box </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
                 <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}</div>
@@ -45,9 +45,9 @@ class SamplePreview extends Component<any, any> {
     public locatorPreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const points: IPoint[] = sample.sample.points;
-        return <div className="tagPreviewOuter" key={sample.media.name} style={actorStyle}>
+        return <div className={previewStyles.tagPreviewOuter} key={sample.media.name} style={actorStyle}>
 
-            <div className="tagPreviewThumb" style={this.canvasStyle}>
+            <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                 <PointCanvas
                     instructionDims={new DOMRect()}
                     actionDims={new DOMRect()}
@@ -57,7 +57,7 @@ class SamplePreview extends Component<any, any> {
                 </PointCanvas>
             </div>
 
-            <div className="tagPreviewDetails" style={{lineHeight: "1em", fontSize: "1em"}}>
+            <div className={previewStyles.tagPreviewDetails} style={{lineHeight: "1em", fontSize: "1em"}}>
                 <div> <h5>Type</h5> Locator </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
                 <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id} </div>
@@ -70,9 +70,9 @@ class SamplePreview extends Component<any, any> {
     public discreteAttributePreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const bb: IBoundingBox = sample.task;
-        return <div className="tagPreviewOuter" key={sample.media.name} style={actorStyle}>
+        return <div className={previewStyles.tagPreviewOuter} key={sample.media.name} style={actorStyle}>
 
-            <div className="tagPreviewThumb" style={this.canvasStyle}>
+            <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                 <BoundingBoxCanvas
                     instructionDims={new DOMRect()}
                     actionDims={new DOMRect()}
@@ -82,7 +82,7 @@ class SamplePreview extends Component<any, any> {
                 ></BoundingBoxCanvas>
             </div>
 
-            <div className="tagPreviewDetails" style={{lineHeight: "1em", fontSize: "1em"}}>
+            <div className={previewStyles.tagPreviewDetails} style={{lineHeight: "1em", fontSize: "1em"}}>
                 <div> <h5>Type</h5> Discrete Attribute </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
                 <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}  </div>
