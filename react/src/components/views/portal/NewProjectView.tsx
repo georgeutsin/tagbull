@@ -210,7 +210,7 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                     <span style={{ display: "inline-block" }}><h1>Create a New Project</h1></span>
                     <span className={portalStyles.actions}>
                         <a href="/projects">
-                            <button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
+                            <button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
                                 Back
                             </button>
                         </a>
