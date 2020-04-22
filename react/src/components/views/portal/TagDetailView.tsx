@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Backend } from "../../utils";
-import { NavBar, SamplePreview } from "../elements";
+import { Backend } from "../../../utils";
+import { NavBar, SamplePreview } from "../../elements";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 
 class TagDetailView extends Component<any, any> {
     private params: any;

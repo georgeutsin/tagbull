@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import play from "../../images/play-button.svg";
-import { Footer, NavBar } from "../elements";
-import ActivitiesHomeView from "./ActivitiesHomeView";
+import play from "../../../images/play-button.svg";
+import { Footer, NavBar } from "../../elements";
+import ActivitiesHomeView from "../activity/ActivitiesHomeView";
 
 import styles from "./HomeView.module.scss";
 

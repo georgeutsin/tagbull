@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import logo from "../../tagbull-white.svg";
+import logo from "../../../tagbull-white.svg";
 
-import pageStyles from "../../styles/page.module.scss";
+import pageStyles from "../../../styles/page.module.scss";
 import styles from "./Footer.module.scss";
 
 class Footer extends Component {

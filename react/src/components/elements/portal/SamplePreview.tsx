@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { IBoundingBox, IPoint } from "../../interfaces";
-import { BoundingBoxCanvas, PointCanvas } from "../canvases";
+import { IBoundingBox, IPoint } from "../../../interfaces";
+import { BoundingBoxCanvas, PointCanvas } from "../../canvases";
 import previewStyles from "./preview.module.scss";
 
 class SamplePreview extends Component<any, any> {

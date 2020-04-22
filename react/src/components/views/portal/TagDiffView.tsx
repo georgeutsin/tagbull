@@ -1,9 +1,9 @@
 import queryString from "query-string";
 import React, { Component } from "react";
-import { Backend } from "../../utils";
-import { NavBar, TagDiffPreview } from "../elements";
+import { Backend } from "../../../utils";
+import { NavBar, TagDiffPreview } from "../../elements";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 
 class SamplesView extends Component<any, any> {
     constructor(props: any) {

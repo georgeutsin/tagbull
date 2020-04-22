@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { IBoundingBox } from "../../interfaces";
-import { BoundingBoxCanvas } from "../canvases";
+import { IBoundingBox } from "../../../interfaces";
+import { BoundingBoxCanvas } from "../../canvases";
 import previewStyles from "./preview.module.scss";
 
 class TagPreview extends Component<any, any> {

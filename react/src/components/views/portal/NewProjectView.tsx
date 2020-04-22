@@ -1,10 +1,10 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { Backend } from "../../utils";
-import {ImageUpload, NavBar} from "../elements";
-import ActivitiesComponent from "./ActivitiesComponent";
+import { Backend } from "../../../utils";
+import {ImageUpload, NavBar} from "../../elements";
+import ActivitiesComponent from "../activity/ActivitiesComponent";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./NewProjectView.module.scss"; // TODO: redo this whole file
 
 enum NewProjectStage {

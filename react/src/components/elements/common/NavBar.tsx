@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import pageStyles from "../../styles/page.module.scss";
-import portalStyles from "../../styles/portal.module.scss";
+import pageStyles from "../../../styles/page.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./NavBar.module.scss";
 
 class NavBar extends Component<any, any> {

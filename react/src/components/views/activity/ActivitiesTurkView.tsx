@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend, getActorSig } from "../../utils";
-import { ProgressBar } from "../elements";
+import { Backend, getActorSig } from "../../../utils";
+import { ProgressBar } from "../../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 enum TurkViewStage {

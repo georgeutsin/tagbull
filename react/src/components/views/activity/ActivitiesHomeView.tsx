@@ -1,9 +1,9 @@
 import React from "react";
-import { Backend, getActorSig, UnityEvent } from "../../utils";
-import { ProgressBar } from "../elements";
+import { Backend, getActorSig, UnityEvent } from "../../../utils";
+import { ProgressBar } from "../../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
-import activityStyles from "../../styles/activity.module.scss";
+import activityStyles from "../../../styles/activity.module.scss";
 
 interface IActivitiesHomeViewState {
     progressIndicator: number;

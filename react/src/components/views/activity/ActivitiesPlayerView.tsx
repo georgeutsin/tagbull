@@ -1,10 +1,10 @@
 import queryString from "query-string";
 import React from "react";
-import { Backend, getActorSig, UnityEvent } from "../../utils";
-import { ProgressBar } from "../elements";
+import { Backend, getActorSig, UnityEvent } from "../../../utils";
+import { Completion, ProgressBar } from "../../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
-import activityStyles from "../../styles/activity.module.scss";
+import activityStyles from "../../../styles/activity.module.scss";
 
 enum PlayerViewStage {
     ACTIVITIES = 0,
@@ -12,7 +12,7 @@ enum PlayerViewStage {
     NOTASK = 2,
 }
 
-interface IActivitiesInfiniteViewState {
+interface IActivitiesPlayerViewState {
     currentStage: number;
     progressIndicator: number;
     completedActivityCounter: number;
@@ -22,7 +22,7 @@ interface IActivitiesInfiniteViewState {
     waitingOnPost: boolean;
 }
 
-class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteViewState> {
+class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewState> {
     constructor(props: any) {
         super(props);
 
@@ -35,8 +35,8 @@ class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteVie
             completedActivityCounter: 0,
             // TODO: load number of activities in the current session dynamically from the BE, based on user trust
             numActivities: 3,
-            deviceId: values.device_id ? String(values.device_id) : getActorSig("web_infinite"),
-            projectId: values.project_id ? String(values.project_id) : "9",
+            deviceId: values.device_id ? String(values.device_id) : getActorSig("web_player"),
+            projectId: values.project_id ? String(values.project_id) : undefined,
             waitingOnPost: false,
         };
 
@@ -44,13 +44,19 @@ class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteVie
         this.doneActivity = this.doneActivity.bind(this);
         this.activitySource = this.activitySource.bind(this);
         this.exit = this.exit.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
 
     public exit() {
         window.dispatchEvent(new UnityEvent("tagbull", {
             detail: "success",
         }));
-        this.props.history.push("/");
+    }
+
+    public cancel() {
+        window.dispatchEvent(new UnityEvent("tagbull", {
+            detail: "cancel",
+        }));
     }
 
     public componentDidCatch(error: any, info: any) {
@@ -60,36 +66,70 @@ class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteVie
 
     public doneActivity(data: any) {
         if (data.no_task_found) {
-            this.exit();
+            this.setState({
+                progressIndicator: this.state.numActivities + 1,
+                completedActivityCounter: this.state.numActivities,
+                currentStage: PlayerViewStage.NOTASK,
+                waitingOnPost: false,
+            });
         } else {
             this.postSample(data, () => this.updateActivityCounter());
         }
     }
 
     public updateActivityCounter() {
+        let counter = this.state.completedActivityCounter;
+
+        // Increment the counter if we haven't finished the last planned activity yet.
+        // This has the side effect of unmounting and remounting the ActivitiesComponent
+        // since the component takes the counter as the key prop.
+        if (this.state.completedActivityCounter < this.state.numActivities) {
+            counter += 1;
+        }
+
+        let stage = this.state.currentStage;
+        if (counter === this.state.numActivities) {
+            stage = PlayerViewStage.COMPLETE;
+        }
+
         this.setState({
-            completedActivityCounter: this.state.completedActivityCounter + 1,
+            progressIndicator: this.state.progressIndicator + 1,
+            completedActivityCounter: counter,
+            currentStage: stage,
             waitingOnPost: false,
         });
     }
 
     public render() {
+        let completeComponent = null;
+        if (this.state.currentStage >= PlayerViewStage.COMPLETE) {
+            completeComponent = <div onClick={this.exit}><Completion></Completion></div>;
+        }
+
         const progressBarHeight = 50;
 
         return <div style={{ height: "100%" }}>
             <ProgressBar
-                progress={100}>
-                <div className={activityStyles.cancelActivities} onClick={this.exit}>Exit</div>
+                progress={this.state.progressIndicator / this.progressDivisor() * 100}>
+                {completeComponent === null &&
+                    <div className={activityStyles.cancelActivities} onClick={this.cancel}>Cancel</div>}
             </ProgressBar>
             <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
-                {<ActivitiesComponent
+                {!completeComponent && <ActivitiesComponent
                     key={this.state.completedActivityCounter}
                     doneActivityCallback={this.doneActivity}
                     activityPromise={this.activitySource}
-                    disabled={this.state.waitingOnPost}>
+                    disabled={this.state.completedActivityCounter >= this.state.numActivities
+                        || this.state.waitingOnPost}>
                 </ActivitiesComponent>}
             </div>
+            {completeComponent}
+
         </div>;
+    }
+
+    private progressDivisor() {
+        return this.state.numActivities + 1;
     }
 
     private activitySource() {
@@ -120,4 +160,4 @@ class ActivitiesInfiniteView extends React.Component<any, IActivitiesInfiniteVie
     }
 }
 
-export default ActivitiesInfiniteView;
+export default ActivitiesPlayerView;

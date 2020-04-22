@@ -1,8 +1,8 @@
 import React from "react";
-import { Backend } from "../../utils";
-import ProgressBar from "./ProgressBar";
+import { Backend } from "../../../utils";
+import ProgressBar from "../common/ProgressBar";
 
-import portalStyles from "../../styles/portal.module.scss";
+import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./ProjectsList.module.scss";
 
 interface IProjectsListState {
