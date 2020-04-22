@@ -3,7 +3,7 @@ import { Backend, getActorSig, UnityEvent } from "../../utils";
 import { ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
-import "./activities.scss";
+import activityStyles from "../../styles/activity.module.scss";
 
 interface IActivitiesHomeViewState {
     progressIndicator: number;
@@ -95,7 +95,7 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
 
         if (this.state.completedActivityCounter === this.state.numActivities) {
             activities = <div>
-                <div className="promoSection"
+                <div className={activityStyles.promoSection}
                     style={{ textAlign: "center", backgroundColor: "white", margin: "10px" }}>
                     <div
                         style={{ fontWeight: 100, fontSize: "2.5em", paddingBottom: "40px" }}>
@@ -135,7 +135,7 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
             <div className="both-center" style={{ height: "80%", width: "80%", backgroundColor: "white", borderRadius: "10px" }} ref={this.bgRef}>
                 <ProgressBar
                     progress={this.state.progressIndicator / this.progressDivisor() * 100}>
-                    <div className="cancelActivities" onClick={this.cancel} ref={this.cancelRef}>
+                    <div className={activityStyles.cancelActivities} onClick={this.cancel} ref={this.cancelRef}>
                         Cancel
                 </div>
                 </ProgressBar>

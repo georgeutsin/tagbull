@@ -4,7 +4,7 @@ import { Backend, getActorSig, UnityEvent } from "../../utils";
 import { Completion, ProgressBar } from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
-import "./activities.scss";
+import activityStyles from "../../styles/activity.module.scss";
 
 enum PlayerViewStage {
     ACTIVITIES = 0,
@@ -111,7 +111,8 @@ class ActivitiesPlayerView extends React.Component<any, IActivitiesPlayerViewSta
         return <div style={{ height: "100%" }}>
             <ProgressBar
                 progress={this.state.progressIndicator / this.progressDivisor() * 100}>
-                {completeComponent === null && <div className="cancelActivities" onClick={this.cancel}>Cancel</div>}
+                {completeComponent === null &&
+                    <div className={activityStyles.cancelActivities} onClick={this.cancel}>Cancel</div>}
             </ProgressBar>
             <div style={{ height: `calc(100% - ${progressBarHeight + 2 * 10}px)`, padding: "10px" }}>
                 {!completeComponent && <ActivitiesComponent

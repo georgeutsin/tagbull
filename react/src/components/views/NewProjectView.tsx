@@ -1,11 +1,11 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { Backend } from "../../utils";
-import ImageUpload from "../elements/ImageUpload";
+import {ImageUpload, NavBar} from "../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
-import "./NewProjectView.scss";
-import "./portal.scss";
+import portalStyles from "../../styles/portal.module.scss";
+import styles from "./NewProjectView.module.scss"; // TODO: redo this whole file
 
 enum NewProjectStage {
     IMAGE_UPLOAD = 0,
@@ -199,44 +199,47 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
         }
 
         return <div>
-            <div className="portalWrapper menuBar">
-                <a href="/"><span style={{ width: "170px", height: "100%", float: "left" }}></span></a>
-                <li className="light">Settings</li>
-            </div>
-            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+            <NavBar isPortal>
+                <li>
+                    <a href="/about">About Us</a>
+                </li>
+            </NavBar>
+            <div className={portalStyles.portalWrapper} style={{ minHeight: "100vh" }}>
                 <div className="spacer"></div>
-                <div className="actionBar">
+                <div className={portalStyles.actionBar}>
                     <span style={{ display: "inline-block" }}><h1>Create a New Project</h1></span>
-                    <span className="actions">
-                        <a href="/projects"><button className="actionButton greyButton">
-                            Back
-                        </button></a>
+                    <span className={portalStyles.actions}>
+                        <a href="/projects">
+                            <button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
+                                Back
+                            </button>
+                        </a>
                     </span>
                     <div style={{ clear: "both" }}></div>
                 </div>
 
-                <div className="stepList">
-                    <div className="step">
-                        <div className="stepInstruction">
+                <div className={styles.stepList}>
+                    <div className={styles.step}>
+                        <div className={styles.stepInstruction}>
                             <h3>Step 1: Upload images</h3>
                             Please select the images that you would like to be tagged.
                         </div>
-                        <div className="stepBody stepBodyTop">
+                        <div className={`${styles.stepBody} ${styles.stepBodyTop}`}>
                             {this.state.projectId !== -1 &&
                                 <ImageUpload projectId={this.state.projectId}
                                     callback={this.doneSelectingImages}></ImageUpload>
                             }
                         </div>
-                        <div className="stepBreather"></div>
+                        <div className={styles.stepBreather}></div>
                     </div>
-                    <div className="step">
+                    <div className={styles.step}>
                         <div className={this.getStepInstructionClass(NewProjectStage.TASK_TYPE_SELECTION)}>
                             <h3>Step 2: Select task type</h3>
                             Indicate the type of labels you want generated for your dataset.
                         </div>
-                        <div className="stepBody">
+                        <div className={styles.stepBody}>
                             {this.shouldShowStage(NewProjectStage.TASK_TYPE_SELECTION) &&
-                                <div className="radioWrapper" onChange={this.doneSelectingType}>
+                                <div className={styles.radioWrapper} onChange={this.doneSelectingType}>
                                     <input
                                         type="radio"
                                         id="radio1"
@@ -263,13 +266,13 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
 
                         </div>
                     </div>
-                    <div className="step">
+                    <div className={styles.step}>
                         <div className={this.getStepInstructionClass(NewProjectStage.TASK_CONFIG)}>
                             <h3>Step 3: Configure label options</h3>
                             Telling us a bit more information about what kind of labels you
                             expect, and properties of the dataset will help us deliver more accurate labels faster.
                         </div>
-                        <div className="stepBody ">
+                        <div className={styles.stepBody}>
                             {this.shouldShowStage(NewProjectStage.TASK_CONFIG) &&
                                 <div>
                                     What is this dataset labelling?&nbsp;&nbsp;&nbsp;
@@ -297,7 +300,7 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                             }
                         </div>
                     </div>
-                    <div className="step">
+                    <div className={styles.step}>
                         <div className={this.getStepInstructionClass(NewProjectStage.EXAMPLE_ACTIVITY)}>
                             <h3>Step 4: Verify task selection</h3>
                             Make sure we generate the right types of labels by running through
@@ -315,7 +318,7 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                         </div>
                     </div>
 
-                    <div className="step">
+                    <div className={styles.step}>
                         <div className={this.getStepInstructionClass(NewProjectStage.NAME_PROJECT)}>
                             <h3>Step 5: Project Name</h3>
                             Pick a concise name to identify the project.
@@ -331,8 +334,8 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
 
                 </div>
 
-                <div className="actionBar" style={{ marginTop: "40px" }}>
-                    <span className="actions">
+                <div className={portalStyles.actionBar} style={{ marginTop: "40px" }}>
+                    <span className={portalStyles.actions}>
                         <button onClick={this.createClicked}
                             className={this.getActionButtonClass(NewProjectStage.COMPLETE)} >
                             Create Project

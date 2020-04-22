@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import FormData from 'form-data';
 import { Backend } from "../../utils";
-import "./ImageUpload.scss";
+import styles from "./ImageUpload.module.scss";
 
 const thumbsContainer = {
   display: "flex",
@@ -82,7 +82,7 @@ function ImageUpload(props) {
 
   return (
     <section className="container">
-      <div {...getRootProps({ className: "dropzone" })}>
+      <div {...getRootProps({ className: styles.dropzone })}>
         <input {...getInputProps()} />
         <p>Drag and drop some files here, or <u>click to select files</u></p>
       </div>

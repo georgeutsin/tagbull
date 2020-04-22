@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { IBoundingBox } from "../../interfaces";
 import { BoundingBoxCanvas } from "../canvases";
-import "./TagPreview.scss";
+import previewStyles from "./preview.module.scss";
 
 class TagPreview extends Component<any, any> {
     private canvasDOMRect: DOMRect;
@@ -20,9 +20,9 @@ class TagPreview extends Component<any, any> {
 
     public boundingBoxPreview(tag: any) {
         const bb: IBoundingBox = tag.tag;
-        return <div className="tagPreviewOuter" key={tag.media.name}>
+        return <div className={previewStyles.tagPreviewOuter} key={tag.media.name}>
             <a href={`/projects/${this.props.project_id}/tags/${tag.task.id}`}>
-                <div className="tagPreviewThumb" style={this.canvasStyle}>
+                <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
                         actionDims={new DOMRect()}
@@ -32,7 +32,7 @@ class TagPreview extends Component<any, any> {
                     ></BoundingBoxCanvas>
                 </div>
             </a>
-            <div className="tagPreviewDetails">
+            <div className={previewStyles.tagPreviewDetails}>
                 <div>
                     <h5>Category</h5>{tag.task.category}
                 </div>
@@ -48,9 +48,9 @@ class TagPreview extends Component<any, any> {
                 return <div key={t.attribute_type}> {t.attribute_type}-{t.option} </div>;
             });
             key += 1;
-            return <div className="tagPreviewOuter" key={tag.media.name + key}>
+            return <div className={previewStyles.tagPreviewOuter} key={tag.media.name + key}>
                 <a href={`/projects/${this.props.project_id}/tags/${tag.task.id}`}>
-                    <div className="tagPreviewThumb" style={this.canvasStyle}>
+                    <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                         <BoundingBoxCanvas
                             instructionDims={new DOMRect()}
                             actionDims={new DOMRect()}
@@ -60,7 +60,7 @@ class TagPreview extends Component<any, any> {
                         ></BoundingBoxCanvas>
                     </div>
                 </a>
-                <div className="tagPreviewDetails">
+                <div className={previewStyles.tagPreviewDetails}>
                     <div>
                         <h5>Category</h5>{m.category}
                     </div>

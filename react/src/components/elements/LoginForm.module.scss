@@ -1,0 +1,68 @@
+.login {
+  font-size: 1em;
+  margin: 30px;
+}
+
+.login button {
+  background-color: #333;
+  border: none;
+  text-align: center;
+  height: 3em;
+  font-size: 1.2em;
+  line-height: 56px;
+  color: white;
+  font-family: "Heebo";
+  margin: 0;
+  width: 100%;
+  border-radius: 2px;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.login button:hover {
+  cursor: pointer;
+  background-color: #444;
+}
+
+::placeholder {
+  color: #ccc;
+}
+
+.login input {
+  background: white no-repeat;
+  width: 100%;
+  font-size: 1.5em;
+  border: 0;
+  margin: 10px 0;
+  color: #555;
+  /*
+      * Text focus animation
+      */
+  /* 2 imgs : 1px gray line (normal state) AND 2px green line (focus state) */
+  background-image: linear-gradient(to right, #6100ff 0%, #a332ff 100%),
+    linear-gradient(to bottom, #eee, #eee);
+  /* sizes for the 2 images (default state) */
+  background-size: 0 2px, 100% 2px;
+  /* positions for the 2 images. Change both "50%" to "0%" or "100%" and tri again */
+  background-position: 50% 100%, 50% 100%;
+  /* animation solely on background-size */
+  transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
+
+.login input:focus {
+  background-size: 100% 2px, 100% 2px;
+  outline: none;
+}
+
+.loginOption {
+  display: inline-block;
+  text-align: left;
+  margin: 0 20px;
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.loginOption:hover {
+  cursor: pointer;
+  color: #ccc;
+}

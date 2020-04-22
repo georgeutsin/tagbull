@@ -14,7 +14,7 @@ import {
     HelpButton,
 } from "../elements";
 
-import "./activities.scss";
+import activityStyles from "../../styles/activity.module.scss";
 
 interface IDiscreteAttributeState {
     selectedLabel: string;
@@ -73,7 +73,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
 
     public labelNameComponents(category: string, options: string[]) {
         const instruction =
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 Is this {category} a <b>{options[0]}</b> or a <b>{options[1]}</b>?
             </div>;
         const helpButton =
@@ -87,7 +87,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
 
     public isOccluded(category: string, options: string[]) {
         const instruction =
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 Is any part of the <b>{category}</b> obstructed from view by anything?
             </div>;
         const helpButton =
@@ -101,7 +101,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
 
     public isTruncated(category: string, options: string[]) {
         const instruction =
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 Is any part of the {category} outside the edges of the image?
             </div>;
         const helpButton =
@@ -114,7 +114,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
 
     public isDepiction(category: string, options: string[]) {
         const instruction =
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 Is this an image of a real {category} (taken by a camera)?
             </div>;
         const helpButton =
@@ -128,7 +128,7 @@ class DiscreteAttribute extends Component<IDiscreteAttributeProps, IDiscreteAttr
 
     public isInside(category: string, options: string[]) {
         const instruction =
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 Is this picture taken from within the {category}?
             </div>;
         const helpButton =

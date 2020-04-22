@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 
-import "./LoginForm.scss";
+import styles from "./LoginForm.module.scss";
 
 class LoginForm extends Component {
     public render() {
         return <div>
-            <div className="loginOption selected ">
+            <div className={styles.loginOption}>
                 SIGN IN
-                    </div>
-            <div className="loginOption">
+            </div>
+            <div className={styles.loginOption}>
                 REGISTER
-                    </div>
-            <div className="login">
+            </div>
+            <div className={styles.login}>
                 <form>
                     <input type="text" placeholder="email" name="email" />
                     <input type="password" placeholder="password" name="password" />

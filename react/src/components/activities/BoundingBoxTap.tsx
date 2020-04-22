@@ -9,7 +9,7 @@ import { IBoundingBox } from "../../interfaces";
 import { BoundingBoxCreationCanvas } from "../canvases";
 import { ActivityAction, ActivityInstruction, BigButton, HelpButton } from "../elements";
 
-import "./activities.scss";
+import activityStyles from "../../styles/activity.module.scss";
 
 interface IBoundingBoxTapState {
     animationClass: string;
@@ -125,14 +125,14 @@ class BoundingBoxTap extends Component<IBoundingBoxTapProps, IBoundingBoxTapStat
             </HelpButton>;
 
         const question = this.state.currentStage < this.numberOfStages ?
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 ({this.state.currentStage + 1}/4) Please tap the
-                <div className={"bolded " + this.state.animationClass}>
+                <div className={`${activityStyles.bolded} ${this.state.animationClass}`}>
                     &nbsp;{INSTRUCTION[this.state.currentStage]}
                 </div> pixel
                 of the one {this.props.activity.config.target_point ? "indicated " : ""}{category}
             </div> :
-            <div className={"question " + this.state.animationClass}>
+            <div className={`${activityStyles.question} ${this.state.animationClass}`}>
                 Please verify that all 4 borders touch, and fix them if they don't
             </div>;
 

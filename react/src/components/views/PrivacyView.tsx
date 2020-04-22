@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { Footer, NavBar } from "../elements";
 
-import "./pages.scss";
+import pageStyles from "../../styles/page.module.scss";
 
 class PrivacyView extends Component<any, any> {
     public render() {
@@ -17,17 +17,17 @@ class PrivacyView extends Component<any, any> {
             </NavBar>
 
             <div style={{ minHeight: "100vh", overflow: "hidden" }}>
-                <header>
-                    <div className="header-bg purpleGradient"></div>
+                <div className={pageStyles.header}>
+                    <div className={`${pageStyles.headerBg} purpleGradient`}></div>
                     <div style={{ maxWidth: "1080px", margin: "0 auto", padding: "5px" }}>
                         <div style={{ height: "100px" }}></div>
-                        <h1 className="textShadow" style={{ fontSize: "5em" }}>Privacy Policy</h1>
+                        <h1 className={pageStyles.textShadow}style={{ fontSize: "5em" }}>Privacy Policy</h1>
                         <div style={{ height: "50px" }}></div>
                         <span style={{ color: "white", position: "relative", fontSize: "1.5em", padding: "10px" }}>
                             Your privacy is important to us.
                         </span>
                     </div>
-                </header>
+                </div>
 
                 <div style={{ maxWidth: "1080px", margin: "0 auto", padding: "5px" }}>
                     <div style={{ height: "50px" }}></div>

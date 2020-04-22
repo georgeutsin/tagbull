@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Backend } from "../../utils";
 import { NavBar, SamplePreview } from "../elements";
 
-import "./portal.scss";
+import portalStyles from "../../styles/portal.module.scss";
 
 class SamplesView extends Component<any, any> {
     private params: any;
@@ -80,30 +80,36 @@ class SamplesView extends Component<any, any> {
                     <a href="/about">About Us</a>
                 </li>
             </NavBar>
-            <div className="portalWrapper" style={{ minHeight: "100vh" }}>
+            <div className={portalStyles.portalWrapper} style={{ minHeight: "100vh" }}>
                 <div className="spacer"></div>
-                <div className="actionBar">
+                <div className={portalStyles.actionBar}>
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
-                    <span className="actions">
-                        <a href={`/projects/${this.params.projectId}`}><button className="actionButton greyButton">
+                    <span className={portalStyles.actions}>
+                        <a href={`/projects/${this.params.projectId}`}><button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
                             Back
                         </button></a>
                     </span>
                     <div style={{ clear: "both" }}></div>
                 </div>
-                <div className="mainCard">
-                    <div className="projectSection">
+                <div className={portalStyles.mainCard}>
+                    <div className={portalStyles.projectSection}>
                         <h2>Samples</h2>
                     </div>
-                    <div className="tagPreviews" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
+                    <div
+                        className={portalStyles.tagPreviews}
+                        style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
                         {samples}
                     </div>
                     {this.state.sampleOffset !== -1 && <div style={{ textAlign: "center" }}>
-                        <button className="actionButton greyButton" onClick={this.loadMoreButtonClicked}>
+                        <button
+                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            onClick={this.loadMoreButtonClicked}>
                             Load More
                         </button>
                         <div style={{ width: 20, display: "inline-block" }}></div>
-                        <button className="actionButton greyButton" onClick={this.loadAllButtonClicked}>
+                        <button
+                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            onClick={this.loadAllButtonClicked}>
                             Load All
                         </button>
                     </div>}

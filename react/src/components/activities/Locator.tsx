@@ -11,8 +11,7 @@ import {
     HelpButton,
 } from "../elements";
 
-import "./activities.scss";
-import "./Locator.scss";
+import activityStyles from "../../styles/activity.module.scss";
 
 interface ILocatorState {
     currentStage: number;
@@ -91,7 +90,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
                 You may tap Reset to remove all markers.
             </HelpButton>;
         const question =
-            <div className="question runSlideIn">
+            <div className={`${activityStyles.question} runSlideIn`}>
                 Please tap on all the {category}
             </div>;
 
@@ -117,14 +116,12 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             ></PointCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
-                <div className="multipleActionsContainer">
-                    <ActivityActionButton
-                        width={undefined}
-                        enabled={true}
-                        onClick={this.state.finishedInput ? this.resetButtonClicked : this.noObjectsButtonClicked}
-                        label={actionButtonLabel}>
-                    </ActivityActionButton>
-                </div>
+                <ActivityActionButton
+                    width={undefined}
+                    enabled={true}
+                    onClick={this.state.finishedInput ? this.resetButtonClicked : this.noObjectsButtonClicked}
+                    label={actionButtonLabel}>
+                </ActivityActionButton>
                 <BigButton
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}

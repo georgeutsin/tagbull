@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./ActivityActionButton.scss";
+import styles from "./ActivityActionButton.module.scss";
 
 interface IActionButtonProps {
     enabled: boolean;
@@ -19,9 +19,9 @@ class ActivityActionButton extends Component<IActionButtonProps, any> {
     }
 
     public render() {
-        let className = "activityActionButton";
+        let className = styles.activityActionButton;
         if (!this.props.enabled) {
-            className += " disabled";
+            className += ` ${styles.disabled}`;
         }
         const style = this.props.width ? { width: this.props.width } : undefined;
         return <div className={className} style={style}>

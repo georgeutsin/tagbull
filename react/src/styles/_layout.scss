@@ -23,19 +23,6 @@
   transform: translate(-50%, -50%);
 }
 
-.portalWrapper {
-  width: 100%;
-  padding-left: 100px;
-  padding-right: 100px;
-  box-sizing: border-box;
-}
-
-.pageWrapper {
-  width: 100%;
-  max-width: 1080px;
-  margin: 0 auto;
-}
-
 .thirds {
   width: calc(33% - 10px);
   display: inline-block;

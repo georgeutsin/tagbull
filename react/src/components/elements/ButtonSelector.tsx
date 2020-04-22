@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./ButtonSelector.scss";
+
+import styles from "./ButtonSelector.module.scss";
 
 interface IButtonSelectorState {
     selectedOption: number;
@@ -28,9 +29,9 @@ class ButtonSelector extends Component<IButtonSelectorProps, IButtonSelectorStat
     public render() {
         const buttonsList: JSX.Element[] = [];
         this.props.options.forEach((option, i) => {
-            let className = "optionButton";
+            let className = styles.optionButton;
             if (this.state.selectedOption === i) {
-                className += " selected";
+                className += ` ${styles.selected}`;
             }
             const btn =
                 <div key={i} className={className} style={{ width: 99 / this.props.options.length + "%" }}>
@@ -38,7 +39,7 @@ class ButtonSelector extends Component<IButtonSelectorProps, IButtonSelectorStat
                 </div>;
             buttonsList.push(btn);
         });
-        return <div className="multipleOptionsContainer">
+        return <div className={styles.multipleOptionsContainer}>
             {buttonsList}
         </div>;
     }
