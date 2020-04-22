@@ -57,7 +57,7 @@ class TagDetailView extends Component<any, any> {
                 <div className={portalStyles.actionBar}>
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
                     <span className={portalStyles.actions}>
-                        <a href={`/projects/${this.params.projectId}`}><button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
+                        <a href={`/projects/${this.params.projectId}`}><button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
                             Back
                         </button></a>
                     </span>

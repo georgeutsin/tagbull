@@ -28,6 +28,8 @@ class ProjectView extends Component<any, any> {
                 status: "In Progress",
                 paused: false,
                 is_private: false,
+                completed_tasks: 0,
+                num_tasks: 0,
             },
             tags: [],
             tagOffset: 0,
@@ -105,6 +107,8 @@ class ProjectView extends Component<any, any> {
                 is_private: project.is_private,
                 status: project.paused ? "Paused" : "In Progress",
                 progress: project.completed_tasks * 100 / project.num_tasks,
+                completed_tasks: project.completed_tasks,
+                num_tasks: project.num_tasks,
                 task_type: taskTypes[project.task_type],
                 created_at: d.toLocaleString("en-us", { month: "long" })
                     + " " + d.getDate() + ", " + d.getFullYear(),
@@ -131,7 +135,7 @@ class ProjectView extends Component<any, any> {
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
                     <span className={portalStyles.actions}>
                         <a href="/projects">
-                            <button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
+                            <button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
                                 Back
                             </button>
                         </a>
@@ -150,6 +154,7 @@ class ProjectView extends Component<any, any> {
                                 <h5>Progress</h5>
                                 <ProgressBar progress={this.state.project.progress}
                                     height={40}></ProgressBar>
+                                    {this.state.project.completed_tasks}/{this.state.project.num_tasks}
                             </div>
                             <div className="thirds">
                                 <h5>Actions</h5>
@@ -171,13 +176,13 @@ class ProjectView extends Component<any, any> {
                     </div>
                     {this.state.tagOffset !== -1 && <div style={{ textAlign: "center" }}>
                         <button
-                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
                             onClick={this.loadMoreButtonClicked}>
                             Load More
                         </button>
                         <div style={{ width: 20, display: "inline-block" }}></div>
                         <button
-                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
                             onClick={this.loadAllButtonClicked}>
                             Load All
                         </button>

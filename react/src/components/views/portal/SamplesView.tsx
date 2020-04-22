@@ -85,9 +85,11 @@ class SamplesView extends Component<any, any> {
                 <div className={portalStyles.actionBar}>
                     <span style={{ display: "inline-block" }}><h1>Project: {this.state.project.name}</h1></span>
                     <span className={portalStyles.actions}>
-                        <a href={`/projects/${this.params.projectId}`}><button className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}>
-                            Back
-                        </button></a>
+                        <a href={`/projects/${this.params.projectId}`}>
+                            <button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
+                                Back
+                            </button>
+                        </a>
                     </span>
                     <div style={{ clear: "both" }}></div>
                 </div>
@@ -102,13 +104,13 @@ class SamplesView extends Component<any, any> {
                     </div>
                     {this.state.sampleOffset !== -1 && <div style={{ textAlign: "center" }}>
                         <button
-                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
                             onClick={this.loadMoreButtonClicked}>
                             Load More
                         </button>
                         <div style={{ width: 20, display: "inline-block" }}></div>
                         <button
-                            className={`${portalStyles.tagPreviews} ${portalStyles.greyButton}`}
+                            className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
                             onClick={this.loadAllButtonClicked}>
                             Load All
                         </button>

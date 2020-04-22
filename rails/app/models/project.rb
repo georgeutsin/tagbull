@@ -6,10 +6,10 @@ class Project < ApplicationRecord
   attribute :completed_tasks
 
   def num_tasks
-    Task.where(project_id: id).count
+    Task.where(project_id: id, parent_id: nil).count
   end
 
   def completed_tasks
-    Task.joins(:sample).where('project_id = ? AND samples.is_tag', id).count
+    Task.joins(:sample).where('project_id = ? AND parent_id IS NULL AND samples.is_tag', id).count
   end
 end
