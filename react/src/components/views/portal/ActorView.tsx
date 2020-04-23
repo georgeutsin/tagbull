@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { NavBar, SamplePreview } from "../../elements";
+import { PortalWrapper, SamplePreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 
@@ -34,33 +34,24 @@ class ActorView extends Component<any, any> {
             return <SamplePreview sample={sample}></SamplePreview>;
         });
 
-        return <div>
-            <NavBar isPortal>
-                <li>
-                    <a href="/about">About Us</a>
-                </li>
-            </NavBar>
-            <div className={portalStyles.portalWrapper} style={{ minHeight: "100vh" }}>
-                <div className="spacer"></div>
-                <div className={portalStyles.actionBar}>
-                    <span style={{ display: "inline-block" }}><h1>Actor ID {this.state.actor.id}</h1></span>
-                    <span className={portalStyles.actions}>
-                        <a href={`/projects/${this.params.projectId}`}><button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
-                            Back
-                        </button></a>
-                    </span>
-                    <div style={{ clear: "both" }}></div>
-                </div>
-                <div className={portalStyles.mainCard}>
-                    <div className={portalStyles.projectSection}>
-                        <h2>Details</h2>
-                    </div>
-                    <div className={portalStyles.tagPreviews}>
-                        {samples}
-                    </div>
-                </div>
+        const actions = <span className={portalStyles.actions}>
+            <a href={`/actors`}>
+                <button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
+                    Back
+                </button>
+            </a>
+        </span>;
+
+        return <PortalWrapper
+            title={`Actor: ${this.state.actor.id}`}
+            actions={actions}>
+            <div className={portalStyles.projectSection}>
+                <h2>Details</h2>
             </div>
-        </div>;
+            <div className={portalStyles.tagPreviews}>
+                {samples}
+            </div>
+        </PortalWrapper>;
     }
 }
 

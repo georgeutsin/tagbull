@@ -10,6 +10,7 @@ export { default as HelpButton } from "./activity/HelpButton";
 export { default as ImageUpload } from "./portal/ImageUpload";
 export { default as LoginForm } from "./page/LoginForm";
 export { default as NavBar } from "./common/NavBar";
+export { default as PortalWrapper } from "./portal/PortalWrapper";
 export { default as ProgressBar } from "./common/ProgressBar";
 export { default as ProjectsList } from "./portal/ProjectsList";
 export { default as SamplePreview } from "./portal/SamplePreview";

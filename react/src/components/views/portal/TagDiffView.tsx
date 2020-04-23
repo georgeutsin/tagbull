@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { NavBar, TagDiffPreview } from "../../elements";
+import { PortalWrapper, TagDiffPreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 
@@ -110,32 +110,19 @@ class SamplesView extends Component<any, any> {
 
     public render() {
         const tagDiffs = this.renderDiffs();
-
-        return <div>
-            <NavBar isPortal>
-                <li>
-                    <a href="/about">About Us</a>
-                </li>
-            </NavBar>
-            <div className={portalStyles.portalWrapper} style={{ minHeight: "100vh" }}>
-                <div className="spacer"></div>
-                <div className={portalStyles.actionBar}>
-                    <span style={{ display: "inline-block" }}><h1>Project1: {this.state.projectList[0].name}
-                        <br></br> Project2: {this.state.projectList[1].name}</h1></span>
-                    <div style={{ clear: "both" }}></div>
+        return <PortalWrapper
+            title={`Project1: ${this.state.projectList[0].name}<br></br>Project2: ${this.state.projectList[1].name}`}
+            actions={null}>
+            <div className={portalStyles.projectSection}>
+                <div className={portalStyles.projectSection}>
+                    <h2>Samples</h2>
                 </div>
-                <div className={portalStyles.mainCard}>
-                    <div className={portalStyles.projectSection}>
-                        <h2>Samples</h2>
-                    </div>
-                    <div
-                        className={portalStyles.tagPreviews}
-                        style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
-                        {tagDiffs}
-                    </div>
+                <div className={portalStyles.tagPreviews}
+                    style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
+                    {tagDiffs}
                 </div>
             </div>
-        </div>;
+        </PortalWrapper>;
     }
 }
 
