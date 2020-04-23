@@ -16,7 +16,7 @@ class V1::ActorsController < ApplicationController
   def show
     actor = Actor.find(params[:id])
     json_response(actor, base: {
-      stats: actor.stats(params[:project_id])
-    })
+                    stats: actor.stats(params[:project_id])
+                  })
   end
 end

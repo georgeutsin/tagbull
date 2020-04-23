@@ -2,6 +2,7 @@
 
 # Samples controller
 class V1::SamplesController < ApplicationController
+  include Pagination
   def create
     return json_error(message: 'incorrect actor sig') if params[:actor_sig] == 'GENERATED'
 
@@ -19,12 +20,11 @@ class V1::SamplesController < ApplicationController
   def index
     timestamp = pagination_timestamp
     samples = samples_for(params[:project_id], timestamp)
-    json_response(samples, base: {
-      meta: {
-        timestamp: timestamp.to_i,
-        offset: pagination_offset + samples.length
-      }
-    })
+    paged_json_response(samples, timestamp)
+  end
+
+  def items_per_page
+    50
   end
 
   private
@@ -113,17 +113,5 @@ class V1::SamplesController < ApplicationController
           .offset(pagination_offset)
           .limit(pagination_limit)
           .map(&:additional_info)
-  end
-
-  def pagination_timestamp
-    params[:timestamp] ? DateTime.strptime(params[:timestamp], '%s') : Time.now.utc
-  end
-
-  def pagination_offset
-    params[:offset] ? params[:offset].to_i : 0
-  end
-
-  def pagination_limit
-    params[:limit] ? params[:limit].to_i : 50
   end
 end
