@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { PortalWrapper, SamplePreview } from "../../elements";
+import { InfiniteList, PortalWrapper, SamplePreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 
@@ -15,12 +15,10 @@ class SamplesView extends Component<any, any> {
             project: {
                 name: "",
             },
-            samples: [],
-            sampleOffset: 0,
-            sampleTimestamp: null,
         };
-        this.loadMoreButtonClicked = this.loadMoreButtonClicked.bind(this);
-        this.loadAllButtonClicked = this.loadAllButtonClicked.bind(this);
+
+        this.renderElement = this.renderElement.bind(this);
+        this.loadElements = this.loadElements.bind(this);
     }
 
     public componentDidMount() {
@@ -32,47 +30,23 @@ class SamplesView extends Component<any, any> {
                 },
             });
         });
-
-        this.loadMoreSamples();
     }
 
-    public async loadSamples() {
+    public renderElement(sample: any) {
+        return <SamplePreview sample={sample}></SamplePreview>;
+    }
+
+    public async loadElements(meta: { offset: number, timestamp: number }) {
         const projectId = this.params.projectId;
-        const meta = { offset: this.state.sampleOffset, timestamp: this.state.sampleTimestamp };
         return await Backend.getAllSamples(projectId, meta);
     }
 
-    public async loadMoreSamples(loadAll: boolean = false) {
-        let samples = this.state.samples;
-        let sampleOffset = this.state.sampleOffset;
-        let sampleTimestamp = this.state.sampleTimestamp;
-
-        if (this.state.sampleOffset !== -1) {
-            const resp = await this.loadSamples();
-            samples = samples.concat(resp.data.data);
-            sampleOffset = resp.data.data.length === 0 ? -1 : resp.data.meta.offset;
-            sampleTimestamp = resp.data.meta.timestamp;
-        }
-
-        this.setState({ samples, sampleOffset, sampleTimestamp }, () => {
-            if (loadAll && this.state.sampleOffset !== -1) {
-                this.loadMoreSamples(true);
-            }
-        });
-    }
-
-    public loadMoreButtonClicked() {
-        this.loadMoreSamples(false);
-    }
-
-    public loadAllButtonClicked() {
-        this.loadMoreSamples(true);
-    }
-
     public render() {
-        const samples = this.state.samples.map((sample: any) => {
-            return <SamplePreview sample={sample}></SamplePreview>;
-        });
+        const samplesList = <InfiniteList
+            isGrid={true}
+            renderElement={this.renderElement}
+            loadElements={this.loadElements}>
+        </InfiniteList>;
 
         const actions = <span className={portalStyles.actions}>
             <a href={`/projects/${this.params.projectId}`}>
@@ -88,24 +62,7 @@ class SamplesView extends Component<any, any> {
             <div className={portalStyles.projectSection}>
                 <h2>Samples</h2>
             </div>
-            <div
-                className={portalStyles.tagPreviews}
-                style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
-                {samples}
-            </div>
-            {this.state.sampleOffset !== -1 && <div style={{ textAlign: "center" }}>
-                <button
-                    className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
-                    onClick={this.loadMoreButtonClicked}>
-                    Load More
-                </button>
-                <div style={{ width: 20, display: "inline-block" }}></div>
-                <button
-                    className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
-                    onClick={this.loadAllButtonClicked}>
-                    Load All
-                </button>
-            </div>}
+            {samplesList}
         </PortalWrapper>;
     }
 }

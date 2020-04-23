@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { PortalWrapper, ProgressBar, TagPreview } from "../../elements";
+import { InfiniteList, PortalWrapper, ProgressBar, TagPreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./ProjectView.module.scss";
@@ -31,46 +31,17 @@ class ProjectView extends Component<any, any> {
                 completed_tasks: 0,
                 num_tasks: 0,
             },
-            tags: [],
-            tagOffset: 0,
-            tagTimestamp: null,
         };
         this.pauseButtonClicked = this.pauseButtonClicked.bind(this);
         this.privateButtonClicked = this.privateButtonClicked.bind(this);
-        this.loadMoreButtonClicked = this.loadMoreButtonClicked.bind(this);
-        this.loadAllButtonClicked = this.loadAllButtonClicked.bind(this);
+
+        this.renderElement = this.renderElement.bind(this);
+        this.loadElements = this.loadElements.bind(this);
     }
 
     public componentDidMount() {
         Backend.getProject(this.params.projectId).then((resp: any) => {
             this.setProjectState(resp);
-        });
-
-        this.loadMoreTags();
-    }
-
-    public async loadTags() {
-        const projectId = this.params.projectId;
-        const meta = { offset: this.state.tagOffset, timestamp: this.state.tagTimestamp };
-        return await Backend.getTags(projectId, meta);
-    }
-
-    public async loadMoreTags(loadAll: boolean = false) {
-        let tags = this.state.tags;
-        let tagOffset = this.state.tagOffset;
-        let tagTimestamp = this.state.tagTimestamp;
-
-        if (this.state.tagOffset !== -1) {
-            const resp = await this.loadTags();
-            tags = tags.concat(resp.data.data);
-            tagOffset = resp.data.data.length === 0 ? -1 : resp.data.meta.offset;
-            tagTimestamp = resp.data.meta.timestamp;
-        }
-
-        this.setState({ tags, tagOffset, tagTimestamp }, () => {
-            if (loadAll && this.state.tagOffset !== -1) {
-                this.loadMoreTags(true);
-            }
         });
     }
 
@@ -86,14 +57,6 @@ class ProjectView extends Component<any, any> {
         Backend.patchProject(this.params.projectId, data).then((resp: any) => {
             this.setProjectState(resp);
         });
-    }
-
-    public loadMoreButtonClicked() {
-        this.loadMoreTags(false);
-    }
-
-    public loadAllButtonClicked() {
-        this.loadMoreTags(true);
     }
 
     public setProjectState(resp: any) {
@@ -116,10 +79,21 @@ class ProjectView extends Component<any, any> {
         });
     }
 
+    public renderElement(tag: any) {
+        return <TagPreview key={tag.task.id} tag={tag} project_id={this.state.project.id}></TagPreview>;
+    }
+
+    public async loadElements(meta: { offset: number, timestamp: number }) {
+        const projectId = this.params.projectId;
+        return await Backend.getTags(projectId, meta);
+    }
+
     public render() {
-        const tags = this.state.tags.map((tag: any) => {
-            return <TagPreview key={tag.task.id} tag={tag} project_id={this.state.project.id}></TagPreview>;
-        });
+        const tagsList = <InfiniteList
+        isGrid={true}
+        renderElement={this.renderElement}
+        loadElements={this.loadElements}>
+    </InfiniteList>;
 
         const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
         const privateButtonLabel = this.state.project.is_private ? "Make Public" : "Make Private";
@@ -163,22 +137,7 @@ class ProjectView extends Component<any, any> {
             <div className={portalStyles.projectSection}>
                 <h2>Tags</h2>
             </div>
-            <div className={portalStyles.tagPreviews}>
-                {tags}
-            </div>
-            {this.state.tagOffset !== -1 && <div style={{ textAlign: "center" }}>
-                <button
-                    className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
-                    onClick={this.loadMoreButtonClicked}>
-                    Load More
-                </button>
-                <div style={{ width: 20, display: "inline-block" }}></div>
-                <button
-                    className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}
-                    onClick={this.loadAllButtonClicked}>
-                    Load All
-                </button>
-            </div>}
+            {tagsList}
         </PortalWrapper>;
     }
 }
