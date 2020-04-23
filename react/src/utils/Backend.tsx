@@ -12,6 +12,8 @@ interface IBackend {
     postProject(data: any): any;
     patchProject(projectId: number, data: any): any;
     postMedia(projectId: number, data: any): any;
+    getActors(projectId?: number): any;
+    getActor(actorId: number, projectId?: number): any;
 }
 
 class RemoteBackend implements IBackend {
@@ -69,6 +71,22 @@ class RemoteBackend implements IBackend {
                 "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
             },
         });
+    }
+
+    public getActors(projectId?: number): any {
+        let route = `/actors/?`;
+        if (projectId) {
+            route += `project_id=${projectId}`;
+        }
+        return axios.get(this.base + route);
+    }
+
+    public getActor(actorId: number, projectId?: number,): any {
+        let route = `/actors/${actorId}?`;
+        if (projectId) {
+            route += `project_id=${projectId}`;
+        }
+        return axios.get(this.base + route);
     }
 }
 
@@ -222,6 +240,18 @@ class MockBackend implements IBackend {
     }
 
     public postMedia(projectId: number, data: any): any {
+        // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public getActors(projectId?: number): any {
+        // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public getActor(actorId: number, projectId?: number,): any {
         // TODO
         const resp = {};
         return this.promiseOf(resp);
