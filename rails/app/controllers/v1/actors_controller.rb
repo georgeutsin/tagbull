@@ -14,7 +14,9 @@ class V1::ActorsController < ApplicationController
 
   # GET /actors/id?project_id=id
   def show
-    # TODO: add actor stats model and call it here
-    json_response(Actor.find(params[:id]))
+    actor = Actor.find(params[:id])
+    json_response(actor, base: {
+      stats: actor.stats(params[:project_id])
+    })
   end
 end
