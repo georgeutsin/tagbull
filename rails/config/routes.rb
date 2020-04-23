@@ -16,5 +16,6 @@ Rails.application.routes.draw do
       resources :tags, only: %i[index show]
       resources :samples, only: %i[index]
     end
+    resources :actors, only: %i[index show]
   end
 end
