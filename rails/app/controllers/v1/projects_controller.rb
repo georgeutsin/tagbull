@@ -2,10 +2,17 @@
 
 # Controller for listing and editing projects
 class V1::ProjectsController < ApplicationController
+  include Pagination
+  def items_per_page
+    50
+  end
+
   # GET /projects
   def index
-    projects = Project.all
-    json_response(projects)
+    timestamp = pagination_timestamp
+    projects = projects_for(timestamp)
+    count = projects_count(timestamp)
+    paged_json_response(projects, timestamp, count: count)
   end
 
   # GET /projects/id
@@ -27,4 +34,21 @@ class V1::ProjectsController < ApplicationController
     json_response(p)
   end
   # rubocop:enable Metrics/AbcSize
+
+  private
+  def projects_base_query(timestamp)
+    Project.all
+          .where(Project.arel_table[:created_at].lt(timestamp))
+  end
+
+  def projects_for(timestamp)
+    projects_base_query(timestamp)
+      .order('projects.created_at DESC')
+      .offset(pagination_offset)
+      .limit(pagination_limit)
+  end
+
+  def projects_count(timestamp)
+    projects_base_query(timestamp).count
+  end
 end
