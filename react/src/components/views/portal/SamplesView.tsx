@@ -45,7 +45,8 @@ class SamplesView extends Component<any, any> {
         const samplesList = <InfiniteList
             isGrid={true}
             renderElement={this.renderElement}
-            loadElements={this.loadElements}>
+            loadElements={this.loadElements}
+            listType="samples">
         </InfiniteList>;
 
         const actions = <span className={portalStyles.actions}>
