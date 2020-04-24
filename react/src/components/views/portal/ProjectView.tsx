@@ -90,10 +90,11 @@ class ProjectView extends Component<any, any> {
 
     public render() {
         const tagsList = <InfiniteList
-        isGrid={true}
-        renderElement={this.renderElement}
-        loadElements={this.loadElements}>
-    </InfiniteList>;
+            isGrid={true}
+            renderElement={this.renderElement}
+            loadElements={this.loadElements}
+            listType="complete tags">
+        </InfiniteList>;
 
         const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
         const privateButtonLabel = this.state.project.is_private ? "Make Public" : "Make Private";
