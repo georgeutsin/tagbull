@@ -31,3 +31,20 @@
   cursor: pointer;
   background-color: #efefef;
 }
+
+.tab {
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.tab:hover {
+  cursor: pointer;
+}
+
+.firstTab {
+  padding-left: 0;
+}
+
+.selectedTab {
+  text-decoration: underline;
+}

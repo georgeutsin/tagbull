@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { InfiniteList, PortalWrapper, ProgressBar, TagPreview } from "../../elements";
+import { InfiniteList, PortalWrapper, ProgressBar, TagPreview, ActorsRow, ActorsHeader } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./ProjectView.module.scss";
@@ -31,12 +31,17 @@ class ProjectView extends Component<any, any> {
                 completed_tasks: 0,
                 num_tasks: 0,
             },
+            selectedTab: 0,
         };
         this.pauseButtonClicked = this.pauseButtonClicked.bind(this);
         this.privateButtonClicked = this.privateButtonClicked.bind(this);
+        this.tagsTabClicked = this.tagsTabClicked.bind(this);
+        this.actorsTabClicked = this.actorsTabClicked.bind(this);
 
-        this.renderElement = this.renderElement.bind(this);
-        this.loadElements = this.loadElements.bind(this);
+        this.renderTagElement = this.renderTagElement.bind(this);
+        this.loadTagElements = this.loadTagElements.bind(this);
+        this.renderActorElement = this.renderActorElement.bind(this);
+        this.loadActorElements = this.loadActorElements.bind(this);
     }
 
     public componentDidMount() {
@@ -59,6 +64,14 @@ class ProjectView extends Component<any, any> {
         });
     }
 
+    public tagsTabClicked() {
+        this.setState({ selectedTab: 0 });
+    }
+
+    public actorsTabClicked() {
+        this.setState({ selectedTab: 1 });
+    }
+
     public setProjectState(resp: any) {
         const project = resp.data.data;
         const d = new Date(project.created_at.replace(" ", "T"));
@@ -79,21 +92,37 @@ class ProjectView extends Component<any, any> {
         });
     }
 
-    public renderElement(tag: any) {
+    public renderTagElement(tag: any) {
         return <TagPreview key={tag.task.id} tag={tag} project_id={this.state.project.id}></TagPreview>;
     }
 
-    public async loadElements(meta: { offset: number, timestamp: number }) {
+    public async loadTagElements(meta: { offset: number, timestamp: number }) {
         const projectId = this.params.projectId;
         return await Backend.getTags(projectId, meta);
+    }
+
+    public renderActorElement(actor: any) {
+        return <ActorsRow actor={actor} project_id={this.params.projectId}></ActorsRow>;
+    }
+
+    public async loadActorElements(meta: { offset: number, timestamp: number }) {
+        const projectId = this.params.projectId;
+        return Backend.getActors(projectId, meta);
     }
 
     public render() {
         const tagsList = <InfiniteList
             isGrid={true}
-            renderElement={this.renderElement}
-            loadElements={this.loadElements}
+            renderElement={this.renderTagElement}
+            loadElements={this.loadTagElements}
             listType="complete tags">
+        </InfiniteList>;
+
+        const actorsList = <InfiniteList
+            listHeader={<ActorsHeader></ActorsHeader>}
+            renderElement={this.renderActorElement}
+            loadElements={this.loadActorElements}
+            listType="actors">
         </InfiniteList>;
 
         const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
@@ -140,9 +169,13 @@ class ProjectView extends Component<any, any> {
             </div>
             <div style={{ height: "40px" }}></div>
             <div className={portalStyles.projectSection}>
-                <h2>Tags</h2>
+                <h2 className={`${styles.firstTab} ${styles.tab} ${this.state.selectedTab === 0 && styles.selectedTab}`}
+                    onClick={this.tagsTabClicked}>Tags</h2>
+                <h2 className={`${styles.tab} ${this.state.selectedTab === 1 && styles.selectedTab}`}
+                    onClick={this.actorsTabClicked}>Actors</h2>
             </div>
-            {tagsList}
+            {this.state.selectedTab === 0 && tagsList}
+            {this.state.selectedTab === 1 && actorsList}
         </PortalWrapper>;
     }
 }

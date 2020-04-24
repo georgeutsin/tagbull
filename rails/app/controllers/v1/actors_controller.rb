@@ -31,6 +31,7 @@ class V1::ActorsController < ApplicationController
     Actor.joins(sample: :task)
          .where(Actor.arel_table[:created_at].lt(timestamp))
          .where(tasks: { project_id: project_id })
+         .distinct
   end
 
   def actors_for(project_id, timestamp)
