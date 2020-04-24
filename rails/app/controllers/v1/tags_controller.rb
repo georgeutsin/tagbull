@@ -8,7 +8,8 @@ class V1::TagsController < ApplicationController
   def index
     timestamp = pagination_timestamp
     tags = tags_for(params[:project_id], timestamp)
-    paged_json_response(tags, timestamp)
+    count = tags_count(params[:project_id], timestamp)
+    paged_json_response(tags, timestamp, count: count)
   end
 
   def items_per_page
@@ -28,20 +29,26 @@ class V1::TagsController < ApplicationController
     Task.arel_table[:created_at].asc
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def tags_for(project_id, timestamp)
+  def tags_base_query(project_id, timestamp)
     Task.joins(:sample)
         .joins('INNER JOIN media ON media.id = tasks.media_id')
         .where(tags_filter, project_id)
-        .order(tag_sort)
         .where(Sample.arel_table[:created_at].lt(timestamp))
-        .offset(pagination_offset)
-        .limit(pagination_limit)
-        .map do |task|
+  end
+
+  def tags_for(project_id, timestamp)
+    tags_base_query(project_id, timestamp)
+      .order(tag_sort)
+      .offset(pagination_offset)
+      .limit(pagination_limit)
+      .map do |task|
       tag_for(task)
     end
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def tags_count(project_id, timestamp)
+    tags_base_query(project_id, timestamp).count
+  end
 
   def samples_for(project_id, task_id)
     task = Task.find(task_id)
