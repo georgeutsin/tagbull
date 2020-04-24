@@ -1,9 +1,24 @@
 import React, { Component } from "react";
-import { PortalWrapper, ProjectsList } from "../../elements";
+import { Backend } from "../../../utils";
+import { InfiniteList, PortalWrapper, ProjectsHeader, ProjectsRow } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 
 class ProjectsListView extends Component {
+    constructor(props: any) {
+        super(props);
+        this.renderElement = this.renderElement.bind(this);
+        this.loadElements = this.loadElements.bind(this);
+    }
+
+    public renderElement(project: any) {
+        return <ProjectsRow project={project}></ProjectsRow>;
+    }
+
+    public async loadElements(meta: { offset: number, timestamp: number }) {
+        return Backend.getProjects(meta);
+    }
+
     public render() {
         const actions = <span className={portalStyles.actions}>
             <a href="/projects/new">
@@ -15,7 +30,12 @@ class ProjectsListView extends Component {
         return <PortalWrapper
             title={`Projects`}
             actions={actions}>
-            <ProjectsList></ProjectsList>
+            <InfiniteList
+                renderElement={this.renderElement}
+                loadElements={this.loadElements}
+                listHeader={<ProjectsHeader></ProjectsHeader>}
+                listType="projects">
+            </InfiniteList>
         </PortalWrapper>;
     }
 }

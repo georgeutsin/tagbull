@@ -13,7 +13,10 @@ export { default as NavBar } from "./common/NavBar";
 export { default as InfiniteList } from "./portal/InfiniteList";
 export { default as PortalWrapper } from "./portal/PortalWrapper";
 export { default as ProgressBar } from "./common/ProgressBar";
-export { default as ProjectsList } from "./portal/ProjectsList";
+export {
+    ProjectsRow,
+    ProjectsHeader,
+} from './portal/ProjectsRow';
 export { default as SamplePreview } from "./portal/SamplePreview";
 export { default as TagDiffPreview } from "./portal/TagDiffPreview";
 export { default as TagPreview } from "./portal/TagPreview";
