@@ -10,8 +10,9 @@ class Sample < ApplicationRecord
   attribute :actor_sig
 
   def actor_sig
-    return "GENERATED" if actor_id == 0
-    Actor.find(actor_id).actor_sig.split("-").first
+    return 'GENERATED' if actor_id.zero?
+
+    Actor.find(actor_id).actor_sig.split('-').first
   end
 
   def additional_info

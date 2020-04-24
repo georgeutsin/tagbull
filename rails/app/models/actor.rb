@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Actor model
 class Actor < ApplicationRecord
   has_many :sample
   attribute :num_samples
@@ -17,9 +18,9 @@ class Actor < ApplicationRecord
     samples_for_project = Sample.joins(:task).where(actor_id: id)
     correct_samples_for_project = samples_for_project.where(is_active: true)
 
-    if project_id != nil
-      samples_for_project = samples_for_project.where(tasks: {project_id: project_id})
-      correct_samples_for_project = correct_samples_for_project.where(tasks: {project_id: project_id})
+    unless project_id.nil?
+      samples_for_project = samples_for_project.where(tasks: { project_id: project_id })
+      correct_samples_for_project = correct_samples_for_project.where(tasks: { project_id: project_id })
     end
     {
       num_samples_for_project: samples_for_project.count,

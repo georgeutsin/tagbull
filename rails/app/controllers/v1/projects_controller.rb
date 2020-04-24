@@ -18,11 +18,13 @@ class V1::ProjectsController < ApplicationController
   end
 
   # PATCH /projects/id
+  # rubocop:disable Metrics/AbcSize
   def update
     p = Project.find(params[:id])
-    p.paused  = params[:paused] unless params[:paused].nil?
-    p.is_private  = params[:is_private] unless params[:is_private].nil?
+    p.paused = params[:paused] unless params[:paused].nil?
+    p.is_private = params[:is_private] unless params[:is_private].nil?
     p.save
     json_response(p)
   end
+  # rubocop:enable Metrics/AbcSize
 end

@@ -50,25 +50,17 @@ class DichotomyTask < ApplicationRecord
   # the max box is used to eliminate any
   # submitted bounding boxes that cover all locator points
   def self.compute_max_box(points)
-    max_x = 1.0
-    min_x = 0.0
-    max_y = 1.0
-    min_y = 0.0
-    if points.size >= 2
-      max_x = 0.0
-      min_x = 1.0
-      max_y = 0.0
-      min_y = 1.0
-      points.each do |point|
-        max_x = [max_x, point['x'].to_f].max
-        min_x = [min_x, point['x'].to_f].min
-        max_y = [max_y, point['y'].to_f].max
-        min_y = [min_y, point['y'].to_f].min
-      end
-    end
-    {max_x: max_x, min_x: min_x, max_y: max_y, min_y: min_y}
+    return { max_x: 1.0, min_x: 0.0, max_y: 1.0, min_y: 0.0 } if points.size <= 1
+
+    min_x = points.min_by { |point| point['x'].to_f }
+    min_y = points.min_by { |point| point['y'].to_f }
+    max_x = points.max_by { |point| point['x'].to_f }
+    max_y = points.max_by { |point| point['y'].to_f }
+    { max_x: max_x, min_x: min_x, max_y: max_y, min_y: min_y }
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def create_bounding_box_tasks(points)
     max_box = DichotomyTask.compute_max_box(points)
     points.each do |point|
@@ -87,6 +79,8 @@ class DichotomyTask < ApplicationRecord
       )
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def create_metadata_task(bounding_box_tag)
     MetadataTask.create!(
