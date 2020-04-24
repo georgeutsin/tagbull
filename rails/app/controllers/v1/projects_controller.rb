@@ -36,9 +36,10 @@ class V1::ProjectsController < ApplicationController
   # rubocop:enable Metrics/AbcSize
 
   private
+
   def projects_base_query(timestamp)
     Project.all
-          .where(Project.arel_table[:created_at].lt(timestamp))
+           .where(Project.arel_table[:created_at].lt(timestamp))
   end
 
   def projects_for(timestamp)
