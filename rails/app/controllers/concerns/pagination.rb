@@ -3,11 +3,12 @@
 # Pagination helpers
 module Pagination
   include Response
-  def paged_json_response(object, timestamp, status = :ok, base: {})
+  def paged_json_response(object, timestamp, status = :ok, count: -1, base: {})
     pagination_meta = {
       meta: {
         timestamp: timestamp.to_i,
-        offset: pagination_offset + object.length
+        offset: pagination_offset + object.length,
+        total_count: count
       }
     }
     json_response(object, status, base: base.merge(pagination_meta))
