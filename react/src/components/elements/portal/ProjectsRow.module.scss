@@ -1,49 +1,11 @@
-.tableHeader {
-  display: inline-block;
-  border-bottom: 1px solid #dedede;
-  color: #aaa;
-  padding-top: 10px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  text-decoration: none;
-}
-
-.tableBody {
-  display: inline-block;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  cursor: pointer;
-  vertical-align: middle;
-  text-decoration: none;
-  color: #333;
-}
-
-.projectRow {
-  border-bottom: 1px solid #f5f5f5;
-}
-
-.projectRow:hover {
-  opacity: 0.75;
-}
-
 .projectName {
-  width: 45%;
-  padding-right: 5%;
-}
-
-.projectName.tableBody {
-  /* color: #00abbe; */
-  color: #444;
-  font-size: 1.2em;
+  width: 55%;
 }
 
 .projectProgress {
   width: 25%;
-  padding-right: 5%;
 }
 
 .projectCreated {
   width: 20%;
 }
-
-

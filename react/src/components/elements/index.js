@@ -1,3 +1,7 @@
+export {
+    ActorsRow,
+    ActorsHeader,
+} from './portal/ActorsRow';
 export { default as ActivityAction } from "./activity/ActivityAction";
 export { default as ActivityActionButton } from "./activity/ActivityActionButton";
 export { default as ActivityInstruction } from "./activity/ActivityInstruction";

@@ -119,9 +119,13 @@ class ProjectView extends Component<any, any> {
                     </div>
                     <div className="thirds">
                         <h5>Progress</h5>
-                        <ProgressBar progress={this.state.project.progress}
-                            height={40}></ProgressBar>
-                        {this.state.project.completed_tasks}/{this.state.project.num_tasks}
+                        <ProgressBar
+                            progress={this.state.project.progress}
+                            height={50}>
+                            <div className={portalStyles.centeredProgress}>
+                                <span>{this.state.project.completed_tasks} / {this.state.project.num_tasks}</span>
+                            </div>
+                        </ProgressBar>
                     </div>
                     <div className="thirds">
                         <h5>Actions</h5>

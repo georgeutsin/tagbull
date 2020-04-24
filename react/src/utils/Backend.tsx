@@ -12,7 +12,7 @@ interface IBackend {
     postProject(data: any): any;
     patchProject(projectId: number, data: any): any;
     postMedia(projectId: number, data: any): any;
-    getActors(projectId?: number): any;
+    getActors(projectId?: number, meta?: any): any;
     getActor(actorId: number, projectId?: number): any;
 }
 
@@ -73,15 +73,15 @@ class RemoteBackend implements IBackend {
         });
     }
 
-    public getActors(projectId?: number): any {
+    public getActors(projectId?: number,  meta?: any): any {
         let route = `/actors/?`;
         if (projectId) {
             route += `project_id=${projectId}`;
         }
-        return axios.get(this.base + route);
+        return axios.get(this.base + route, {params: meta});
     }
 
-    public getActor(actorId: number, projectId?: number,): any {
+    public getActor(actorId: number, projectId?: number): any {
         let route = `/actors/${actorId}?`;
         if (projectId) {
             route += `project_id=${projectId}`;
