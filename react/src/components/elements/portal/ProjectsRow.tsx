@@ -1,6 +1,7 @@
 import React from "react";
 import { ProgressBar } from "..";
 
+import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./ProjectsRow.module.scss";
 
 function ProjectsRow(props: any) {
@@ -10,27 +11,33 @@ function ProjectsRow(props: any) {
         + " " + d.getDate() + ", " + d.getFullYear();
     const progress = project.completed_tasks * 100 / project.num_tasks;
     return <div key={project.id}>
-        <a href={"/projects/" + project.id}><div className={styles.projectRow}>
-            <div className={`${styles.projectName} ${styles.tableBody}`}>
-                {project.name}
-                <span style={{ fontSize: "1.5em" }}>&nbsp;<b>›</b></span>
+        <a href={"/projects/" + project.id} className={portalStyles.tableLink}>
+            <div className={portalStyles.tableRow}>
+                <div className={`${styles.projectName} ${portalStyles.tableColumn}`}>
+                    {project.name}
+                </div>
+                <div className={`${styles.projectProgress} ${portalStyles.tableColumn}`}>
+                    <ProgressBar
+                        progress={progress}
+                        height={50}>
+                        <div className={portalStyles.centeredProgress}>
+                            <span>{project.completed_tasks} / {project.num_tasks}</span>
+                        </div>
+                    </ProgressBar>
+                </div>
+                <div className={`${styles.projectCreated} ${portalStyles.tableColumn}`}>
+                    {createdAt}
+                </div>
             </div>
-            <div className={`${styles.projectProgress} ${styles.tableBody}`}>
-                <ProgressBar progress={progress} height={40}></ProgressBar>
-            </div>
-            <div className={`${styles.projectCreated} ${styles.tableBody}`}>
-                {createdAt}
-            </div>
-        </div></a>
-        <div style={{ height: "20px" }}></div>
+        </a>
     </div>;
 }
 
 function ProjectsHeader(props: any) {
-    return <div className={styles.projectTitleRow}>
-        <div className={`${styles.projectName} ${styles.tableHeader}`}>Project Name</div>
-        <div className={`${styles.projectProgress} ${styles.tableHeader}`}>Progress</div>
-        <div className={`${styles.projectCreated} ${styles.tableHeader}`}>Created At</div>
+    return <div className={portalStyles.tableHeader}>
+        <div className={`${styles.projectName} ${portalStyles.tableColumn}`}>Project Name</div>
+        <div className={`${styles.projectProgress} ${portalStyles.tableColumn}`}>Progress</div>
+        <div className={`${styles.projectCreated} ${portalStyles.tableColumn}`}>Created At</div>
     </div>;
 }
 
