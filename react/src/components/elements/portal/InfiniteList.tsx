@@ -33,7 +33,7 @@ class InfiniteList extends Component<any, any> {
                 timestamp: this.state.listTimestamp,
             });
             list = list.concat(resp.data.data);
-            const meta = resp.data.meta ? resp.data.meta : { offset: -1, total_count: -1 };
+            const meta = resp.data.meta ? resp.data.meta : { offset: -1, total_count: -1, timestamp: -1 };
             listOffset = resp.data.data.length === 0 ? -1 : meta.offset;
             listTimestamp = meta.timestamp;
             listTotalCount = meta.total_count;
@@ -59,6 +59,10 @@ class InfiniteList extends Component<any, any> {
             return <div className={portalStyles.lightText}>
                 Looks like you don't have {this.props.listType ? `any ${this.props.listType}` : `anything here`} yet!
             </div>;
+        }
+
+        if (this.state.listTimestamp === null) {
+            return <div className="loadingWheel" style={{ height: 200 }}></div>;
         }
 
         let list = this.state.list.map(this.props.renderElement);
