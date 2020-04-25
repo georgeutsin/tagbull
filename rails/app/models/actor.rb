@@ -3,28 +3,24 @@
 # Actor model
 class Actor < ApplicationRecord
   has_many :sample
-  attribute :num_samples
-  attribute :correct_samples
+  attribute :lifetime_total_samples
+  attribute :lifetime_correct_samples
 
-  def num_samples
+  def lifetime_total_samples
     Sample.where(actor_id: id).count
   end
 
-  def correct_samples
+  def lifetime_correct_samples
     Sample.where(actor_id: id, is_active: true).count
   end
 
   def stats(project_id = nil)
-    samples_for_project = Sample.joins(:task).where(actor_id: id)
-    correct_samples_for_project = samples_for_project.where(is_active: true)
+    return { project_total_samples: 0, project_correct_samples: 0 } if project_id.nil?
 
-    unless project_id.nil?
-      samples_for_project = samples_for_project.where(tasks: { project_id: project_id })
-      correct_samples_for_project = correct_samples_for_project.where(tasks: { project_id: project_id })
-    end
+    query = Sample.joins(:task).where(actor_id: id).where(tasks: { project_id: project_id })
     {
-      num_samples_for_project: samples_for_project.count,
-      correct_samples_for_project: correct_samples_for_project.count
+      project_total_samples: query.count,
+      project_correct_samples: query.where(is_active: true).count
     }
   end
 end

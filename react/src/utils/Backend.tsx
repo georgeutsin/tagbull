@@ -5,8 +5,9 @@ interface IBackend {
     getActivity(deviceId: string, projectId?: string): any;
     postSample(data: any): any;
     getTags(projectId: number, meta?: any): any;
-    getSamples(projectId: number, taskId: number): any;
-    getAllSamples(projectId: number, meta?: any): any;
+    getTagSamples(projectId: number, taskId: number): any;
+    getProjectSamples(projectId: number, meta?: any): any;
+    getActorSamples(actorId: number, projectId?: number, meta?: any): any;
     getProjects(meta?: any): any;
     getProject(projectId: number): any;
     postProject(data: any): any;
@@ -39,12 +40,17 @@ class RemoteBackend implements IBackend {
         return axios.get(this.base + `/projects/${projectId}/tags`, {params: meta});
     }
 
-    public getSamples(projectId: number, taskId: number): any {
+    public getTagSamples(projectId: number, taskId: number): any {
         return axios.get(this.base + `/projects/${projectId}/tags/${taskId}`);
     }
 
-    public getAllSamples(projectId: number, meta?: any): any {
+    public getProjectSamples(projectId: number, meta?: any): any {
         return axios.get(this.base + `/projects/${projectId}/samples`, {params: meta});
+    }
+
+    public getActorSamples(actorId: number, projectId?: number, meta?: any): any {
+        const projectSuffix = projectId ? `?project_id=${projectId}` : "";
+        return axios.get(this.base + `/actors/${actorId}/samples` + projectSuffix, {params: meta});
     }
 
     public getProjects(meta?: any): any {
@@ -203,13 +209,19 @@ class MockBackend implements IBackend {
         return this.promiseOf(resp);
     }
 
-    public getSamples(projectId: number, taskId: number): any {
+    public getTagSamples(projectId: number, taskId: number): any {
         // TODO
         const resp = {};
         return this.promiseOf(resp);
     }
 
-    public getAllSamples(projectId: number): any {
+    public getProjectSamples(projectId: number): any {
+        // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public getActorSamples(actorId: number, projectId?: number, meta?: any): any {
         // TODO
         const resp = {};
         return this.promiseOf(resp);

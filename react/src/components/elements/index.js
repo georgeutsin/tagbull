@@ -1,4 +1,7 @@
 export {
+    ActorDetails,
+} from './portal/ActorDetails';
+export {
     ActorsRow,
     ActorsHeader,
 } from './portal/ActorsRow';

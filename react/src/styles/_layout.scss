@@ -24,15 +24,17 @@
 }
 
 .thirds {
-  width: calc(33% - 10px);
+  width: 33%;
   display: inline-block;
   vertical-align: top;
+  box-sizing: border-box;
   padding: 5px;
 }
 
 .half {
   display: inline-block;
-  width: calc(50% - 40px);
+  box-sizing: border-box;
+  width: 50%;
   vertical-align: top;
   margin: 5px;
   padding: 15px;

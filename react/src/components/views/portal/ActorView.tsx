@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { PortalWrapper, SamplePreview } from "../../elements";
+import { ActorDetails, InfiniteList, PortalWrapper, SamplePreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 
@@ -16,8 +16,10 @@ class ActorView extends Component<any, any> {
                 id: 0,
             },
             stats: {},
-            samples: [],
         };
+
+        this.renderElement = this.renderElement.bind(this);
+        this.loadElements = this.loadElements.bind(this);
     }
 
     public componentDidMount() {
@@ -28,11 +30,22 @@ class ActorView extends Component<any, any> {
         });
     }
 
+    public renderElement(sample: any) {
+        return <SamplePreview sample={sample}></SamplePreview>;
+    }
+
+    public async loadElements(meta: { offset: number, timestamp: number }) {
+        return await Backend.getActorSamples(this.params.actorId, undefined, meta);
+    }
+
 
     public render() {
-        const samples = this.state.samples.map((sample: any) => {
-            return <SamplePreview sample={sample}></SamplePreview>;
-        });
+        const samplesList = <InfiniteList
+            isGrid={true}
+            renderElement={this.renderElement}
+            loadElements={this.loadElements}
+            listType="samples">
+        </InfiniteList>;
 
         const actions = <span className={portalStyles.actions}>
             <a href={`/actors`}>
@@ -43,13 +56,17 @@ class ActorView extends Component<any, any> {
         </span>;
 
         return <PortalWrapper
-            title={`Actor: ${this.state.actor.id}`}
+            title={`Actor ID ${this.state.actor.id}`}
             actions={actions}>
+            <ActorDetails
+                actor={this.state.actor}
+                stats={this.state.stats}>
+            </ActorDetails>
             <div className={portalStyles.projectSection}>
-                <h2>Details</h2>
-            </div>
-            <div className={portalStyles.tagPreviews}>
-                {samples}
+                <h2>Samples</h2>
+                <div className={portalStyles.tagPreviews}>
+                    {samplesList}
+                </div>
             </div>
         </PortalWrapper>;
     }
