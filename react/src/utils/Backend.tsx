@@ -251,7 +251,7 @@ class MockBackend implements IBackend {
         return this.promiseOf(resp);
     }
 
-    public getActor(actorId: number, projectId?: number,): any {
+    public getActor(actorId: number, projectId?: number): any {
         // TODO
         const resp = {};
         return this.promiseOf(resp);
