@@ -10,8 +10,9 @@ function ActorsRow(props: any) {
     const createdAt = d.toLocaleString("en-us", { month: "long" })
         + " " + d.getDate() + ", " + d.getFullYear();
     const accuracy = actor.num_samples * 100 / actor.correct_samples;
+    const link = props.project_id ? `/projects/${props.project_id}/actors/${actor.id}` : `/actors/${actor.id}`;
     return <div key={actor.id}>
-        <a href={"/actors/" + actor.id} className={portalStyles.tableLink}>
+        <a href={link} className={portalStyles.tableLink}>
             <div className={portalStyles.tableRow}>
                 <div className={`${styles.actorID} ${portalStyles.tableColumn}`}>
                     {actor.id}
