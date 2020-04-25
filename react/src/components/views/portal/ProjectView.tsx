@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Backend } from "../../../utils";
-import { InfiniteList, PortalWrapper, ProgressBar, TagPreview, ActorsRow, ActorsHeader } from "../../elements";
+import { ActorsHeader, ActorsRow, InfiniteList, PortalWrapper, ProgressBar, TagPreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./ProjectView.module.scss";

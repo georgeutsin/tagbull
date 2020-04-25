@@ -12,6 +12,7 @@ class InfiniteList extends Component<any, any> {
             listOffset: 0,
             listTimestamp: null,
             listTotalCount: -1,
+            loadingMore: false,
         };
         this.loadMoreButtonClicked = this.loadMoreButtonClicked.bind(this);
         this.loadAllButtonClicked = this.loadAllButtonClicked.bind(this);
@@ -22,6 +23,7 @@ class InfiniteList extends Component<any, any> {
     }
 
     public async loadMoreElements(loadAll: boolean = false) {
+        this.setState({ loadingMore: true });
         let list = this.state.list;
         let listOffset = this.state.listOffset;
         let listTimestamp = this.state.listTimestamp;
@@ -39,7 +41,7 @@ class InfiniteList extends Component<any, any> {
             listTotalCount = meta.total_count;
         }
 
-        this.setState({ list, listOffset, listTimestamp, listTotalCount }, () => {
+        this.setState({ list, listOffset, listTimestamp, listTotalCount, loadingMore: false }, () => {
             if (loadAll && this.state.listOffset !== -1) {
                 this.loadMoreElements(true);
             }
@@ -79,19 +81,21 @@ class InfiniteList extends Component<any, any> {
         const shouldShowLoadMore = this.state.listOffset !== -1 && this.state.listTotalCount !== this.state.list.length;
         const listFooter = <div className={styles.listFooter}>
             <div>{`Showing ${listOffset} ${listCount} ${listType}`}</div>
-            {shouldShowLoadMore && <div style={{ textAlign: "center", paddingTop: 20 }}>
-                <button
-                    className={`${portalStyles.actionButton}`}
-                    onClick={this.loadMoreButtonClicked}>
-                    Load More
-                </button>
-                <div style={{ width: 20, display: "inline-block" }}></div>
-                <button
-                    className={`${portalStyles.actionButton}`}
-                    onClick={this.loadAllButtonClicked}>
-                    Load All
-                </button>
-            </div>}
+            {this.state.loadingMore && <div className="loadingWheel" style={{ height: 150 }}></div>}
+            {shouldShowLoadMore && !this.state.loadingMore &&
+                <div style={{ textAlign: "center", paddingTop: 20 }}>
+                    <button
+                        className={`${portalStyles.actionButton}`}
+                        onClick={this.loadMoreButtonClicked}>
+                        Load More
+                    </button>
+                    <div style={{ width: 20, display: "inline-block" }}></div>
+                    <button
+                        className={`${portalStyles.actionButton}`}
+                        onClick={this.loadAllButtonClicked}>
+                        Load All
+                    </button>
+                </div>}
         </div>;
 
         return <div>
