@@ -38,7 +38,7 @@ class SamplesView extends Component<any, any> {
 
     public async loadElements(meta: { offset: number, timestamp: number }) {
         const projectId = this.params.projectId;
-        return await Backend.getAllSamples(projectId, meta);
+        return await Backend.getProjectSamples(projectId, meta);
     }
 
     public render() {

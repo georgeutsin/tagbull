@@ -9,7 +9,7 @@ function ActorsRow(props: any) {
     const d = new Date(actor.created_at.replace(" ", "T"));
     const createdAt = d.toLocaleString("en-us", { month: "long" })
         + " " + d.getDate() + ", " + d.getFullYear();
-    const accuracy = actor.num_samples * 100 / actor.correct_samples;
+    const accuracy = actor.lifetime_total_samples * 100 / actor.lifetime_correct_samples;
     const link = props.project_id ? `/projects/${props.project_id}/actors/${actor.id}` : `/actors/${actor.id}`;
     return <div key={actor.id}>
         <a href={link} className={portalStyles.tableLink}>
@@ -25,7 +25,7 @@ function ActorsRow(props: any) {
                         progress={accuracy}
                         height={50}>
                         <div className={portalStyles.centeredProgress}>
-                            <span>{actor.num_samples} / {actor.correct_samples}</span>
+                            <span>{actor.lifetime_total_samples} / {actor.lifetime_correct_samples}</span>
                         </div>
                     </ProgressBar>
                 </div>

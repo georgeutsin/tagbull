@@ -17,10 +17,11 @@ class V1::SamplesController < ApplicationController
   end
 
   # GET /projects/{id}/samples
+  # or GET /actors/{id}/samples
   def index
     timestamp = pagination_timestamp
-    samples = samples_for(params[:project_id], timestamp)
-    count = samples_count(params[:project_id], timestamp)
+    samples = samples_for(params[:project_id], params[:actor_id], timestamp)
+    count = samples_count(params[:project_id], params[:actor_id], timestamp)
     paged_json_response(samples, timestamp, count: count)
   end
 
@@ -106,21 +107,22 @@ class V1::SamplesController < ApplicationController
     GenerateTagJob.perform_later(task)
   end
 
-  def samples_base_query(project_id, timestamp)
-    Sample.joins(:task)
-          .where('tasks.project_id = ?', project_id)
-          .where(Sample.arel_table[:created_at].lt(timestamp))
+  def samples_base_query(project_id, actor_id, timestamp)
+    query = Sample.where(Sample.arel_table[:created_at].lt(timestamp))
+    query = query.joins(:task).where('tasks.project_id = ?', project_id) unless project_id.nil?
+    query = query.where(actor_id: actor_id) unless actor_id.nil?
+    query
   end
 
-  def samples_for(project_id, timestamp)
-    samples_base_query(project_id, timestamp)
+  def samples_for(project_id, actor_id, timestamp)
+    samples_base_query(project_id, actor_id, timestamp)
       .order('samples.created_at DESC')
       .offset(pagination_offset)
       .limit(pagination_limit)
       .map(&:additional_info)
   end
 
-  def samples_count(project_id, timestamp)
-    samples_base_query(project_id, timestamp).count
+  def samples_count(project_id, actor_id, timestamp)
+    samples_base_query(project_id, actor_id, timestamp).count
   end
 end

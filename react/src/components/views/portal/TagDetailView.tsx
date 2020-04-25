@@ -34,7 +34,7 @@ class TagDetailView extends Component<any, any> {
             });
         });
 
-        Backend.getSamples(this.params.projectId, this.params.taskId).then((resp: any) => {
+        Backend.getTagSamples(this.params.projectId, this.params.taskId).then((resp: any) => {
             const task = resp.data.data;
             this.setState({ task });
         });
