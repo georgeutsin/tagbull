@@ -2,20 +2,15 @@
 
 # Locator generator utility.
 class LocatorGenerator
-  def self.generate_tag(task)
+  def self.matching_samples(task)
     samples = LocatorSample.where(task_id: task.id).order(created_at: :DESC)
     threshold = 0.03 * (samples.count - 1)
     comparison_func = ->(s1, s2, t) { compare_points_lists(s1, s2, t) }
-    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, threshold)
-
-    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
-
-    complete(task, sample_pair, threshold)
+    ComparisonUtils.sample_pair_exists(samples, comparison_func, threshold)
   end
 
-  def self.complete(task, sample_pair, threshold)
-    tag = generate_points(task, sample_pair, threshold)
-    BasicTaskEvent.create(task_id: task.id, event: 'similar')
+  def self.generate_tag(task, samples)
+    tag = generate_points(task, samples, threshold)
 
     return if task.parent_id.nil?
 

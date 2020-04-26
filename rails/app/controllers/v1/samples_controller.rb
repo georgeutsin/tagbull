@@ -36,7 +36,7 @@ class V1::SamplesController < ApplicationController
       task_id: task_id,
       actor_id: Actor.find_or_create_by(actor_sig: params[:actor_sig]).id,
       is_tag: false,
-      is_active: true,
+      is_active: false,
       time_elapsed: params[:time_elapsed]
     }
   end
