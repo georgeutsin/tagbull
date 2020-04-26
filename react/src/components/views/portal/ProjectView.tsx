@@ -159,10 +159,14 @@ class ProjectView extends Component<any, any> {
                     <div className="thirds">
                         <h5>Actions</h5>
                         <a href={`/projects/${this.params.projectId}/samples`}>
-                            <button>View Raw Samples</button>
+                            <button className={portalStyles.actionButton}>View Raw Samples</button>
                         </a>
-                        <button onClick={this.pauseButtonClicked}>{pauseButtonLabel}</button>
-                        <button onClick={this.privateButtonClicked}>{privateButtonLabel}</button>
+                        <button className={portalStyles.actionButton} onClick={this.pauseButtonClicked}>
+                            {pauseButtonLabel}
+                        </button>
+                        <button className={portalStyles.actionButton} onClick={this.privateButtonClicked}>
+                            {privateButtonLabel}
+                        </button>
                     </div>
                     <div style={{ clear: "both" }}></div>
                 </div>
