@@ -13,7 +13,10 @@ class TagGenerator
       generator = DiscreteAttributeGenerator
     end
 
-    generator&.generate_tag(task)
+    samples = generator&.matching_samples(task)
+    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless samples
+    generator&.generate_tag(task, samples)
+    BasicTaskEvent.create(task_id: task.id, event: 'similar')
   end
 
   def self.generated_sample_params(task)

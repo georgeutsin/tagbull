@@ -2,21 +2,15 @@
 
 # Discrete Attribute generator utility.
 class DiscreteAttributeGenerator
-  def self.generate_tag(task)
+  def self.matching_samples(task)
     samples = DiscreteAttributeSample.where(task_id: task.id).order(created_at: :DESC)
-
     comparison_func = ->(s1, s2, _d) { compare_options(s1, s2) }
     # TODO: decide if pair is best approach for discrete attributes
-    sample_pair = ComparisonUtils.sample_pair_exists(samples, comparison_func, 0)
-
-    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless sample_pair
-
-    complete(task, sample_pair)
+    ComparisonUtils.sample_pair_exists(samples, comparison_func, 0)
   end
 
-  def self.complete(task, sample_pair)
-    tag = generate_discrete_attribute(task, sample_pair.first.option)
-    BasicTaskEvent.create(task_id: task.id, event: 'similar')
+  def self.generate_tag(task, samples)
+    tag = generate_discrete_attribute(task, samples.first.option)
 
     return if task.parent_id.nil?
 
