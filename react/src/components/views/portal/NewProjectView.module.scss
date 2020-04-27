@@ -14,11 +14,13 @@
   display: table-cell;
   width: 30%;
   min-width: 200px;
-  padding-right: 40px;
   font-size: 1em;
   color: #888;
   padding-bottom: 60px;
   vertical-align: top;
+  box-sizing: border-box;
+  border-right: 1px solid #ddd;
+  padding: 20px;
 }
 
 .stepInstruction h3 {
@@ -40,42 +42,38 @@
   width: 70%;
   color: #333;
   border-radius: 3px;
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 60px;
+  padding: 20px 20px 60px 20px;
 }
 
-.stepBodyTop {
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
+.stepBody textarea {
+  width: 100%;
+  font-size: 1em;
+  min-height: 200px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
-.stepBodyBottom {
-  border-bottom: 1px solid #ddd;
+.stepBody textarea:focus {
+  outline: none !important;
+  box-shadow: none;
+  border: 1px solid #ddd;
 }
 
-.stepTask {
-  height: 600px;
+.stepBody input {
+  font-size: 1em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 8px;
+  min-width: 350px;
 }
 
-/*
-    Hide radio button (the round disc)
-    we will use just the label to create pushbutton effect
-  */
-
-input[type="radio"] {
+.stepBody input[type="radio"] {
   display: none;
   margin: 10px;
 }
 
-/*
-  Change the look'n'feel of labels (which are adjacent to radiobuttons).
-  Add some margin, padding to label
-  */
-
-input[type="radio"] + label {
+.stepBody input[type="radio"] + label {
   display: inline-block;
   margin: -1px;
   padding: 4px 12px;
@@ -85,55 +83,17 @@ input[type="radio"] + label {
   cursor: pointer;
 }
 
-.leftRadio {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-.rightRadio {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-/*
-  Change background color for label next to checked radio button
-  to make it look like highlighted button
-  */
-
-input[type="radio"]:checked + label {
+.stepBody input[type="radio"]:checked + label {
   background-image: none;
   background-color: #f5f5f5;
 }
 
-.newProjectTextArea {
-  width: 100%;
-  font-size: 1em;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  min-height: 200px;
-  border: 1px solid #ddd;
-  padding: 8px;
+.radioWrapper:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
-textarea:focus {
-  outline: none !important;
-  box-shadow: none;
-  border: 1px solid #ddd;
+.radioWrapper:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-
-.examplePrompt {
-  color: #aaa;
-  text-transform: uppercase;
-  font-size: 0.8em;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.inlineInput {
-    font-size: 1em;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 8px;
-    min-width: 350px;
-  }
-  

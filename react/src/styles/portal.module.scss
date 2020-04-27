@@ -34,16 +34,7 @@
   text-align: center;
 }
 
-.disabledButton {
-  color: rgb(200, 200, 200);
-  background-color: rgba(215, 215, 215, 0.8);
-  border: none;
-}
 
-.disabledButton:hover {
-  background-color: rgba(215, 215, 215, 0.8);
-  cursor: not-allowed;
-}
 
 .projectSection {
   margin: 20px;
@@ -75,6 +66,17 @@
 .actionButton:hover {
   background-color: #444;
   cursor: pointer;
+}
+
+.disabledButton {
+  color: rgb(200, 200, 200);
+  background-color: rgba(215, 215, 215, 0.8);
+  border: none;
+}
+
+.disabledButton:hover {
+  background-color: rgba(215, 215, 215, 0.8);
+  cursor: not-allowed;
 }
 
 .greyButton {
