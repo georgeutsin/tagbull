@@ -10,6 +10,7 @@ class LocatorGenerator
   end
 
   def self.generate_tag(task, samples)
+    threshold = 1 # pair guaranteed to be within threshold from previous step
     tag = generate_points(task, samples, threshold)
 
     return if task.parent_id.nil?
