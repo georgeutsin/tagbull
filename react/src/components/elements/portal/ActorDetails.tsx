@@ -13,13 +13,9 @@ function ActorDetails(props: any) {
         <div className={portalStyles.detailsSection}>
             <div className="thirds">
                 <h5>Created At</h5> {createdAt}
-                <h5>Lifetime Total</h5> {props.actor.lifetime_total_samples}  samples
-                <h5>Lifetime Correct</h5> {props.actor.lifetime_correct_samples} samples
+                <h5>Correct</h5> {props.actor.correct_samples} samples
+                <h5>Total</h5> {props.actor.total_samples}  samples
             </div>
-            {props.project_id && <div className="thirds">
-                <h5>Project Total</h5> {props.stats.project_total_samples} samples
-                <h5>Project Total</h5> {props.stats.project_correct_samples} samples
-            </div>}
             <div className="thirds"></div>
         </div>
         <div style={{ height: 20 }}></div>

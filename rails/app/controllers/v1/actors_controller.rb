@@ -17,10 +17,14 @@ class V1::ActorsController < ApplicationController
 
   # GET /actors/id?project_id=id
   def show
-    actor = Actor.find(params[:id])
-    json_response(actor, base: {
-                    stats: actor.stats(params[:project_id])
-                  })
+    actor = if params[:project_id].nil?
+              Actor.find(params[:id])
+            else
+              a = ProjectActor.find(params[:id])
+              a.project_id = params[:project_id]
+              a
+            end
+    json_response(actor)
   end
 
   private
@@ -28,10 +32,10 @@ class V1::ActorsController < ApplicationController
   def actors_base_query(project_id, timestamp)
     return Actor.all.where(Actor.arel_table[:created_at].lt(timestamp)) if project_id.nil?
 
-    Actor.joins(sample: :task)
-         .where(Actor.arel_table[:created_at].lt(timestamp))
-         .where(tasks: { project_id: project_id })
-         .distinct
+    ProjectActor.joins(sample: :task)
+                .where(Actor.arel_table[:created_at].lt(timestamp))
+                .where(tasks: { project_id: project_id })
+                .distinct
   end
 
   def actors_for(project_id, timestamp)
@@ -39,6 +43,9 @@ class V1::ActorsController < ApplicationController
       .order('actors.created_at DESC')
       .offset(pagination_offset)
       .limit(pagination_limit)
+      .each do |p|
+        p.project_id = project_id
+      end
   end
 
   def actors_count(project_id, timestamp)

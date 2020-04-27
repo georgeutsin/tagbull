@@ -3,14 +3,15 @@
 # Actor model
 class Actor < ApplicationRecord
   has_many :sample
-  attribute :lifetime_total_samples
-  attribute :lifetime_correct_samples
+  attribute :total_samples
+  attribute :correct_samples
+  attribute :project_id
 
-  def lifetime_total_samples
+  def total_samples
     Sample.where(actor_id: id).count
   end
 
-  def lifetime_correct_samples
+  def correct_samples
     Sample.where(actor_id: id, is_active: true).count
   end
 

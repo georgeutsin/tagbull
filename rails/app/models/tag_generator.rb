@@ -3,20 +3,25 @@
 # Generates a tag.
 class TagGenerator
   def self.generate(task)
-    generator = nil
-    case task.specific
-    when BoundingBoxTask
-      generator = BoundingBoxGenerator
-    when LocatorTask
-      generator = LocatorGenerator
-    when DiscreteAttributeTask
-      generator = DiscreteAttributeGenerator
-    end
+    generator = generator_for(task)
 
     samples = generator&.matching_samples(task)
     return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless samples
+
     generator&.generate_tag(task, samples)
     BasicTaskEvent.create(task_id: task.id, event: 'similar')
+    activate(samples)
+  end
+
+  def self.generator_for(task)
+    case task.specific
+    when BoundingBoxTask
+      BoundingBoxGenerator
+    when LocatorTask
+      LocatorGenerator
+    when DiscreteAttributeTask
+      DiscreteAttributeGenerator
+    end
   end
 
   def self.generated_sample_params(task)
@@ -26,5 +31,12 @@ class TagGenerator
       is_tag: true,
       is_active: true
     }
+  end
+
+  def self.activate(samples)
+    samples.each do |sample|
+      sample.is_active = true
+      sample.save
+    end
   end
 end
