@@ -31,7 +31,7 @@ class ActorView extends Component<any, any> {
     }
 
     public renderElement(sample: any) {
-        return <SamplePreview sample={sample}></SamplePreview>;
+        return <SamplePreview sample={sample} project_id={null}></SamplePreview>;
     }
 
     public async loadElements(meta: { offset: number, timestamp: number }) {

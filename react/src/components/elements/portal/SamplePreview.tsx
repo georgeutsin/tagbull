@@ -18,6 +18,14 @@ class SamplePreview extends Component<any, any> {
         return d.toUTCString();
     }
 
+    public actorLink(actorId: any) {
+        if (this.props.project_id) {
+            return `/projects/${this.props.project_id}/actors/${actorId}`;
+        }
+
+        return `/actors/${actorId}`;
+    }
+
     public boundingBoxPreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const bb: IBoundingBox = sample.sample;
@@ -32,10 +40,12 @@ class SamplePreview extends Component<any, any> {
                 ></BoundingBoxCanvas>
             </div>
 
-            <div className={previewStyles.tagPreviewDetails} style={{lineHeight: "1em", fontSize: "1em"}}>
+            <div className={previewStyles.tagPreviewDetails} style={{ lineHeight: "1em", fontSize: "1em" }}>
                 <div> <h5>Type</h5> Bounding Box </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
-                <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}</div>
+                <a href={this.actorLink(sample.sample.actor_id)}>
+                    <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}</div>
+                </a>
                 <div> <h5>Time Spent</h5> {sample.sample.time_elapsed / 1000 || 0}s </div>
                 <div> <h5>Created At</h5> {this.dateConvert(sample.sample.created_at)} </div>
             </div>
@@ -57,10 +67,12 @@ class SamplePreview extends Component<any, any> {
                 </PointCanvas>
             </div>
 
-            <div className={previewStyles.tagPreviewDetails} style={{lineHeight: "1em", fontSize: "1em"}}>
+            <div className={previewStyles.tagPreviewDetails} style={{ lineHeight: "1em", fontSize: "1em" }}>
                 <div> <h5>Type</h5> Locator </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
-                <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id} </div>
+                <a href={this.actorLink(sample.sample.actor_id)}>
+                    <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}</div>
+                </a>
                 <div> <h5>Time Spent</h5> {sample.sample.time_elapsed / 1000 || 0}s </div>
                 <div> <h5>Created At</h5> {this.dateConvert(sample.sample.created_at)} </div>
             </div>
@@ -82,10 +94,12 @@ class SamplePreview extends Component<any, any> {
                 ></BoundingBoxCanvas>
             </div>
 
-            <div className={previewStyles.tagPreviewDetails} style={{lineHeight: "1em", fontSize: "1em"}}>
+            <div className={previewStyles.tagPreviewDetails} style={{ lineHeight: "1em", fontSize: "1em" }}>
                 <div> <h5>Type</h5> Discrete Attribute </div>
                 <div> <h5>Category</h5> {sample.task.category} </div>
-                <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}  </div>
+                <a href={this.actorLink(sample.sample.actor_id)}>
+                    <div> <h5>Actor Sig</h5> {sample.sample.actor_sig} - {sample.sample.actor_id}</div>
+                </a>
                 <div> <h5>Attribute</h5> {sample.task.attribute_type}:{sample.sample.option} </div>
                 <div> <h5>Time Spent</h5> {sample.sample.time_elapsed / 1000 || 0}s </div>
                 <div> <h5>Created At</h5> {this.dateConvert(sample.sample.created_at)} </div>

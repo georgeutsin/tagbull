@@ -13,10 +13,13 @@ function ActorDetails(props: any) {
         <div className={portalStyles.detailsSection}>
             <div className="thirds">
                 <h5>Created At</h5> {createdAt}
+                <h5>ID</h5> {props.actor.id}
+                <h5>Signature</h5> {props.actor.actor_sig}
+            </div>
+            <div className="thirds">
                 <h5>Correct</h5> {props.actor.correct_samples} samples
                 <h5>Total</h5> {props.actor.total_samples}  samples
             </div>
-            <div className="thirds"></div>
         </div>
         <div style={{ height: 20 }}></div>
     </div>;
