@@ -42,7 +42,7 @@ class TagDetailView extends Component<any, any> {
 
     public render() {
         const samples = this.state.task.samples.map((sample: any) => {
-            return <SamplePreview sample={sample}></SamplePreview>;
+            return <SamplePreview sample={sample} project_id={this.params.projectId}></SamplePreview>;
         });
 
         const actions = <span className={portalStyles.actions}>

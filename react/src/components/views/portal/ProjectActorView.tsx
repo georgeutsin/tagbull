@@ -32,7 +32,7 @@ class ProjectActorView extends Component<any, any> {
 
 
     public renderElement(sample: any) {
-        return <SamplePreview sample={sample}></SamplePreview>;
+        return <SamplePreview sample={sample} project_id={this.params.projectId}></SamplePreview>;
     }
 
     public async loadElements(meta: { offset: number, timestamp: number }) {
