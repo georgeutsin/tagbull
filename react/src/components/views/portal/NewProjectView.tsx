@@ -1,4 +1,5 @@
 import React from "react";
+import Papa from "papaparse";
 import { Redirect } from "react-router-dom";
 import { Backend } from "../../../utils";
 import { PortalWrapper } from "../../elements";
@@ -60,8 +61,7 @@ class NewProjectView extends React.Component<any, any>  {
 
     public handleCSVChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const csv = event.target.value;
-        // TODO: parse csv
-        const media: any = [];
+        const media: any = Papa.parse(csv, {header: false}).data;
         this.setState({
             media,
             currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_TYPE_SELECTION)
