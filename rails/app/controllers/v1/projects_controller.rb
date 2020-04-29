@@ -21,7 +21,10 @@ class V1::ProjectsController < ApplicationController
   end
 
   def create
-    json_response(Project.create!(name: params[:name]))
+    ActionController::Parameters.permit_all_parameters = true # TODO: security
+    p = Project.create!(name: params[:project][:name])
+    CreateTasksJob.perform_later(p, params[:task], params[:media])
+    json_response(p, 204)
   end
 
   # PATCH /projects/id

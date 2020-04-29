@@ -1,4 +1,5 @@
 import React from "react";
+import Papa from "papaparse";
 import { Redirect } from "react-router-dom";
 import { Backend } from "../../../utils";
 import { PortalWrapper } from "../../elements";
@@ -14,29 +15,22 @@ enum NewProjectStage {
     COMPLETE = 4,
 }
 
-interface INewProjectViewState {
-    currentStage: NewProjectStage;
-    config: any;
-    redirect: boolean;
-}
-
-// tslint:disable-next-line: no-empty-interface
-interface INewProjectViewProps {
-}
-
-
-class NewProjectView extends React.Component<INewProjectViewProps, INewProjectViewState>  {
+class NewProjectView extends React.Component<any, any>  {
     constructor(props: any) {
         super(props);
 
         // Don't call this.setState() here!
         this.state = {
-            config: {
+            project: {
                 name: "",
-                type: "",
-                category: "",
-                csv: "",
             },
+            task: {
+                type: "",
+                config: {
+                    category: "",
+                },
+            },
+            media: [],
 
             redirect: false,
             currentStage: NewProjectStage.IMAGE_DEF,
@@ -52,10 +46,10 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
 
     public createClicked() {
         Backend.postProject({
-            project: {
-                user_id: 1,
-                config: this.state.config,
-            },
+            project: this.state.project,
+            task: this.state.task,
+            media: this.state.media,
+            user_id: 1,
         }).then((response: any) => {
             if (response.status === 204) {
                 this.setState({ redirect: true });
@@ -68,33 +62,39 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
     }
 
     public handleCSVChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        const config = this.state.config;
-        config.csv = event.target.value;
-        this.updateActivityConfig(config, NewProjectStage.TASK_TYPE_SELECTION);
+        const csv = event.target.value;
+        const media: any = Papa.parse(csv, { header: true }).data;
+        console.log(media);
+        this.setState({
+            media,
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_TYPE_SELECTION)
+        });
     }
 
     public handleTypeChange(event: any) {
-        const config = this.state.config;
-        config.type = event.target.value;
-        this.updateActivityConfig(config, NewProjectStage.TASK_CONFIG);
+        const task = this.state.task;
+        task.type = event.target.value;
+        this.setState({
+            task,
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_CONFIG)
+        });
     }
 
     public handleCategoryChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const config = this.state.config;
-        config.category = event.target.value;
-        this.updateActivityConfig(config, NewProjectStage.NAME_PROJECT);
+        const task = this.state.task;
+        task.config = { category: event.target.value };
+        this.setState({
+            task,
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.NAME_PROJECT)
+        });
     }
 
     public handleNameChange(event: any) {
-        const config = this.state.config;
-        config.name = event.target.value;
-        this.updateActivityConfig(config, NewProjectStage.COMPLETE);
-    }
-
-    public updateActivityConfig(config: any, maxStage: NewProjectStage) {
+        const project = this.state.project;
+        project.name = event.target.value;
         this.setState({
-            config,
-            currentStage: Math.max(this.state.currentStage, maxStage),
+            project,
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.COMPLETE)
         });
     }
 
@@ -138,7 +138,7 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                                     type="radio"
                                     id="radio1"
                                     name="radios"
-                                    value="bounding_box_for_catgory"></input>
+                                    value="locator"></input>
                                 <label className="leftRadio" htmlFor="radio1">Locator</label>
                             </div>
                         }
@@ -156,7 +156,7 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                             <div>
                                 What is this dataset labelling?&nbsp;&nbsp;&nbsp;
                                 <input placeholder="The category of the labels. Example: animal"
-                                    className="inlineInput" type="text" value={this.state.config.category}
+                                    className="inlineInput" type="text" value={this.state.task.config.category}
                                     onChange={this.handleCategoryChange}></input>
                             </div>
                         }
@@ -172,7 +172,7 @@ class NewProjectView extends React.Component<INewProjectViewProps, INewProjectVi
                         {this.shouldShowStage(NewProjectStage.NAME_PROJECT) &&
                             <input className="inlineInput" placeholder="Project Name"
                                 type="text" onChange={this.handleNameChange}
-                                value={this.state.config.name}></input>
+                                value={this.state.project.name}></input>
                         }
                     </div>
                 </div>
