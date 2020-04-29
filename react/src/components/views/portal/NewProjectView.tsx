@@ -63,7 +63,7 @@ class NewProjectView extends React.Component<any, any>  {
 
     public handleCSVChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const csv = event.target.value;
-        const media: any = Papa.parse(csv, {header: true}).data;
+        const media: any = Papa.parse(csv, { header: true }).data;
         console.log(media);
         this.setState({
             media,
