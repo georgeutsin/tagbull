@@ -11,14 +11,14 @@ Metrics/LineLength:
 Metrics/ClassLength:
   Max: 300
 
-Style/ClassAndModuleChildren:
-  Enabled: false
+# Style/ClassAndModuleChildren:
+#   Enabled: false
 
-Style/HashEachMethods:
-  Enabled: false
+# Style/HashEachMethods:
+#   Enabled: false
 
-Style/HashTransformKeys:
-  Enabled: false
+# Style/HashTransformKeys:
+#   Enabled: false
 
-Style/HashTransformValues:
-  Enabled: false
+# Style/HashTransformValues:
+#   Enabled: false

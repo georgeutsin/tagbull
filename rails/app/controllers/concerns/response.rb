@@ -3,7 +3,7 @@
 # Response formatting helpers
 module Response
   def json_response(object, status = :ok, base: {})
-    render json: base.merge({ data: object }), status: status
+    render json: base.merge(data: object), status: status
   end
 
   def json_error(object, status = :error)

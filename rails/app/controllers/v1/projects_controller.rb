@@ -21,7 +21,9 @@ class V1::ProjectsController < ApplicationController
   end
 
   def create
-    json_response(Project.create!(name: params[:name]))
+    p = Project.create!(name: params[:project['name']])
+    CreateTasksJob.perform_later(p, params[:task], params[:media])
+    json_response(p)
   end
 
   # PATCH /projects/id
