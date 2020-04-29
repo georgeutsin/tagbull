@@ -26,7 +26,9 @@ class NewProjectView extends React.Component<any, any>  {
             },
             task: {
                 type: "",
-                config: {},
+                config: {
+                    category: "",
+                },
             },
             media: [],
 
@@ -61,7 +63,8 @@ class NewProjectView extends React.Component<any, any>  {
 
     public handleCSVChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const csv = event.target.value;
-        const media: any = Papa.parse(csv, {header: false}).data;
+        const media: any = Papa.parse(csv, {header: true}).data;
+        console.log(media);
         this.setState({
             media,
             currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_TYPE_SELECTION)
@@ -135,7 +138,7 @@ class NewProjectView extends React.Component<any, any>  {
                                     type="radio"
                                     id="radio1"
                                     name="radios"
-                                    value="bounding_box_for_catgory"></input>
+                                    value="locator"></input>
                                 <label className="leftRadio" htmlFor="radio1">Locator</label>
                             </div>
                         }
@@ -153,7 +156,7 @@ class NewProjectView extends React.Component<any, any>  {
                             <div>
                                 What is this dataset labelling?&nbsp;&nbsp;&nbsp;
                                 <input placeholder="The category of the labels. Example: animal"
-                                    className="inlineInput" type="text" value={this.state.config.category}
+                                    className="inlineInput" type="text" value={this.state.task.config.category}
                                     onChange={this.handleCategoryChange}></input>
                             </div>
                         }
@@ -169,7 +172,7 @@ class NewProjectView extends React.Component<any, any>  {
                         {this.shouldShowStage(NewProjectStage.NAME_PROJECT) &&
                             <input className="inlineInput" placeholder="Project Name"
                                 type="text" onChange={this.handleNameChange}
-                                value={this.state.config.name}></input>
+                                value={this.state.project.name}></input>
                         }
                     </div>
                 </div>

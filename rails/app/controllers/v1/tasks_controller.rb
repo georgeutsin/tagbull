@@ -6,6 +6,6 @@ class V1::TasksController < ApplicationController
     project = Project.find_by(id: params[:project_id])
     return json_error(message: 'invalid project id') if project.nil?
 
-    TaskCreator.create(project, params[:task], params[:media])
+    json_response(TaskCreator.create(project, params[:task], params[:media]))
   end
 end

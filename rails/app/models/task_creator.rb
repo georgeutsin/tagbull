@@ -4,12 +4,12 @@
 class TaskCreator
   def self.create(project, task, media)
     case task[:type]
-    when 'DichotomyTask'
+    when 'dichotomy'
       create_tasks(project, method(:create_dichotomy_task), task, media)
-    when 'LocatorTask'
+    when 'locator'
       create_tasks(project, method(:create_locator_task), task, media)
     else
-      json_error(message: 'unknown task type')
+      {message: 'unknown task type'}
     end
   end
 
@@ -23,7 +23,7 @@ class TaskCreator
         results.append(task.acting_as.id)
       end
     end
-    json_response(results)
+    results
   end
 
   def self.create_dichotomy_task(project, medium, config)
