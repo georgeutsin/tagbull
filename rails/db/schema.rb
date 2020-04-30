@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_001341) do
+ActiveRecord::Schema.define(version: 2020_04_30_202724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,14 @@ ActiveRecord::Schema.define(version: 2020_03_19_001341) do
     t.index ["actable_type", "actable_id"], name: "index_tasks_on_actable_type_and_actable_id"
     t.index ["media_id"], name: "index_tasks_on_media_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "basic_task_events", "tasks"
