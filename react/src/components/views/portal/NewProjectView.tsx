@@ -1,5 +1,5 @@
-import React from "react";
 import Papa from "papaparse";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import { Backend } from "../../../utils";
 import { PortalWrapper } from "../../elements";
@@ -64,10 +64,9 @@ class NewProjectView extends React.Component<any, any>  {
     public handleCSVChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const csv = event.target.value;
         const media: any = Papa.parse(csv, { header: true }).data;
-        console.log(media);
         this.setState({
             media,
-            currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_TYPE_SELECTION)
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_TYPE_SELECTION),
         });
     }
 
@@ -76,7 +75,7 @@ class NewProjectView extends React.Component<any, any>  {
         task.type = event.target.value;
         this.setState({
             task,
-            currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_CONFIG)
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.TASK_CONFIG),
         });
     }
 
@@ -85,7 +84,7 @@ class NewProjectView extends React.Component<any, any>  {
         task.config = { category: event.target.value };
         this.setState({
             task,
-            currentStage: Math.max(this.state.currentStage, NewProjectStage.NAME_PROJECT)
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.NAME_PROJECT),
         });
     }
 
@@ -94,7 +93,7 @@ class NewProjectView extends React.Component<any, any>  {
         project.name = event.target.value;
         this.setState({
             project,
-            currentStage: Math.max(this.state.currentStage, NewProjectStage.COMPLETE)
+            currentStage: Math.max(this.state.currentStage, NewProjectStage.COMPLETE),
         });
     }
 

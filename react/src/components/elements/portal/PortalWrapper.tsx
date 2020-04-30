@@ -21,7 +21,7 @@ class PortalWrapper extends Component<any, any> {
                     {this.props.actions}
                     <div style={{ clear: "both" }}></div>
                 </div>
-                <div className={portalStyles.mainCard}>
+                <div className={portalStyles.mainCard} style={{maxWidth: this.props.maxWidth ?? "100%"}}>
                     {this.props.children}
                 </div>
             </div>

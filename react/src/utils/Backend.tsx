@@ -15,13 +15,19 @@ interface IBackend {
     postMedia(projectId: number, data: any): any;
     getActors(projectId?: number, meta?: any): any;
     getActor(actorId: number, projectId?: number): any;
+    postLogin(email: string, password: string): any;
+    postRegister(email: string, password: string): any;
 }
 
 class RemoteBackend implements IBackend {
     private base: string;
+    private defaultHeaders: any;
 
     constructor(base: string) {
         this.base = base;
+        this.defaultHeaders = {
+            "Authorization": localStorage.getItem("token"),
+        };
     }
 
     public getActivity(deviceId: string, projectId?: string): any {
@@ -29,44 +35,44 @@ class RemoteBackend implements IBackend {
         if (projectId) {
             route += `&project_id=${projectId}`;
         }
-        return axios.get(this.base + route);
+        return axios.get(this.base + route, { headers: this.defaultHeaders });
     }
 
     public postSample(data: any): any {
-        return axios.post(this.base + `/samples`, data);
+        return axios.post(this.base + `/samples`, data, { headers: this.defaultHeaders });
     }
 
     public getTags(projectId: number, meta?: any): any {
-        return axios.get(this.base + `/projects/${projectId}/tags`, {params: meta});
+        return axios.get(this.base + `/projects/${projectId}/tags`, { params: meta, headers: this.defaultHeaders });
     }
 
     public getTagSamples(projectId: number, taskId: number): any {
-        return axios.get(this.base + `/projects/${projectId}/tags/${taskId}`);
+        return axios.get(this.base + `/projects/${projectId}/tags/${taskId}`, { headers: this.defaultHeaders });
     }
 
     public getProjectSamples(projectId: number, meta?: any): any {
-        return axios.get(this.base + `/projects/${projectId}/samples`, {params: meta});
+        return axios.get(this.base + `/projects/${projectId}/samples`, { params: meta, headers: this.defaultHeaders });
     }
 
     public getActorSamples(actorId: number, projectId?: number, meta?: any): any {
         const projectSuffix = projectId ? `?project_id=${projectId}` : "";
-        return axios.get(this.base + `/actors/${actorId}/samples` + projectSuffix, {params: meta});
+        return axios.get(this.base + `/actors/${actorId}/samples` + projectSuffix, { params: meta, headers: this.defaultHeaders });
     }
 
     public getProjects(meta?: any): any {
-        return axios.get(this.base + `/projects`, {params: meta});
+        return axios.get(this.base + `/projects`, { params: meta, headers: this.defaultHeaders });
     }
 
     public getProject(projectId: number): any {
-        return axios.get(this.base + `/projects/${projectId}`);
+        return axios.get(this.base + `/projects/${projectId}`, { headers: this.defaultHeaders });
     }
 
     public postProject(data: any): any {
-        return axios.post(this.base + `/projects`, data);
+        return axios.post(this.base + `/projects`, data, { headers: this.defaultHeaders });
     }
 
     public patchProject(projectId: number, data: any): any {
-        return axios.patch(this.base + `/projects/${projectId}`, data);
+        return axios.patch(this.base + `/projects/${projectId}`, data, { headers: this.defaultHeaders });
     }
 
     public postMedia(projectId: number, data: any): any {
@@ -75,16 +81,17 @@ class RemoteBackend implements IBackend {
                 "accept": "application/json",
                 "Accept-Language": "en-US,en;q=0.8",
                 "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+                "Authorization": localStorage.getItem("token"),
             },
         });
     }
 
-    public getActors(projectId?: number,  meta?: any): any {
+    public getActors(projectId?: number, meta?: any): any {
         let route = `/actors/?`;
         if (projectId) {
             route += `project_id=${projectId}`;
         }
-        return axios.get(this.base + route, {params: meta});
+        return axios.get(this.base + route, { params: meta, headers: this.defaultHeaders });
     }
 
     public getActor(actorId: number, projectId?: number): any {
@@ -92,7 +99,15 @@ class RemoteBackend implements IBackend {
         if (projectId) {
             route += `project_id=${projectId}`;
         }
-        return axios.get(this.base + route);
+        return axios.get(this.base + route, { headers: this.defaultHeaders });
+    }
+
+    public postLogin(email: string, password: string): any {
+        return axios.post(this.base + `/authenticate`, { email, password, headers: this.defaultHeaders });
+    }
+
+    public postRegister(email: string, password: string): any {
+        return axios.post(this.base + `/register`, { email, password, headers: this.defaultHeaders });
     }
 }
 
@@ -264,6 +279,18 @@ class MockBackend implements IBackend {
     }
 
     public getActor(actorId: number, projectId?: number): any {
+        // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public postLogin(email: string, password: string): any {
+        // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
+    public postRegister(email: string, password: string): any {
         // TODO
         const resp = {};
         return this.promiseOf(resp);

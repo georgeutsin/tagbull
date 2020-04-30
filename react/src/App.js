@@ -18,6 +18,7 @@ import {
   ActivitiesInfiniteView,
   ActivitiesPlayerView,
   ActivitiesTurkView,
+  LoginView,
   AboutView,
   NewProjectView,
   CareersView,
@@ -49,6 +50,7 @@ class App extends Component {
             <Route exact path="/projects/:projectId/actors/:actorId" component={ProjectActorView}></Route>
             <Route exact path="/actors" component={ActorsListView}></Route>
             <Route exact path="/actors/:actorId" component={ActorView}></Route>
+            <Route exact path="/login" component={LoginView}></Route>
             <Route component={NotFoundView}></Route>
           </Switch>
         </div>
