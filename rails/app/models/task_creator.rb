@@ -9,7 +9,7 @@ class TaskCreator
     when 'locator'
       create_tasks(project, method(:create_locator_task), task, media)
     else
-      {message: 'unknown task type'}
+      { message: 'unknown task type' }
     end
   end
 
