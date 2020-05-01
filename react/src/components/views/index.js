@@ -11,6 +11,7 @@ export { default as TermsView } from "./page/TermsView";
 
 export { default as ActorsListView } from "./portal/ActorsListView";
 export { default as ActorView } from "./portal/ActorView";
+export { default as LoginView } from "./portal/LoginView";
 export { default as NewProjectView } from "./portal/NewProjectView";
 export { default as ProjectActorView } from "./portal/ProjectActorView";
 export { default as ProjectsListView } from "./portal/ProjectsListView";

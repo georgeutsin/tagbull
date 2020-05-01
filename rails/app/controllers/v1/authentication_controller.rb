@@ -1,16 +1,21 @@
 # frozen_string_literal: true
 
 # Controller for authenticating users
-class AuthenticationController < ApplicationController
+class V1::AuthenticationController < ApplicationController
   skip_before_action :authenticate_request
 
   def authenticate
     command = AuthenticateUser.call(params[:email], params[:password])
 
     if command.success?
-      render json: { auth_token: command.result }
+      json_response({auth_token: command.result})
     else
-      render json: { error: command.errors }, status: :unauthorized
+      json_error({ error: command.errors }, status: :unauthorized)
     end
+  end
+
+  def register
+    User.create!(email: params[:email], password: params[:password])
+    authenticate
   end
 end
