@@ -30,12 +30,16 @@ class V1::ActorsController < ApplicationController
   private
 
   def actors_base_query(project_id, timestamp)
-    return Actor.all.where(Actor.arel_table[:created_at].lt(timestamp)) if project_id.nil?
+    q = if project_id.nil?
+          Actor.all
+        else
+          ProjectActor.where(tasks: { project_id: project_id })
+        end
 
-    ProjectActor.joins(sample: :task)
-                .where(Actor.arel_table[:created_at].lt(timestamp))
-                .where(tasks: { project_id: project_id })
-                .distinct
+    q.where(Actor.arel_table[:created_at].lt(timestamp))
+     .joins(sample: :task)
+     .where(tasks: { project_id: @current_user.projects })
+     .distinct
   end
 
   def actors_for(project_id, timestamp)

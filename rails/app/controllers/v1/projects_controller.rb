@@ -17,12 +17,14 @@ class V1::ProjectsController < ApplicationController
 
   # GET /projects/id
   def show
+    return json_error(message: 'no access to project') unless @current_user.projects.include?(params[:id].to_i)
+
     json_response(Project.find(params[:id]))
   end
 
   def create
     ActionController::Parameters.permit_all_parameters = true # TODO: security
-    p = Project.create!(name: params[:project][:name])
+    p = Project.create!(name: params[:project][:name], user_id: @current_user.id)
     CreateTasksJob.perform_later(p, params[:task], params[:media])
     json_response(p, 204)
   end
@@ -43,6 +45,7 @@ class V1::ProjectsController < ApplicationController
   def projects_base_query(timestamp)
     Project.all
            .where(Project.arel_table[:created_at].lt(timestamp))
+           .where(id: @current_user.projects)
   end
 
   def projects_for(timestamp)

@@ -6,7 +6,7 @@ module Response
     render json: base.merge(data: object), status: status
   end
 
-  def json_error(object, status = :error)
+  def json_error(object, status = :bad_request)
     render json: { error: object }, status: status
   end
 end

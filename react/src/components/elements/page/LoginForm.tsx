@@ -40,6 +40,7 @@ class LoginForm extends Component<any, any> {
     public authCallback(response: any) {
         if (response.status === 200) {
             localStorage.setItem("token", response.data.data.auth_token);
+            Backend.updateToken();
             this.setState({ redirect: true });
         } else {
             // TODO handle non 200 response

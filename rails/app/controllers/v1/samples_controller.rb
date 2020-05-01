@@ -3,6 +3,8 @@
 # Samples controller
 class V1::SamplesController < ApplicationController
   include Pagination
+  skip_before_action :authenticate_request
+
   def create
     return json_error(message: 'incorrect actor sig') if params[:actor_sig] == 'GENERATED'
 
@@ -19,6 +21,7 @@ class V1::SamplesController < ApplicationController
   # GET /projects/{id}/samples
   # or GET /actors/{id}/samples
   def index
+    authenticate_request
     timestamp = pagination_timestamp
     samples = samples_for(params[:project_id], params[:actor_id], timestamp)
     count = samples_count(params[:project_id], params[:actor_id], timestamp)
@@ -109,7 +112,9 @@ class V1::SamplesController < ApplicationController
 
   def samples_base_query(project_id, actor_id, timestamp)
     query = Sample.where(Sample.arel_table[:created_at].lt(timestamp))
-    query = query.joins(:task).where('tasks.project_id = ?', project_id) unless project_id.nil?
+                  .joins(:task)
+                  .where(tasks: { project_id: @current_user.projects })
+    query = query.where(tasks: { project_id: project_id }) unless project_id.nil?
     query = query.where(actor_id: actor_id) unless actor_id.nil?
     query
   end

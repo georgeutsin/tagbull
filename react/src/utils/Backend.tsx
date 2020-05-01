@@ -2,6 +2,7 @@ import axios from "axios";
 
 // TODO: change all of the `any` to defined interfaces
 interface IBackend {
+    updateToken(): any;
     getActivity(deviceId: string, projectId?: string): any;
     postSample(data: any): any;
     getTags(projectId: number, meta?: any): any;
@@ -25,6 +26,10 @@ class RemoteBackend implements IBackend {
 
     constructor(base: string) {
         this.base = base;
+        this.updateToken();
+    }
+
+    public updateToken() {
         this.defaultHeaders = {
             "Authorization": localStorage.getItem("token"),
         };
@@ -118,8 +123,11 @@ class MockBackend implements IBackend {
     private imageFailureResp: any;
     private discreteAttrActivityResp: any;
     private noActivityResp: any;
+    private defaultHeaders: any;
 
     constructor() {
+        this.updateToken();
+
         this.noActivityResp = {
             data: {
                 new_actor: false,
@@ -187,6 +195,12 @@ class MockBackend implements IBackend {
                     category: "baked good",
                 },
             },
+        };
+    }
+
+    public updateToken() {
+        this.defaultHeaders = {
+            "Authorization": localStorage.getItem("token"),
         };
     }
 
