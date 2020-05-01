@@ -8,7 +8,7 @@ class V1::AuthenticationController < ApplicationController
     command = AuthenticateUser.call(params[:email], params[:password])
 
     if command.success?
-      json_response({auth_token: command.result})
+      json_response(auth_token: command.result)
     else
       json_error({ error: command.errors }, status: :unauthorized)
     end

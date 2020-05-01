@@ -7,6 +7,8 @@ class V1::TagsController < ApplicationController
   include Pagination
   def index
     timestamp = pagination_timestamp
+    return json_error(message: 'no access to project') unless @current_user.projects.include?(params[:project_id].to_i)
+
     tags = tags_for(params[:project_id], timestamp)
     count = tags_count(params[:project_id], timestamp)
     paged_json_response(tags, timestamp, count: count)
@@ -17,6 +19,8 @@ class V1::TagsController < ApplicationController
   end
 
   def show
+    return json_error(message: 'no access to project') unless @current_user.projects.include?(params[:project_id].to_i)
+
     samples = samples_for(params[:project_id], params[:id])
     json_response(samples)
   end

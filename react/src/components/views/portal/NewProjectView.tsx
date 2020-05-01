@@ -49,7 +49,6 @@ class NewProjectView extends React.Component<any, any>  {
             project: this.state.project,
             task: this.state.task,
             media: this.state.media,
-            user_id: 1,
         }).then((response: any) => {
             if (response.status === 204) {
                 this.setState({ redirect: true });
