@@ -51,13 +51,23 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
         this.resetButtonClicked = this.resetButtonClicked.bind(this);
         this.noObjectsButtonClicked = this.noObjectsButtonClicked.bind(this);
         this.handleTapFinished = this.handleTapFinished.bind(this);
+        this.tooManyClicked = this.tooManyClicked.bind(this);
     }
 
     public noObjectsButtonClicked() {
         this.props.notifyActivityComplete({
             points: this.markers,
         });
-        // TODO serve new task
+    }
+
+    public tooManyClicked() {
+        const points: IPoint[] = [];
+        for (let i = 0; i < 20; i++) {
+            points.push({ x: 0, y: 0 });
+        }
+        this.props.notifyActivityComplete({
+            points,
+        });
     }
 
     public resetButtonClicked() {
@@ -84,6 +94,29 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
 
     public render() {
         const category = <b>{this.props.activity.config.category.toLowerCase()}</b>;
+
+        const actions = this.state.finishedInput ?
+            <div>
+                <ActivityActionButton
+                    width={undefined}
+                    enabled={true}
+                    onClick={this.resetButtonClicked}
+                    label={"Reset"}>
+                </ActivityActionButton>
+                <ActivityActionButton
+                    width={undefined}
+                    enabled={true}
+                    onClick={this.tooManyClicked}
+                    label={"More than 20"}>
+                </ActivityActionButton>
+            </div>
+            :
+            <ActivityActionButton
+                width={undefined}
+                enabled={true}
+                onClick={this.noObjectsButtonClicked}
+                label={"No " + this.props.activity.config.category.toLowerCase().replace(" and ", " or ")}>
+            </ActivityActionButton>;
         const helpButton =
             <HelpButton>
                 Tap the center of the {category} as accurately as possible.
@@ -95,8 +128,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             </div>;
 
         const doneButtonHeight = 70;
-        const actionButtonLabel = this.state.finishedInput ?
-            "Reset" : "No " + this.props.activity.config.category.toLowerCase().replace(" and ", " or ");
+
         return <div
             style={{ height: "100%", width: "100%" }}
             ref={(divElement) => this.view = divElement}
@@ -116,12 +148,7 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
             ></PointCreationCanvas>
             <ActivityAction
                 ref={(divElement: any) => this.activityAction = divElement}>
-                <ActivityActionButton
-                    width={undefined}
-                    enabled={true}
-                    onClick={this.state.finishedInput ? this.resetButtonClicked : this.noObjectsButtonClicked}
-                    label={actionButtonLabel}>
-                </ActivityActionButton>
+                {actions}
                 <BigButton
                     height={doneButtonHeight}
                     enabled={this.state.finishedInput && !this.props.disabled}
