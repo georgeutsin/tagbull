@@ -93,7 +93,8 @@ class V1::SamplesController < ApplicationController
   def locator_params_data_to_hash
     data = params[:data]
     {
-      points: data[:points]
+      points: data[:points],
+      too_many: data[:too_many]
     }
   end
 

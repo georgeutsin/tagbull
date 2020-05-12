@@ -61,12 +61,9 @@ class Locator extends Component<ILocatorProps, ILocatorState> {
     }
 
     public tooManyClicked() {
-        const points: IPoint[] = [];
-        for (let i = 0; i < 20; i++) {
-            points.push({ x: 0, y: 0 });
-        }
         this.props.notifyActivityComplete({
-            points,
+            points: this.markers,
+            too_many: true,
         });
     }
 
