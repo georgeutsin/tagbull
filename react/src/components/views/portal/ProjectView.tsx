@@ -127,6 +127,12 @@ class ProjectView extends Component<any, any> {
 
         const pauseButtonLabel = this.state.project.paused ? "Resume" : "Pause";
         const privateButtonLabel = this.state.project.is_private ? "Make Public" : "Make Private";
+        const activityButton = this.state.project.paused ?
+            <button className={portalStyles.disabledButton}>Go To Activities</button>
+            :
+            <a href={`/activities/turk?project_id=${this.params.projectId}`} target="_blank" rel="noopener noreferrer">
+                <button className={portalStyles.actionButton}>Go To Activities</button>
+            </a>;
 
         const actions = <span className={portalStyles.actions}>
             <a href={`/projects`}>
@@ -167,6 +173,7 @@ class ProjectView extends Component<any, any> {
                         <button className={portalStyles.actionButton} onClick={this.privateButtonClicked}>
                             {privateButtonLabel}
                         </button>
+                        {activityButton}
                     </div>
                     <div style={{ clear: "both" }}></div>
                 </div>
