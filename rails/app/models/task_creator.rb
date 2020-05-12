@@ -2,23 +2,23 @@
 
 # Generates a tag.
 class TaskCreator
-  def self.create(project, task, media)
+  def self.create(project, task, media, user_id)
     case task[:type]
     when 'dichotomy'
-      create_tasks(project, method(:create_dichotomy_task), task, media)
+      create_tasks(project, method(:create_dichotomy_task), task, media, user_id)
     when 'locator'
-      create_tasks(project, method(:create_locator_task), task, media)
+      create_tasks(project, method(:create_locator_task), task, media, user_id)
     else
       { message: 'unknown task type' }
     end
   end
 
-  def self.create_tasks(project, create_fn, task, media)
+  def self.create_tasks(project, create_fn, task, media, user_id)
     results = []
     ActiveRecord::Base.transaction do
       media.each do |m|
         name = m[:name] || RandUtils.rand_medium_name
-        medium = Medium.create!(name: name, url: m[:url])
+        medium = Medium.create!(name: name, url: m[:url], user_id: user_id)
         task = create_fn.call(project, medium, task[:config])
         results.append(task.acting_as.id)
       end
