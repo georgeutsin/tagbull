@@ -25,7 +25,7 @@ class V1::ProjectsController < ApplicationController
   def create
     ActionController::Parameters.permit_all_parameters = true # TODO: security
     p = Project.create!(name: params[:project][:name], user_id: @current_user.id)
-    CreateTasksJob.perform_later(p, params[:task], params[:media])
+    CreateTasksJob.perform_later(p, params[:task], params[:media], @current_user.id)
     json_response(p, 204)
   end
 
