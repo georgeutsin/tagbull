@@ -20,6 +20,7 @@ class LocatorGenerator
   end
 
   def self.compare_points_lists(sample1, sample2, threshold)
+    return sample1.points if sample1.too_many && sample2.too_many
     return sample1.points if sample1.points.length >= 5 && sample2.points.length >= 5
     return false unless sample1.points.length == sample2.points.length
 
