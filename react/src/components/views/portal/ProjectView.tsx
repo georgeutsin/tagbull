@@ -130,7 +130,7 @@ class ProjectView extends Component<any, any> {
         const activityButton = this.state.project.paused ?
             <button className={portalStyles.disabledButton}>Go To Activities</button>
             :
-            <a href={`/activities/turk?project_id=${this.params.projectId}`} target="_blank">
+            <a href={`/activities/turk?project_id=${this.params.projectId}`} target="_blank" rel="noopener noreferrer">
                 <button className={portalStyles.actionButton}>Go To Activities</button>
             </a>;
 
