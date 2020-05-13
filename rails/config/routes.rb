@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get 'available'
     end
     resources :samples, only: %i[create]
-    resources :projects, only: %i[index show update create delete] do
+    resources :projects, only: %i[index show update create destroy] do
       resources :tasks, only: %i[create]
       resources :tags, only: %i[index show]
       resources :samples, only: %i[index]

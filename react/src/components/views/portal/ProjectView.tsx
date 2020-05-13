@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { Backend } from "../../../utils";
 import { ActorsHeader, ActorsRow, InfiniteList, PortalWrapper, ProgressBar, TagPreview } from "../../elements";
 
@@ -37,6 +38,7 @@ class ProjectView extends Component<any, any> {
         this.privateButtonClicked = this.privateButtonClicked.bind(this);
         this.tagsTabClicked = this.tagsTabClicked.bind(this);
         this.actorsTabClicked = this.actorsTabClicked.bind(this);
+        this.deleteButtonClicked = this.deleteButtonClicked.bind(this);
 
         this.renderTagElement = this.renderTagElement.bind(this);
         this.loadTagElements = this.loadTagElements.bind(this);
@@ -64,6 +66,12 @@ class ProjectView extends Component<any, any> {
         });
     }
 
+    public deleteButtonClicked() {
+        Backend.deleteProject(this.params.projectId).then((resp: any) => {
+            this.props.history.push("/projects");
+        });
+    }
+
     public tagsTabClicked() {
         this.setState({ selectedTab: 0 });
     }
@@ -73,7 +81,8 @@ class ProjectView extends Component<any, any> {
     }
 
     public setProjectState(resp: any) {
-        const project = resp.data.data;
+        const project = resp.data ? resp.data.data : null;
+        if (project === null) { return; }
         const d = new Date(project.created_at.replace(" ", "T"));
         this.setState({
             project: {
@@ -174,6 +183,10 @@ class ProjectView extends Component<any, any> {
                             {privateButtonLabel}
                         </button>
                         {activityButton}
+                        <button className={`${portalStyles.actionButton} ${portalStyles.dangerButton}`}
+                            onClick={this.deleteButtonClicked}>
+                            Delete Project
+                        </button>
                     </div>
                     <div style={{ clear: "both" }}></div>
                 </div>
@@ -191,4 +204,4 @@ class ProjectView extends Component<any, any> {
     }
 }
 
-export default ProjectView;
+export default withRouter(ProjectView);

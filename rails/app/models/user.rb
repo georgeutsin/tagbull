@@ -3,7 +3,7 @@
 # A user account for the portal
 class User < ApplicationRecord
   has_secure_password
-  
+
   attribute :projects
 
   def projects
