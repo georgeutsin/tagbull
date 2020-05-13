@@ -80,6 +80,17 @@
   cursor: not-allowed;
 }
 
+.dangerButton {
+  color: rgb(255, 255, 255);
+  background-color: rgb(214, 37, 37);
+  border: none;
+}
+
+.dangerButton:hover {
+  background-color: rgb(247, 38, 38);
+  cursor: pointer;
+}
+
 .greyButton {
   background-color: #dcdcdc;
   color: #333;

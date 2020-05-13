@@ -13,6 +13,7 @@ interface IBackend {
     getProject(projectId: number): any;
     postProject(data: any): any;
     patchProject(projectId: number, data: any): any;
+    deleteProject(projectId: number): any;
     postMedia(projectId: number, data: any): any;
     getActors(projectId?: number, meta?: any): any;
     getActor(actorId: number, projectId?: number): any;
@@ -78,6 +79,10 @@ class RemoteBackend implements IBackend {
 
     public patchProject(projectId: number, data: any): any {
         return axios.patch(this.base + `/projects/${projectId}`, data, { headers: this.defaultHeaders });
+    }
+
+    public deleteProject(projectId: number): any {
+        return axios.delete(this.base + `/projects/${projectId}`, { headers: this.defaultHeaders });
     }
 
     public postMedia(projectId: number, data: any): any {
@@ -234,31 +239,31 @@ class MockBackend implements IBackend {
 
     public getTags(projectId: number): any {
         // TODO
-        const resp = {};
+        const resp = { data: { data: [] } };
         return this.promiseOf(resp);
     }
 
     public getTagSamples(projectId: number, taskId: number): any {
         // TODO
-        const resp = {};
+        const resp = { data: { data: [] } };
         return this.promiseOf(resp);
     }
 
     public getProjectSamples(projectId: number): any {
         // TODO
-        const resp = {};
+        const resp = { data: { data: [] } };
         return this.promiseOf(resp);
     }
 
     public getActorSamples(actorId: number, projectId?: number, meta?: any): any {
         // TODO
-        const resp = {};
+        const resp = { data: { data: [] } };
         return this.promiseOf(resp);
     }
 
     public getProjects(): any {
         // TODO
-        const resp = {};
+        const resp = { data: { data: [] } };
         return this.promiseOf(resp);
     }
 
@@ -280,6 +285,12 @@ class MockBackend implements IBackend {
         return this.promiseOf(resp);
     }
 
+    public deleteProject(projectId: number): any {
+        // TODO
+        const resp = {};
+        return this.promiseOf(resp);
+    }
+
     public postMedia(projectId: number, data: any): any {
         // TODO
         const resp = {};
@@ -288,7 +299,7 @@ class MockBackend implements IBackend {
 
     public getActors(projectId?: number): any {
         // TODO
-        const resp = {};
+        const resp = { data: { data: [] } };
         return this.promiseOf(resp);
     }
 

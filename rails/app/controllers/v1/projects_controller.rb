@@ -29,6 +29,22 @@ class V1::ProjectsController < ApplicationController
     json_response(p, 204)
   end
 
+  def destroy
+    project_id = params[:id].to_i
+    return json_error(message: 'no access to project') unless @current_user.projects.include?(project_id)
+
+    Sample.joins(:task)
+          .where(tasks: { project_id: project_id })
+          .delete_all
+    BasicTaskEvent.joins(:task)
+                  .where(tasks: { project_id: project_id })
+                  .delete_all
+    Task.where(project_id: project_id)
+        .delete_all
+    Project.find(project_id).delete
+    json_response({})
+  end
+
   # PATCH /projects/id
   # rubocop:disable Metrics/AbcSize
   def update
