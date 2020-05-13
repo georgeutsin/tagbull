@@ -75,6 +75,9 @@ class HomeView extends Component<any, any> {
                     <span style={{ borderRadius: "2px", backgroundColor: "#6600ff", padding: "10px", color: "white" }}
                         onClick={this.openDemo}>Try Our Demo</span>
                 </li>
+                <li>
+                    <a href="/login">Log In</a>
+                </li>
             </NavBar>
 
             <div style={{ height: "100vh", width: "100%", background: "white" }}>
