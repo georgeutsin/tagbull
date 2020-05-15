@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { IBoundingBox } from "../../../interfaces";
-import { BoundingBoxCanvas } from "../../canvases";
+import { IBoundingBox, IPoint } from "../../../interfaces";
+import { BoundingBoxCanvas, PointCanvas } from "../../canvases";
 import previewStyles from "./preview.module.scss";
 
 class TagPreview extends Component<any, any> {
@@ -21,7 +21,7 @@ class TagPreview extends Component<any, any> {
     public boundingBoxPreview(tag: any) {
         const bb: IBoundingBox = tag.tag;
         return <div className={previewStyles.tagPreviewOuter} key={tag.media.name}>
-            <a href={`/projects/${this.props.project_id}/tags/${tag.task.id}`}>
+            <a href={`/projects/${this.props.project_id}/tags/${tag.task_id}`}>
                 <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                     <BoundingBoxCanvas
                         instructionDims={new DOMRect()}
@@ -49,7 +49,7 @@ class TagPreview extends Component<any, any> {
             });
             key += 1;
             return <div className={previewStyles.tagPreviewOuter} key={tag.media.name + key}>
-                <a href={`/projects/${this.props.project_id}/tags/${tag.task.id}`}>
+                <a href={`/projects/${this.props.project_id}/tags/${tag.task_id}`}>
                     <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                         <BoundingBoxCanvas
                             instructionDims={new DOMRect()}
@@ -70,6 +70,50 @@ class TagPreview extends Component<any, any> {
         });
     }
 
+    public locatorPreview(tag: any) {
+        const points: IPoint[] = tag.tag.points;
+        return <div className={previewStyles.tagPreviewOuter} key={tag.media.name}>
+            <a href={`/projects/${this.props.project_id}/tags/${tag.task_id}`}>
+                <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
+                    <PointCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={this.canvasDOMRect}
+                        media_url={tag.media.url}
+                        markers={points}>
+                    </PointCanvas>
+                </div>
+            </a>
+
+            <div className={previewStyles.tagPreviewDetails} style={{ lineHeight: "1em", fontSize: "1em" }}>
+                <div> <h5>Type</h5> Locator </div>
+                <div> <h5>Category</h5> {tag.task.category} </div>
+            </div>
+        </div>;
+    }
+
+    public discreteAttributePreview(tag: any) {
+        const bb: IBoundingBox = tag.task;
+        return <div className={previewStyles.tagPreviewOuter} key={tag.media.name}>
+            <a href={`/projects/${this.props.project_id}/tags/${tag.task_id}`}>
+                <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
+                    <BoundingBoxCanvas
+                        instructionDims={new DOMRect()}
+                        actionDims={new DOMRect()}
+                        viewDims={this.canvasDOMRect}
+                        media_url={tag.media.url}
+                        boundingBox={bb}
+                    ></BoundingBoxCanvas>
+                </div>
+            </a>
+            <div className={previewStyles.tagPreviewDetails} style={{ lineHeight: "1em", fontSize: "1em" }}>
+                <div> <h5>Type</h5> Discrete Attribute </div>
+                <div> <h5>Category</h5> {tag.task.category} </div>
+                <div> <h5>Attribute</h5> {tag.task.attribute_type}:{tag.tag.option} </div>
+            </div>
+        </div>;
+    }
+
     public render() {
         const tag = this.props.tag;
         switch (tag.type) {
@@ -77,6 +121,10 @@ class TagPreview extends Component<any, any> {
                 return this.boundingBoxPreview(tag);
             case "DichotomyTask":
                 return this.dichotomyPreview(tag);
+            case "LocatorTask":
+                return this.locatorPreview(tag);
+            case "DiscreteAttributeTask":
+                return this.discreteAttributePreview(tag);
             default:
                 return null;
         }

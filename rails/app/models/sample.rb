@@ -21,6 +21,6 @@ class Sample < ApplicationRecord
     task = task.specific
     media = Medium.find(task.media_id)
     sample = specific
-    { type: type, task: task, sample: sample, media: media }
+    { type: type, task: task, sample: sample, media: media, task_id: task_id }
   end
 end
