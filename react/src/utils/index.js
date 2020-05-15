@@ -14,6 +14,9 @@ export {
     rectFromBoundingBoxAndImage,
     normalizePointToBounds,
 } from './CanvasCalcs';
+export {
+    getAllInList,
+} from './ListUtils';
 export { default as MouseAdaptor } from './MouseAdaptor';
 export { default as Ptr } from './Ptr';
 export { default as PtrEvent } from './PtrEvent';

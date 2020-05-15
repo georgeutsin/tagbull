@@ -1,6 +1,8 @@
+import { saveAs } from "file-saver";
+import Papa from "papaparse";
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Backend } from "../../../utils";
+import { Backend, getAllInList } from "../../../utils";
 import { ActorsHeader, ActorsRow, InfiniteList, PortalWrapper, ProgressBar, TagPreview } from "../../elements";
 
 import portalStyles from "../../../styles/portal.module.scss";
@@ -39,6 +41,7 @@ class ProjectView extends Component<any, any> {
         this.tagsTabClicked = this.tagsTabClicked.bind(this);
         this.actorsTabClicked = this.actorsTabClicked.bind(this);
         this.deleteButtonClicked = this.deleteButtonClicked.bind(this);
+        this.exportButtonClicked = this.exportButtonClicked.bind(this);
 
         this.renderTagElement = this.renderTagElement.bind(this);
         this.loadTagElements = this.loadTagElements.bind(this);
@@ -78,6 +81,41 @@ class ProjectView extends Component<any, any> {
 
     public actorsTabClicked() {
         this.setState({ selectedTab: 1 });
+    }
+
+    public exportButtonClicked() {
+        getAllInList(this.loadTagElements).then((list: any) => {
+            // TODO: this is only for locator
+            const listForCSV = list.flatMap((e: any) => {
+                const res: any = [];
+                if (e.tag.too_many) {
+                    return {
+                        name: e.media.name,
+                        url: e.media.url,
+                        type: e.type,
+                        category: e.task.category,
+                        too_many: true,
+                        x: 0,
+                        y: 0,
+                    };
+                }
+                e.tag.points.forEach((p: any) => {
+                    res.push({
+                        name: e.media.name,
+                        url: e.media.url,
+                        type: e.type,
+                        category: e.task.category,
+                        too_many: false,
+                        x: p.x,
+                        y: p.y,
+                    });
+                });
+                return res;
+            });
+            const csv = Papa.unparse(listForCSV);
+            const blob = new Blob([csv], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "export.csv");
+        });
     }
 
     public setProjectState(resp: any) {
@@ -186,6 +224,9 @@ class ProjectView extends Component<any, any> {
                         <button className={`${portalStyles.actionButton} ${portalStyles.dangerButton}`}
                             onClick={this.deleteButtonClicked}>
                             Delete Project
+                        </button>
+                        <button className={portalStyles.actionButton} onClick={this.exportButtonClicked}>
+                            Export as CSV
                         </button>
                     </div>
                     <div style={{ clear: "both" }}></div>
