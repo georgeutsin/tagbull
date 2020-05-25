@@ -51,3 +51,4 @@ production:
   database: <%= ENV['RAILS_DATABASE'] %>
   username: <%= ENV['RAILS_DATABASE_USER'] %>
   password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
+  port: 3307

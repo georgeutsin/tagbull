@@ -323,7 +323,7 @@ class MockBackend implements IBackend {
 }
 
 
-const prodBase: string = "https://tagbull-prod.appspot.com";
+const prodBase: string = "https://tagbull.herokuapp.com/";
 const localBase: string = "http://localhost:8080";
 
 function getBackend(type: string): IBackend {
