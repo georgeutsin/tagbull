@@ -9,16 +9,11 @@ class Task < ApplicationRecord
   has_one :medium
 
   def state
-    binds = [ActiveRecord::Relation::QueryAttribute.new(
-      'id', id, ActiveRecord::Type::Integer.new
-    )]
-    query = 'SELECT state FROM basic_task_states WHERE id = $1'
-    records = ActiveRecord::Base.connection.exec_query(query, 'state_query', binds)
+    tc = Sample.where(task_id: id, is_tag: true).count
+    return 'complete' if tc > 0
 
-    return unless records.present?
-
-    return unless records.first
-
-    records.first['state']
+    c = Sample.where(task_id: id).count
+    return 'start' if c === 0
+    'sampling'
   end
 end
