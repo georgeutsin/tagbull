@@ -3,6 +3,7 @@ import axios from "axios";
 // TODO: change all of the `any` to defined interfaces
 interface IBackend {
     updateToken(): any;
+    authorizationHandler(error: any, history: any): any;
     getActivity(deviceId: string, projectId?: string): any;
     postSample(data: any): any;
     getTags(projectId: number, meta?: any): any;
@@ -24,10 +25,14 @@ interface IBackend {
 class RemoteBackend implements IBackend {
     private base: string;
     private defaultHeaders: any;
+    private source: any;
 
     constructor(base: string) {
         this.base = base;
+        const CancelToken = axios.CancelToken;
+        this.source = CancelToken.source();
         this.updateToken();
+        this.authorizationHandler = this.authorizationHandler.bind(this);
     }
 
     public updateToken() {
@@ -36,64 +41,107 @@ class RemoteBackend implements IBackend {
         };
     }
 
+    public authorizationHandler(error: any, history: any) {
+        if (error && error.response && error.response.data && error.response.data.error &&
+            error.response.data.error.message === "unauthorized") {
+            localStorage.removeItem("token");
+            this.source.cancel("Cancel inflight requests");
+            history.push("/login");
+            return;
+        }
+    }
+
+    public cancellationHandler(error: any) {
+        if (axios.isCancel(error)) {
+            console.log(error.message);
+            return;
+        }
+        throw error;
+    }
+
     public getActivity(deviceId: string, projectId?: string): any {
         let route = `/activities/?actor_sig=${deviceId}`;
         if (projectId) {
             route += `&project_id=${projectId}`;
         }
-        return axios.get(this.base + route, { headers: this.defaultHeaders });
+        return axios.get(this.base + route,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public postSample(data: any): any {
-        return axios.post(this.base + `/samples`, data, { headers: this.defaultHeaders });
+        return axios.post(this.base + `/samples`, data,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getTags(projectId: number, meta?: any): any {
-        return axios.get(this.base + `/projects/${projectId}/tags`, { params: meta, headers: this.defaultHeaders });
+        return axios.get(this.base + `/projects/${projectId}/tags`,
+            { params: meta, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getTagSamples(projectId: number, taskId: number): any {
-        return axios.get(this.base + `/projects/${projectId}/tags/${taskId}`, { headers: this.defaultHeaders });
+        return axios.get(this.base + `/projects/${projectId}/tags/${taskId}`,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getProjectSamples(projectId: number, meta?: any): any {
-        return axios.get(this.base + `/projects/${projectId}/samples`, { params: meta, headers: this.defaultHeaders });
+        return axios.get(this.base + `/projects/${projectId}/samples`,
+            { params: meta, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getActorSamples(actorId: number, projectId?: number, meta?: any): any {
         const projectSuffix = projectId ? `?project_id=${projectId}` : "";
-        return axios.get(this.base + `/actors/${actorId}/samples` + projectSuffix, { params: meta, headers: this.defaultHeaders });
+        return axios.get(this.base + `/actors/${actorId}/samples` + projectSuffix,
+            { params: meta, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getProjects(meta?: any): any {
-        return axios.get(this.base + `/projects`, { params: meta, headers: this.defaultHeaders });
+        return axios.get(this.base + `/projects`,
+            { params: meta, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getProject(projectId: number): any {
-        return axios.get(this.base + `/projects/${projectId}`, { headers: this.defaultHeaders });
+        return axios.get(this.base + `/projects/${projectId}`,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);;
     }
 
     public postProject(data: any): any {
-        return axios.post(this.base + `/projects`, data, { headers: this.defaultHeaders });
+        return axios.post(this.base + `/projects`, data,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public patchProject(projectId: number, data: any): any {
-        return axios.patch(this.base + `/projects/${projectId}`, data, { headers: this.defaultHeaders });
+        return axios.patch(this.base + `/projects/${projectId}`, data,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public deleteProject(projectId: number): any {
-        return axios.delete(this.base + `/projects/${projectId}`, { headers: this.defaultHeaders });
+        return axios.delete(this.base + `/projects/${projectId}`,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public postMedia(projectId: number, data: any): any {
-        return axios.post(this.base + `/media?project_id=${projectId}`, data, {
-            headers: {
-                "accept": "application/json",
-                "Accept-Language": "en-US,en;q=0.8",
-                "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
-                "Authorization": localStorage.getItem("token"),
-            },
-        });
+        return axios.post(this.base + `/media?project_id=${projectId}`, data,
+            {
+                headers: {
+                    "accept": "application/json",
+                    "Accept-Language": "en-US,en;q=0.8",
+                    "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+                    "Authorization": localStorage.getItem("token"),
+                },
+                cancelToken: this.source.token,
+            })
+            .catch(this.cancellationHandler);
     }
 
     public getActors(projectId?: number, meta?: any): any {
@@ -101,7 +149,9 @@ class RemoteBackend implements IBackend {
         if (projectId) {
             route += `project_id=${projectId}`;
         }
-        return axios.get(this.base + route, { params: meta, headers: this.defaultHeaders });
+        return axios.get(this.base + route,
+            { params: meta, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public getActor(actorId: number, projectId?: number): any {
@@ -109,15 +159,21 @@ class RemoteBackend implements IBackend {
         if (projectId) {
             route += `project_id=${projectId}`;
         }
-        return axios.get(this.base + route, { headers: this.defaultHeaders });
+        return axios.get(this.base + route,
+            { headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public postLogin(email: string, password: string): any {
-        return axios.post(this.base + `/authenticate`, { email, password, headers: this.defaultHeaders });
+        return axios.post(this.base + `/authenticate`,
+            { email, password, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 
     public postRegister(email: string, password: string): any {
-        return axios.post(this.base + `/register`, { email, password, headers: this.defaultHeaders });
+        return axios.post(this.base + `/register`,
+            { email, password, headers: this.defaultHeaders, cancelToken: this.source.token })
+            .catch(this.cancellationHandler);
     }
 }
 
@@ -207,6 +263,15 @@ class MockBackend implements IBackend {
         this.defaultHeaders = {
             "Authorization": localStorage.getItem("token"),
         };
+    }
+
+    public authorizationHandler(error: any, history: any) {
+        if (error && error.response && error.response.data && error.response.data.error &&
+            error.response.data.error.message === "unauthorized") {
+            localStorage.removeItem("token");
+            history.push("/login");
+            return;
+        }
     }
 
     public promiseOf(resp: any, delay?: number) {
@@ -323,7 +388,7 @@ class MockBackend implements IBackend {
 }
 
 
-const prodBase: string = "https://tagbull.herokuapp.com/";
+const prodBase: string = "https://tagbull.herokuapp.com";
 const localBase: string = "http://localhost:8080";
 
 function getBackend(type: string): IBackend {

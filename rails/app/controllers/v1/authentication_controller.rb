@@ -10,7 +10,7 @@ class V1::AuthenticationController < ApplicationController
     if command.success?
       json_response(auth_token: command.result)
     else
-      json_error({ error: command.errors }, status: :unauthorized)
+      json_error({ error: command.errors }, :unauthorized)
     end
   end
 
