@@ -52,6 +52,8 @@ class ProjectView extends Component<any, any> {
     public componentDidMount() {
         Backend.getProject(this.params.projectId).then((resp: any) => {
             this.setProjectState(resp);
+        }).catch((error: any) => {
+            Backend.authorizationHandler(error, this.props.history);
         });
     }
 

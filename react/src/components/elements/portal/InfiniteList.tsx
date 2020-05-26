@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { Backend } from "../../../utils";
 
 import portalStyles from "../../../styles/portal.module.scss";
 import styles from "./InfiniteList.module.scss";
@@ -30,15 +32,19 @@ class InfiniteList extends Component<any, any> {
         let listTotalCount = this.state.listTotalCount;
 
         if (this.state.listOffset !== -1) {
-            const resp = await this.props.loadElements({
-                offset: this.state.listOffset,
-                timestamp: this.state.listTimestamp,
-            });
-            list = list.concat(resp.data.data);
-            const meta = resp.data.meta ? resp.data.meta : { offset: -1, total_count: -1, timestamp: -1 };
-            listOffset = resp.data.data.length === 0 ? -1 : meta.offset;
-            listTimestamp = meta.timestamp;
-            listTotalCount = meta.total_count;
+            try {
+                const resp = await this.props.loadElements({
+                    offset: this.state.listOffset,
+                    timestamp: this.state.listTimestamp,
+                });
+                list = list.concat(resp.data.data);
+                const meta = resp.data.meta ? resp.data.meta : { offset: -1, total_count: -1, timestamp: -1 };
+                listOffset = resp.data.data.length === 0 ? -1 : meta.offset;
+                listTimestamp = meta.timestamp;
+                listTotalCount = meta.total_count;
+            } catch (error) {
+                Backend.authorizationHandler(error, this.props.history);
+            }
         }
 
         this.setState({ list, listOffset, listTimestamp, listTotalCount, loadingMore: false }, () => {
@@ -106,4 +112,4 @@ class InfiniteList extends Component<any, any> {
     }
 }
 
-export default InfiniteList;
+export default withRouter(InfiniteList);

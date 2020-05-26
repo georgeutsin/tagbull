@@ -1,16 +1,20 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Backend } from "../../../utils";
 import styles from "./LoginForm.module.scss";
 
 class LoginForm extends Component<any, any> {
     constructor(props: any) {
         super(props);
+        const t = localStorage.getItem("token")
+        if (t && t !== "") {
+            props.history.push("/projects");
+        }
+
         this.state = {
             showSignIn: true,
             email: "",
             password: "",
-            redirect: false,
         };
         this.signInViewClicked = this.signInViewClicked.bind(this);
         this.registerViewClicked = this.registerViewClicked.bind(this);
@@ -41,7 +45,7 @@ class LoginForm extends Component<any, any> {
         if (response.status === 200) {
             localStorage.setItem("token", response.data.data.auth_token);
             Backend.updateToken();
-            this.setState({ redirect: true });
+            this.props.history.push("/projects");
         } else {
             // TODO handle non 200 response
         }
@@ -56,10 +60,6 @@ class LoginForm extends Component<any, any> {
     }
 
     public render() {
-        if (this.state.redirect) {
-            return <Redirect push to="/projects" />;
-        }
-
         const emailInput = <input
             type="text"
             placeholder="email"
@@ -106,4 +106,4 @@ class LoginForm extends Component<any, any> {
     }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Backend } from "../../../utils";
 import { PortalWrapper } from "../../elements";
 
@@ -31,8 +31,6 @@ class NewProjectView extends React.Component<any, any>  {
                 },
             },
             media: [],
-
-            redirect: false,
             currentStage: NewProjectStage.IMAGE_DEF,
         };
 
@@ -51,7 +49,7 @@ class NewProjectView extends React.Component<any, any>  {
             media: this.state.media,
         }).then((response: any) => {
             if (response.status === 204) {
-                this.setState({ redirect: true });
+                this.props.history.push("/projects");
             } else {
                 // TODO handle non 204 response
             }
@@ -97,10 +95,6 @@ class NewProjectView extends React.Component<any, any>  {
     }
 
     public render() {
-        if (this.state.redirect) {
-            return <Redirect push to="/projects" />;
-        }
-
         const actions = <span className={portalStyles.actions}>
             <a href={`/projects`}>
                 <button className={`${portalStyles.actionButton} ${portalStyles.greyButton}`}>
@@ -205,4 +199,4 @@ class NewProjectView extends React.Component<any, any>  {
     }
 }
 
-export default NewProjectView;
+export default withRouter(NewProjectView);

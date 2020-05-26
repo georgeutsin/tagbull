@@ -12,7 +12,7 @@ class ProjectsListView extends Component {
     }
 
     public renderElement(project: any) {
-        return <ProjectsRow project={project}></ProjectsRow>;
+        return <ProjectsRow project={project} key={project.id} ></ProjectsRow>;
     }
 
     public async loadElements(meta: { offset: number, timestamp: number }) {
