@@ -51,11 +51,13 @@ class LoginForm extends Component<any, any> {
         }
     }
 
-    public signInButtonClicked() {
+    public signInButtonClicked(event: any) {
+        event.preventDefault();
         Backend.postLogin(this.state.email, this.state.password).then(this.authCallback);
     }
 
-    public registerButtonClicked() {
+    public registerButtonClicked(event: any) {
+        event.preventDefault();
         Backend.postRegister(this.state.email, this.state.password).then(this.authCallback);
     }
 
@@ -75,23 +77,23 @@ class LoginForm extends Component<any, any> {
             onChange={this.handlePasswordChange} />;
 
         const signInView = <div className={styles.login}>
-            <form>
+            <form onSubmit={this.signInButtonClicked}>
                 {emailInput}
                 {passwordInput}
                 <div style={{ textAlign: "left", color: "#aaa", fontSize: "0.8em", marginTop: "0.5em" }}>
                     &nbsp;<a style={{ color: "inherit" }} href="/">Forgot Password?</a>
                 </div>
+                <button type="submit" style={{ marginTop: "70px" }}>Sign In</button>
             </form>
-            <button style={{ marginTop: "70px" }} onClick={this.signInButtonClicked}>Sign In</button>
         </div>;
 
         const registerView = <div className={styles.login}>
-            <form>
+            <form onSubmit={this.registerButtonClicked}>
                 {emailInput}
                 {passwordInput}
                 <input type="password" placeholder="confirm password" name="password" />
+                <button type="submit" style={{ marginTop: "70px" }}>Register</button>
             </form>
-            <button style={{ marginTop: "70px" }} onClick={this.registerButtonClicked}>Register</button>
         </div>;
 
         return <div>

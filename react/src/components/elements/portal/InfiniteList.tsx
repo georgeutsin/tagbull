@@ -25,14 +25,14 @@ class InfiniteList extends Component<any, any> {
     }
 
     public async loadMoreElements(loadAll: boolean = false) {
-        this.setState({ loadingMore: true });
-        let list = this.state.list;
-        let listOffset = this.state.listOffset;
-        let listTimestamp = this.state.listTimestamp;
-        let listTotalCount = this.state.listTotalCount;
+        try {
+            this.setState({ loadingMore: true });
+            let list = this.state.list;
+            let listOffset = this.state.listOffset;
+            let listTimestamp = this.state.listTimestamp;
+            let listTotalCount = this.state.listTotalCount;
 
-        if (this.state.listOffset !== -1) {
-            try {
+            if (this.state.listOffset !== -1) {
                 const resp = await this.props.loadElements({
                     offset: this.state.listOffset,
                     timestamp: this.state.listTimestamp,
@@ -42,16 +42,16 @@ class InfiniteList extends Component<any, any> {
                 listOffset = resp.data.data.length === 0 ? -1 : meta.offset;
                 listTimestamp = meta.timestamp;
                 listTotalCount = meta.total_count;
-            } catch (error) {
-                Backend.authorizationHandler(error, this.props.history);
             }
-        }
 
-        this.setState({ list, listOffset, listTimestamp, listTotalCount, loadingMore: false }, () => {
-            if (loadAll && this.state.listOffset !== -1) {
-                this.loadMoreElements(true);
-            }
-        });
+            this.setState({ list, listOffset, listTimestamp, listTotalCount, loadingMore: false }, () => {
+                if (loadAll && this.state.listOffset !== -1) {
+                    this.loadMoreElements(true);
+                }
+            });
+        } catch (error) {
+            Backend.authorizationHandler(error, this.props.history);
+        }
     }
 
     public loadMoreButtonClicked() {
