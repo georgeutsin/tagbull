@@ -12,13 +12,13 @@
 
 ActiveRecord::Schema.define(version: 2020_05_12_230545) do
 
-  create_table "actors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "actors", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "actor_sig"
   end
 
-  create_table "bounding_box_samples", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "bounding_box_samples", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.float "min_x"
     t.float "max_x"
     t.float "min_y"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "bounding_box_tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "bounding_box_tasks", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.float "max_y", default: 1.0
   end
 
-  create_table "dichotomy_tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "dichotomy_tasks", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "first", null: false
     t.string "second", null: false
     t.string "parent_category", null: false
@@ -47,13 +47,13 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "discrete_attribute_samples", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "discrete_attribute_samples", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "option"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "discrete_attribute_tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "discrete_attribute_tasks", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "attribute_type"
     t.string "category"
     t.string "options"
@@ -65,20 +65,20 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "locator_samples", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.json "points"
+  create_table "locator_samples", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.text "points", size: :long, collation: "utf8mb4_bin"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "too_many", default: false
   end
 
-  create_table "locator_tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "locator_tasks", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "media", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "media", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "name"
     t.text "url"
     t.datetime "created_at", precision: 6, null: false
@@ -86,14 +86,14 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.bigint "user_id"
   end
 
-  create_table "metadata_tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "metadata_tasks", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "parent_category"
     t.string "second"
     t.string "first"
     t.bigint "bounding_box_tag_id"
   end
 
-  create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "projects", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.bigint "user_id"
   end
 
-  create_table "samples", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "samples", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "task_id", null: false
     t.boolean "is_tag", default: false
     t.boolean "is_active", default: true
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.index ["task_id"], name: "index_samples_on_task_id"
   end
 
-  create_table "tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "tasks", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.timestamp "pending_timestamp"
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password_digest"
@@ -140,7 +140,4 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "samples", "actors"
-  add_foreign_key "samples", "tasks"
-  add_foreign_key "tasks", "projects"
 end
