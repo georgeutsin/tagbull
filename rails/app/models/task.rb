@@ -14,6 +14,7 @@ class Task < ApplicationRecord
 
     c = Sample.where(task_id: id).count
     return 'start' if c === 0
+
     'sampling'
   end
 end

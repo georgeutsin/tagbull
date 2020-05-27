@@ -76,7 +76,8 @@ class Activity
   # rubocop:enable Metrics/MethodLength
 
   def self.next_task(actor_id, project_id = nil)
-    result = Task.joins('INNER JOIN basic_task_states ON basic_task_states.id = tasks.id', :project)
+    result = Task.joins(:project)
+                 .select('*, (SELECT COUNT(1) FROM samples WHERE samples.task_id = tasks.id) as sample_counts')
     result = if project_id
                result.where(project_id: project_id)
              else
@@ -94,8 +95,8 @@ class Activity
       (tasks.actable_type = 'BoundingBoxTask'
         OR tasks.actable_type = 'LocatorTask'
         OR tasks.actable_type = 'DiscreteAttributeTask')
-      AND (basic_task_states.state = 'start' OR basic_task_states.state = 'sampling')
-      AND (tasks.pending_timestamp IS NULL OR NOW() > tasks.pending_timestamp + (1 * INTERVAL '1 minute') )
+      AND NOT EXISTS(SELECT 1 FROM samples WHERE samples.is_tag = TRUE AND samples.task_id = tasks.id)
+      AND (tasks.pending_timestamp IS NULL OR NOW() > tasks.pending_timestamp + INTERVAL 1 MINUTE )
       AND NOT EXISTS(SELECT 1 FROM samples WHERE samples.actor_id = ? AND samples.task_id = tasks.id)
     SQL
   end
@@ -103,11 +104,8 @@ class Activity
   def self.tasks_ordering
     <<-SQL
       tasks.level DESC,
-      CASE
-        WHEN basic_task_states.state = 'start' THEN 0
-        WHEN basic_task_states.state = 'sampling' THEN 1
-        ELSE -1
-      END DESC, tasks.created_at ASC
+      sample_counts DESC,
+      tasks.created_at ASC
     SQL
   end
 end
