@@ -2,6 +2,7 @@
 
 # Concrete sample for identifying object locations
 class LocatorSample < ApplicationRecord
+  serialize :points, Array
   # Validator for list of points
   class PointListValidator < ActiveModel::Validator
     def validate(record)
