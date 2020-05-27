@@ -99,9 +99,6 @@ class MetadataTask < ApplicationRecord
   def skip_truncated_task(task)
     base_task = task.acting_as
     tag = DiscreteAttributeGenerator.generate_discrete_attribute(base_task, 'no')
-    BasicTaskEvent.create!(task_id: base_task.id, event: 'sample')
-    BasicTaskEvent.create!(task_id: base_task.id, event: 'sample')
-    BasicTaskEvent.create!(task_id: base_task.id, event: 'similar')
 
     return if task.parent_id.nil?
 

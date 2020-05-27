@@ -18,14 +18,6 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.string "actor_sig"
   end
 
-  create_table "basic_task_events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "task_id", null: false
-    t.text "event"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["task_id"], name: "index_basic_task_events_on_task_id"
-  end
-
   create_table "bounding_box_samples", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.float "min_x"
     t.float "max_x"
@@ -148,7 +140,6 @@ ActiveRecord::Schema.define(version: 2020_05_12_230545) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "basic_task_events", "tasks"
   add_foreign_key "samples", "actors"
   add_foreign_key "samples", "tasks"
   add_foreign_key "tasks", "projects"

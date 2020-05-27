@@ -4,6 +4,7 @@
 class LocatorGenerator
   def self.matching_samples(task)
     samples = LocatorSample.where(task_id: task.id).order(created_at: :DESC)
+    return false if samples.count < 2
     threshold = 0.03 * (samples.count - 1)
     comparison_func = ->(s1, s2, t) { compare_points_lists(s1, s2, t) }
     ComparisonUtils.sample_pair_exists(samples, comparison_func, threshold)

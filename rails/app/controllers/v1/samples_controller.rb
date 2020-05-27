@@ -50,13 +50,10 @@ class V1::SamplesController < ApplicationController
     case task.specific
     when BoundingBoxTask
       BoundingBoxSample.create!(bounding_box_sample_from_params(task.id))
-      BasicTaskEvent.create(task_id: task.id, event: 'sample')
     when LocatorTask
       LocatorSample.create!(locator_sample_from_params(task.id))
-      BasicTaskEvent.create(task_id: task.id, event: 'sample')
     when DiscreteAttributeTask
       DiscreteAttributeSample.create!(discrete_attr_sample_from_params(task.id))
-      BasicTaskEvent.create(task_id: task.id, event: 'sample')
     end
   end
   # rubocop:enable Metrics/AbcSize
@@ -106,8 +103,6 @@ class V1::SamplesController < ApplicationController
   end
 
   def maybe_generate_tag(task)
-    return unless task.state == 'comparing'
-
     GenerateTagJob.perform_later(task)
   end
 

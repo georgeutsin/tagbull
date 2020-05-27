@@ -36,9 +36,6 @@ class V1::ProjectsController < ApplicationController
     Sample.joins(:task)
           .where(tasks: { project_id: project_id })
           .delete_all
-    BasicTaskEvent.joins(:task)
-                  .where(tasks: { project_id: project_id })
-                  .delete_all
     Task.where(project_id: project_id)
         .delete_all
     Project.find(project_id).delete
