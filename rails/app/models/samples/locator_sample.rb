@@ -7,10 +7,7 @@ class LocatorSample < ApplicationRecord
     def validate(record)
       return unless check_points_presence(record)
 
-      points = check_points_array(record)
-      return unless points
-
-      check_points_in_range(record, points)
+      check_points_in_range(record)
     end
 
     def check_points_presence(record)
@@ -22,17 +19,8 @@ class LocatorSample < ApplicationRecord
       true
     end
 
-    def check_points_array(record)
-      unless record.points.is_a?(Array)
-        record.errors[:points] << 'Points need to be an array'
-        return false
-      end
-
-      record.points
-    end
-
-    def check_points_in_range(record, points)
-      points.each do |point|
+    def check_points_in_range(record)
+      record.points.each do |point|
         x = point['x'].to_f
         y = point['y'].to_f
         unless x >= 0 && x <= 1 && y >= 0 && y <= 1

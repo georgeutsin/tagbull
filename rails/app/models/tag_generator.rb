@@ -6,10 +6,9 @@ class TagGenerator
     generator = generator_for(task)
 
     samples = generator&.matching_samples(task)
-    return BasicTaskEvent.create(task_id: task.id, event: 'dissimilar') unless samples
+    return unless samples
 
     generator&.generate_tag(task, samples)
-    BasicTaskEvent.create(task_id: task.id, event: 'similar')
     activate(samples)
   end
 

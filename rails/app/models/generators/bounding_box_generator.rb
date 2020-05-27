@@ -4,6 +4,7 @@
 class BoundingBoxGenerator
   def self.matching_samples(task)
     samples = BoundingBoxSample.where(task_id: task.id).order(created_at: :DESC)
+    return false if samples.count < 2
     threshold = 0.03 * (samples.count - 1)
     comparison_func = ->(s1, s2, d) { compare_bounding_boxes(s1, s2, d) }
     ComparisonUtils.sample_pair_exists(samples, comparison_func, threshold)
