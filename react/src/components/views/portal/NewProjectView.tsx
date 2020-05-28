@@ -110,11 +110,12 @@ class NewProjectView extends React.Component<any, any>  {
                 <div className={styles.step}>
                     <div className={styles.stepInstruction}>
                         <h3>Step 1: Provide images</h3>
-                        Please paste a CSV of links to the images you want tagged.
+                        Please paste a CSV of links to the images you want tagged. Format: name,url
                     </div>
                     <div className={styles.stepBody}>
                         <textarea onChange={this.handleCSVChange}
-                            placeholder="A comma separated list. Ex: cat, dog, rabbit"></textarea>
+                            placeholder="A comma separated list (csv). Ex: name,url \n abc,http://ex.com/img.jpg">
+                        </textarea>
                     </div>
                 </div>
 
@@ -132,6 +133,12 @@ class NewProjectView extends React.Component<any, any>  {
                                     name="radios"
                                     value="locator"></input>
                                 <label className="leftRadio" htmlFor="radio1">Locator</label>
+                                <input
+                                    type="radio"
+                                    id="radio1"
+                                    name="radios"
+                                    value="bounding_boxes"></input>
+                                <label className="leftRadio" htmlFor="radio1">Bounding Boxes</label>
                             </div>
                         }
                     </div>

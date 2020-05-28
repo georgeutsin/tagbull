@@ -1,6 +1,6 @@
 class CreateDiscreteAttributeTasks < ActiveRecord::Migration[6.0]
   def change
-    create_table :discrete_attribute_tasks do |t|
+    create_table :discrete_attribute_tasks, options: 'ENGINE=INNODB' do |t|
       t.string :attribute_type
       t.string :category
       t.string :options, array: true
