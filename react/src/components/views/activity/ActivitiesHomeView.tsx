@@ -4,6 +4,7 @@ import { ProgressBar } from "../../elements";
 import ActivitiesComponent from "./ActivitiesComponent";
 
 import activityStyles from "../../../styles/activity.module.scss";
+import styles from "./ActivitiesHomeView.module.scss";
 
 interface IActivitiesHomeViewState {
     progressIndicator: number;
@@ -103,7 +104,8 @@ class ActivitiesHomeView extends React.Component<any, IActivitiesHomeViewState> 
                     </div>
                     <div>
                         Put your dataset here instead. Let's get in touch:
-                        <div className="login" style={{ width: "100%", maxWidth: "400px", margin: "auto", paddingTop: "30px" }}>
+                        <div className={styles.formWrapper}
+                            style={{ width: "100%", maxWidth: "400px", margin: "auto", paddingTop: "30px" }}>
                             <form
                                 name="contact-demo"
                                 method="POST"
