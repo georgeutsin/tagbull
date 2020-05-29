@@ -17,8 +17,8 @@ class TaskCreator
 
   def self.create_tasks(project, create_fn, task, media, user_id)
     results = []
-    ActiveRecord::Base.transaction do
-      media.each do |m|
+    media.each do |m|
+      ActiveRecord::Base.transaction do
         name = m[:name] || RandUtils.rand_medium_name
         medium = Medium.create!(name: name, url: m[:url], user_id: user_id)
         new_task = create_fn.call(project, medium, task[:config])
