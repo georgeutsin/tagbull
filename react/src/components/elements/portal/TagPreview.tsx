@@ -70,6 +70,32 @@ class TagPreview extends Component<any, any> {
         });
     }
 
+    public boxesPreview(tag: any) {
+        let key = 0;
+        const category = tag.task.category;
+        return tag.tag.boxes.map((bb: any) => {
+            key += 1;
+            return <div className={previewStyles.tagPreviewOuter} key={tag.media.name + key}>
+                <a href={`/projects/${this.props.project_id}/tags/${tag.task_id}`}>
+                    <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
+                        <BoundingBoxCanvas
+                            instructionDims={new DOMRect()}
+                            actionDims={new DOMRect()}
+                            viewDims={this.canvasDOMRect}
+                            media_url={tag.media.url}
+                            boundingBox={bb}
+                        ></BoundingBoxCanvas>
+                    </div>
+                </a>
+                <div className={previewStyles.tagPreviewDetails}>
+                    <div>
+                        <h5>Category</h5>{category}
+                    </div>
+                </div>
+            </div>;
+        });
+    }
+
     public locatorPreview(tag: any) {
         const points: IPoint[] = tag.tag.points;
         return <div className={previewStyles.tagPreviewOuter} key={tag.media.name}>
@@ -121,6 +147,8 @@ class TagPreview extends Component<any, any> {
                 return this.boundingBoxPreview(tag);
             case "DichotomyTask":
                 return this.dichotomyPreview(tag);
+            case "BoundingBoxesTask":
+                return this.boxesPreview(tag);
             case "LocatorTask":
                 return this.locatorPreview(tag);
             case "DiscreteAttributeTask":

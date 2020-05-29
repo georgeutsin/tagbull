@@ -151,7 +151,7 @@ class ProjectView extends Component<any, any> {
     }
 
     public renderActorElement(actor: any) {
-        return <ActorsRow actor={actor} project_id={this.params.projectId}></ActorsRow>;
+        return <ActorsRow actor={actor} key={actor.id} project_id={this.params.projectId}></ActorsRow>;
     }
 
     public async loadActorElements(meta: { offset: number, timestamp: number }) {

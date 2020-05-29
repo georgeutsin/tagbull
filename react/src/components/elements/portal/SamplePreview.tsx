@@ -29,7 +29,7 @@ class SamplePreview extends Component<any, any> {
     public boundingBoxPreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const bb: IBoundingBox = sample.sample;
-        return <div className={previewStyles.tagPreviewOuter} key={sample.media.name} style={actorStyle}>
+        return <div className={previewStyles.tagPreviewOuter} style={actorStyle}>
             <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                 <BoundingBoxCanvas
                     instructionDims={new DOMRect()}
@@ -55,7 +55,7 @@ class SamplePreview extends Component<any, any> {
     public locatorPreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const points: IPoint[] = sample.sample.points;
-        return <div className={previewStyles.tagPreviewOuter} key={sample.media.name} style={actorStyle}>
+        return <div className={previewStyles.tagPreviewOuter} style={actorStyle}>
 
             <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                 <PointCanvas
@@ -82,7 +82,7 @@ class SamplePreview extends Component<any, any> {
     public discreteAttributePreview(sample: any) {
         const actorStyle = { backgroundColor: sample.sample.actor_id === 0 ? "beige" : "white", width: 420 };
         const bb: IBoundingBox = sample.task;
-        return <div className={previewStyles.tagPreviewOuter} key={sample.media.name} style={actorStyle}>
+        return <div className={previewStyles.tagPreviewOuter} style={actorStyle}>
 
             <div className={previewStyles.tagPreviewThumb} style={this.canvasStyle}>
                 <BoundingBoxCanvas

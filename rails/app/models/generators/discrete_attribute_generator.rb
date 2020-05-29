@@ -5,6 +5,7 @@ class DiscreteAttributeGenerator
   def self.matching_samples(task)
     samples = DiscreteAttributeSample.where(task_id: task.id).order(created_at: :DESC)
     return false if samples.count < 2
+
     comparison_func = ->(s1, s2, _d) { compare_options(s1, s2) }
     # TODO: decide if pair is best approach for discrete attributes
     ComparisonUtils.sample_pair_exists(samples, comparison_func, 0)

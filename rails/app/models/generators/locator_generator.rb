@@ -5,6 +5,7 @@ class LocatorGenerator
   def self.matching_samples(task)
     samples = LocatorSample.where(task_id: task.id).order(created_at: :DESC)
     return false if samples.count < 2
+
     threshold = 0.03 * (samples.count - 1)
     comparison_func = ->(s1, s2, t) { compare_points_lists(s1, s2, t) }
     ComparisonUtils.sample_pair_exists(samples, comparison_func, threshold)
@@ -52,7 +53,7 @@ class LocatorGenerator
   end
 
   def self.distance(point1, point2)
-    (point1['x'] - point2['x'])**2 + (point1['y'] - point2['y'])**2
+    (point1[:x] - point2[:x])**2 + (point1[:y] - point2[:y])**2
   end
 
   def self.generate_points(task, samples, threshold)
@@ -71,8 +72,8 @@ class LocatorGenerator
 
   def self.average_points(point1, point2)
     {
-      x: AttrUtils.average_hash('x', point1, point2),
-      y: AttrUtils.average_hash('y', point1, point2)
+      x: AttrUtils.average_hash(:x, point1, point2),
+      y: AttrUtils.average_hash(:y, point1, point2)
     }
   end
 end

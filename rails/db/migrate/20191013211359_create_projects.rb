@@ -2,7 +2,7 @@
 
 class CreateProjects < ActiveRecord::Migration[6.0]
   def change
-    create_table :projects do |t|
+    create_table :projects, options: 'ENGINE=INNODB' do |t|
       t.string :name
 
       t.timestamps

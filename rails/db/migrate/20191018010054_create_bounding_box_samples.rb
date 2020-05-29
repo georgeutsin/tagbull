@@ -1,6 +1,6 @@
 class CreateBoundingBoxSamples < ActiveRecord::Migration[6.0]
   def change
-    create_table :bounding_box_samples do |t|
+    create_table :bounding_box_samples, options: 'ENGINE=INNODB' do |t|
       t.float :min_x
       t.float :max_x
       t.float :min_y

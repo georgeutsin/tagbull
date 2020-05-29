@@ -44,8 +44,6 @@ class V1::SamplesController < ApplicationController
     }
   end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def handle_specific_sample(task)
     case task.specific
     when BoundingBoxTask
@@ -56,8 +54,6 @@ class V1::SamplesController < ApplicationController
       DiscreteAttributeSample.create!(discrete_attr_sample_from_params(task.id))
     end
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 
   def handle_general_sample(task)
     task.update(pending_timestamp: nil)

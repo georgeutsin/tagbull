@@ -10,7 +10,7 @@ class ActorsListView extends Component {
     }
 
     public renderElement(actor: any) {
-        return <ActorsRow actor={actor}></ActorsRow>;
+        return <ActorsRow actor={actor} key={actor.id}></ActorsRow>;
     }
 
     public async loadElements(meta: { offset: number, timestamp: number }) {
