@@ -87,6 +87,8 @@ class V1::TagsController < ApplicationController
       tag = tag_for_discrete_attribute(task)
     when 'DichotomyTask'
       tag = tag_for_dichotomy(task)
+    when 'BoundingBoxesTask'
+      tag = tag_for_bounding_boxes(task)
     when 'MetadataTask'
       tag = tag_for_metadata(task)
     else
@@ -103,6 +105,11 @@ class V1::TagsController < ApplicationController
 
   def tag_for_basic(task)
     Sample.find_by(task_id: task.id, is_tag: true).specific
+  end
+
+  def tag_for_bounding_boxes(task)
+    bb_tasks = Task.where(actable_type: 'BoundingBoxTask', parent_id: task.id)
+    { boxes: bb_tasks.map { |t| tag_for_basic(t) } }
   end
 
   def tag_for_dichotomy(task)

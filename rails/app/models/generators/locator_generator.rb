@@ -53,7 +53,7 @@ class LocatorGenerator
   end
 
   def self.distance(point1, point2)
-    (point1['x'] - point2['x'])**2 + (point1['y'] - point2['y'])**2
+    (point1[:x] - point2[:x])**2 + (point1[:y] - point2[:y])**2
   end
 
   def self.generate_points(task, samples, threshold)
@@ -72,8 +72,8 @@ class LocatorGenerator
 
   def self.average_points(point1, point2)
     {
-      x: AttrUtils.average_hash('x', point1, point2),
-      y: AttrUtils.average_hash('y', point1, point2)
+      x: AttrUtils.average_hash(:x, point1, point2),
+      y: AttrUtils.average_hash(:y, point1, point2)
     }
   end
 end

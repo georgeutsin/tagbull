@@ -403,6 +403,6 @@ function getBackend(type: string): IBackend {
     }
 }
 
-const BackendLocation = "prod"; // CHANGE THIS LINE TO CHANGE THE BACKEND
+const BackendLocation = "local"; // CHANGE THIS LINE TO CHANGE THE BACKEND
 const Backend = getBackend(BackendLocation);
 export { Backend, BackendLocation };

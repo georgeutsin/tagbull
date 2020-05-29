@@ -77,7 +77,7 @@ class Activity
 
   def self.next_task(actor_id, project_id = nil)
     result = Task.joins(:project)
-                 .select('*, (SELECT COUNT(1) FROM samples WHERE samples.task_id = tasks.id) as sample_counts')
+                 .select('tasks.*, (SELECT COUNT(1) FROM samples WHERE samples.task_id = tasks.id) as sample_counts')
     result = if project_id
                result.where(project_id: project_id)
              else

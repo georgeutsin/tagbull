@@ -17,7 +17,7 @@ class BoundingBoxesTask < ApplicationRecord
 
   def locator_completed(locator_tag)
     return if locator_tag.points.length >= 5
-    return create_dichotomy_tag if locator_tag.points.empty?
+    return create_bounding_boxes_tag if locator_tag.points.empty?
 
     create_bounding_box_tasks(locator_tag.points)
   end
@@ -25,7 +25,7 @@ class BoundingBoxesTask < ApplicationRecord
   def bounding_box_completed(_bounding_box_tag)
     return unless all_subtasks_finished
 
-    create_dichotomy_tag
+    create_bounding_boxes_tag
   end
 
   def create_locator_task
@@ -33,7 +33,7 @@ class BoundingBoxesTask < ApplicationRecord
       parent_id: acting_as.id,
       project_id: project_id,
       media_id: media_id,
-      category: first.pluralize + ' and ' + second.pluralize
+      category: category.pluralize
     )
   end
 
@@ -42,10 +42,10 @@ class BoundingBoxesTask < ApplicationRecord
   def self.compute_max_box(points)
     return { max_x: 1.0, min_x: 0.0, max_y: 1.0, min_y: 0.0 } if points.size <= 1
 
-    min_x = points.min_by { |point| point['x'].to_f }
-    min_y = points.min_by { |point| point['y'].to_f }
-    max_x = points.max_by { |point| point['x'].to_f }
-    max_y = points.max_by { |point| point['y'].to_f }
+    min_x = points.min_by { |point| point[:x].to_f }
+    min_y = points.min_by { |point| point[:y].to_f }
+    max_x = points.max_by { |point| point[:x].to_f }
+    max_y = points.max_by { |point| point[:y].to_f }
     { max_x: max_x, min_x: min_x, max_y: max_y, min_y: min_y }
   end
 
@@ -58,9 +58,9 @@ class BoundingBoxesTask < ApplicationRecord
         parent_id: acting_as.id,
         project_id: project_id,
         media_id: media_id,
-        category: parent_category,
-        x: point['x'].to_f,
-        y: point['y'].to_f,
+        category: category,
+        x: point[:x].to_f,
+        y: point[:y].to_f,
         max_x: max_box[:max_x],
         min_x: max_box[:min_x],
         max_y: max_box[:max_y],
@@ -72,7 +72,7 @@ class BoundingBoxesTask < ApplicationRecord
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
-  def create_dichotomy_tag
+  def create_bounding_boxes_tag
     tag = Sample.create!(
       task_id: acting_as.id,
       is_tag: true,

@@ -52,10 +52,10 @@ class DichotomyTask < ApplicationRecord
   def self.compute_max_box(points)
     return { max_x: 1.0, min_x: 0.0, max_y: 1.0, min_y: 0.0 } if points.size <= 1
 
-    min_x = points.min_by { |point| point['x'].to_f }
-    min_y = points.min_by { |point| point['y'].to_f }
-    max_x = points.max_by { |point| point['x'].to_f }
-    max_y = points.max_by { |point| point['y'].to_f }
+    min_x = points.min_by { |point| point[:x].to_f }
+    min_y = points.min_by { |point| point[:y].to_f }
+    max_x = points.max_by { |point| point[:x].to_f }
+    max_y = points.max_by { |point| point[:y].to_f }
     { max_x: max_x, min_x: min_x, max_y: max_y, min_y: min_y }
   end
 
@@ -69,8 +69,8 @@ class DichotomyTask < ApplicationRecord
         project_id: project_id,
         media_id: media_id,
         category: parent_category,
-        x: point['x'].to_f,
-        y: point['y'].to_f,
+        x: point[:x].to_f,
+        y: point[:y].to_f,
         max_x: max_box[:max_x],
         min_x: max_box[:min_x],
         max_y: max_box[:max_y],

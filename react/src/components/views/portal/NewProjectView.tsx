@@ -135,10 +135,10 @@ class NewProjectView extends React.Component<any, any>  {
                                 <label className="leftRadio" htmlFor="radio1">Locator</label>
                                 <input
                                     type="radio"
-                                    id="radio1"
+                                    id="radio2"
                                     name="radios"
                                     value="bounding_boxes"></input>
-                                <label className="leftRadio" htmlFor="radio1">Bounding Boxes</label>
+                                <label className="leftRadio" htmlFor="radio2">Bounding Boxes</label>
                             </div>
                         }
                     </div>
