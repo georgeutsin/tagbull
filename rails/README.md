@@ -36,7 +36,8 @@ bundle install
 ```
 
 * Database
-PostgresQL database. Use PSequel as a GUI.
+MySQL database. `mysql2` adapter. Use Sequel Pro as a GUI. Might need to install some OpenSSL stuff on macos.
+
 If you haven't already,
 ```
 sudo gem install rails
@@ -49,17 +50,6 @@ Reset the db with
 ```
 rails db:migrate:reset
 ```
-
-load the local sample data into your postgres database
-```
-psql -d tagbull_rails_development -a -f sample_data.sql
-```
-
-CloudSQL migration (https://cloud.google.com/ruby/rails/using-cloudsql-postgres)
-```
-bundle exec rake appengine:exec -- bundle exec rake db:migrate
-```
-* Database initialization
 
 * How to run the test suite
 Run rubocop (linting)
@@ -75,8 +65,3 @@ echo 'rubocop -a' >> .git/hooks/pre-commit
 ```
 
 to setup automatic pre-commit hooks.
-
-* Deployment instructions
-```
-gcloud app deploy
-```
