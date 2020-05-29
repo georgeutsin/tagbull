@@ -21,8 +21,8 @@ class TaskCreator
       media.each do |m|
         name = m[:name] || RandUtils.rand_medium_name
         medium = Medium.create!(name: name, url: m[:url], user_id: user_id)
-        task = create_fn.call(project, medium, task[:config])
-        results.append(task.acting_as.id)
+        new_task = create_fn.call(project, medium, task[:config])
+        results.append(new_task.acting_as.id)
       end
     end
     results
